@@ -6,7 +6,7 @@
     <artifactId>nix-lms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>nix-lms</name>
-    <description>Nix final project - lms</description>
+    <description>Nix final project</description>
     <packaging>pom</packaging>
 
     <properties>
