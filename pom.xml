@@ -14,8 +14,11 @@
     </properties>
 
     <modules>
+        <module>auth</module>
         <module>server</module>
         <module>client-admin</module>
+        <module>client-student</module>
+        <module>client-tutor</module>
     </modules>
 
 </project>
