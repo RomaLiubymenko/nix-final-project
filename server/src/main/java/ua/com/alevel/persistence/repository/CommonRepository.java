@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @NoRepositoryBean
-public interface AbstractRepository<ENTITY extends AbstractEntity> extends JpaRepository<ENTITY, Long>, JpaSpecificationExecutor<ENTITY> {
+public interface CommonRepository<ENTITY extends AbstractEntity> extends JpaRepository<ENTITY, Long>, JpaSpecificationExecutor<ENTITY> {
 
     Optional<ENTITY> findByUuid(UUID uuid);
 
