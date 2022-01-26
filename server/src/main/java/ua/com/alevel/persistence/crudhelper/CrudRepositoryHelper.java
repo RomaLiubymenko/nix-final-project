@@ -4,19 +4,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import ua.com.alevel.persistence.entity.AbstractEntity;
-import ua.com.alevel.persistence.repository.AbstractRepository;
+import ua.com.alevel.persistence.repository.CommonRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
-public interface CrudRepositoryHelper<ENTITY extends AbstractEntity, REPOSITORY extends AbstractRepository<ENTITY>> {
+public interface CrudRepositoryHelper<
+        ENTITY extends AbstractEntity,
+        REPOSITORY extends CommonRepository<ENTITY>> {
 
-    ENTITY save(REPOSITORY repository, ENTITY entity);
+    ENTITY create(REPOSITORY repository, ENTITY entity);
 
-    Optional<ENTITY> update(REPOSITORY repository, ENTITY entity);
+    Optional<ENTITY> update(REPOSITORY repository, ENTITY entity, UUID uuid);
 
     void deleteByUuid(REPOSITORY repository, UUID uuid);
+
+    void deleteByUuids(REPOSITORY repository, Set<UUID> uuids);
 
     Optional<ENTITY> findByUuid(REPOSITORY repository, UUID uuid);
 

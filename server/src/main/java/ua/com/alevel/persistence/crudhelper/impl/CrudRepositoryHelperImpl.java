@@ -6,23 +6,26 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.persistence.crudhelper.CrudRepositoryHelper;
 import ua.com.alevel.persistence.entity.AbstractEntity;
-import ua.com.alevel.persistence.repository.AbstractRepository;
+import ua.com.alevel.persistence.repository.CommonRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class CrudRepositoryHelperImpl<ENTITY extends AbstractEntity, REPOSITORY extends AbstractRepository<ENTITY>> implements CrudRepositoryHelper<ENTITY, REPOSITORY> {
+public class CrudRepositoryHelperImpl<
+        ENTITY extends AbstractEntity,
+        REPOSITORY extends CommonRepository<ENTITY>> implements CrudRepositoryHelper<ENTITY, REPOSITORY> {
 
     @Override
-    public ENTITY save(REPOSITORY repository, ENTITY entity) {
+    public ENTITY create(REPOSITORY repository, ENTITY entity) {
         return repository.save(entity);
     }
 
     @Override
-    public Optional<ENTITY> update(REPOSITORY repository, ENTITY entity) {
-        boolean isExistEntity = repository.existsByUuid(entity.getUuid());
+    public Optional<ENTITY> update(REPOSITORY repository, ENTITY entity, UUID uuid) {
+        boolean isExistEntity = repository.existsByUuid(uuid);
         if (isExistEntity) {
             return Optional.of(repository.save(entity));
         }
@@ -32,6 +35,11 @@ public class CrudRepositoryHelperImpl<ENTITY extends AbstractEntity, REPOSITORY 
     @Override
     public void deleteByUuid(REPOSITORY repository, UUID uuid) {
         repository.deleteByUuid(uuid);
+    }
+
+    @Override
+    public void deleteByUuids(REPOSITORY repository, Set<UUID> uuids) {
+        repository.deleteByUuidIn(uuids);
     }
 
     @Override
