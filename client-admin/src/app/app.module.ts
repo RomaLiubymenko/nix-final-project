@@ -1,18 +1,110 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterModule} from '@angular/router';
+import {AppRoutingModule} from './app-routing.module';
+import {NavigationModule} from './shared/layouts/navigation/navigation.module';
+import {FileUploadModule} from "primeng/fileupload";
+import {CalendarModule} from "primeng/calendar";
+import {SliderModule} from "primeng/slider";
+import {StudentTableComponent} from "./entities/student/student-table/student-table.component";
+import {StudentEditComponent} from "./entities/student/student-edit/student-edit.component";
+import {StudentGroupTableComponent} from "./entities/student-group/student-group-table/student-group-table.component";
+import {StudentGroupEditComponent} from "./entities/student-group/student-group-edit/student-group-edit.component";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {InputTextModule} from "primeng/inputtext";
+import {CardModule} from "primeng/card";
+import {RippleModule} from "primeng/ripple";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {InputNumberModule} from "primeng/inputnumber";
+import {RadioButtonModule} from "primeng/radiobutton";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {RatingModule} from "primeng/rating";
+import {ToolbarModule} from "primeng/toolbar";
+import {HttpClientModule} from "@angular/common/http";
+import {ProgressBarModule} from "primeng/progressbar";
+import {ToastModule} from "primeng/toast";
+import {ButtonModule} from "primeng/button";
+import {DropdownModule} from "primeng/dropdown";
+import {ContextMenuModule} from "primeng/contextmenu";
+import {MultiSelectModule} from "primeng/multiselect";
+import {DialogModule} from "primeng/dialog";
+import {TableModule} from "primeng/table";
+import {TranslocoRootModule} from './transloco-root.module';
+import {DynamicDialogModule} from "primeng/dynamicdialog";
+import {MDBBootstrapModule} from "angular-bootstrap-md";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {CheckboxModule} from "primeng/checkbox";
+import {SignInComponent} from "./entities/authorization/sign-in/sign-in.component";
+import {SignUpComponent} from "./entities/authorization/sign-up/sign-up.component";
+import {AuthService} from "./shared/services/auth/auth.service";
+import {AuthGuardService} from "./shared/services/auth/auth-guard.service";
+
+const LMS_MODULES = [
+  NavigationModule
+];
+
+const PRIMENG_MODULES = [
+  TableModule,
+  CalendarModule,
+  SliderModule,
+  DialogModule,
+  MultiSelectModule,
+  ContextMenuModule,
+  DropdownModule,
+  ButtonModule,
+  ToastModule,
+  ProgressBarModule,
+  FileUploadModule,
+  ToolbarModule,
+  RatingModule,
+  RadioButtonModule,
+  InputNumberModule,
+  ConfirmDialogModule,
+  InputTextareaModule,
+  RippleModule,
+  CardModule,
+  InputTextModule,
+  ProgressSpinnerModule,
+  DynamicDialogModule,
+  SelectButtonModule,
+  CheckboxModule
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SignInComponent,
+    SignUpComponent,
+    StudentTableComponent,
+    StudentEditComponent,
+    StudentGroupTableComponent,
+    StudentGroupEditComponent,
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    RouterModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    MDBBootstrapModule.forRoot(),
+    ...PRIMENG_MODULES,
+    ...LMS_MODULES,
+    TranslocoRootModule,
   ],
-  providers: [],
+  providers: [
+    MessageService,
+    ConfirmationService,
+    AuthService,
+    AuthGuardService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,0 +1,37 @@
+<main *ngIf="isLogin; else login">
+  <mat-toolbar class="mat-elevation-z8 register-btn">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">{{'Menu'}}</mat-icon>
+      <mat-icon *ngIf="sidenav.opened">{{'Close'}}</mat-icon>
+    </button>
+    <button pButton label="Login" icon="pi pi-power-off"></button>
+    <button pButton label="Logout" icon="pi pi-power-off"></button>
+    <div class="lang-select">
+      <p-dropdown optionLabel="name"
+                  optionValue="code"
+                  [options]="langs"
+                  (ngModelChange)="onChangeLang($event)"
+                  [(ngModel)]="selectedLang"></p-dropdown>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+      <p-panelMenu [model]="sideNavNavigations"></p-panelMenu>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+        <div>
+          <breadcrumb></breadcrumb>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</main>
+<ng-template #login>
+  <div class="login">
+    <router-outlet></router-outlet>
+  </div>
+
+</ng-template>
