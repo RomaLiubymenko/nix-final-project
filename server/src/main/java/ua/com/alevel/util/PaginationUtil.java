@@ -3,14 +3,14 @@ package ua.com.alevel.util;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.alevel.dto.AbstractTableDto;
 
 public final class PaginationUtil {
 
     private PaginationUtil() {
     }
 
-    public static HttpHeaders generatePaginationHttpHeaders(Page page, String baseUrl) {
-
+    public static <TABLE_DTO extends AbstractTableDto> HttpHeaders generatePaginationHttpHeaders(Page<TABLE_DTO> page, String baseUrl) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", Long.toString(page.getTotalElements()));
         String link = "";
@@ -36,7 +36,7 @@ public final class PaginationUtil {
         return UriComponentsBuilder.fromUriString(baseUrl).queryParam("page", page).queryParam("size", size).toUriString();
     }
 
-    public static HttpHeaders generateSearchPaginationHttpHeaders(String query, Page page, String baseUrl) {
+    public static <TABLE_DTO extends AbstractTableDto> HttpHeaders generateSearchPaginationHttpHeaders(String query, Page<TABLE_DTO> page, String baseUrl) {
         String escapedQuery = query.replace(",", "%2C");
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", Long.toString(page.getTotalElements()));

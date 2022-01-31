@@ -65,13 +65,19 @@ public abstract class AbstractService<
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ENTITY> findAll(Specification<ENTITY> specification, Pageable pageable) {
-        return crudRepositoryHelper.findAll(repository, specification, pageable);
+    public List<ENTITY> findAll() {
+        return crudRepositoryHelper.findAll(repository);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ENTITY> findAll() {
-        return crudRepositoryHelper.findAll(repository);
+    public Page<ENTITY> findAll(Pageable pageable) {
+        return crudRepositoryHelper.findAll(repository, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ENTITY> findAll(Specification<ENTITY> specification, Pageable pageable) {
+        return crudRepositoryHelper.findAll(repository, specification, pageable);
     }
 }

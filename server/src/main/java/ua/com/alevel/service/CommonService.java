@@ -25,7 +25,9 @@ public interface CommonService<ENTITY extends AbstractEntity> {
 
     ENTITY getByUuid(UUID uuid);
 
-    Page<ENTITY> findAll(Specification<ENTITY> specification, Pageable pageable);
-
     List<ENTITY> findAll();
+
+    Page<ENTITY> findAll(Pageable pageable);
+
+    Page<ENTITY> findAll(Specification<ENTITY> specification, Pageable pageable);
 }

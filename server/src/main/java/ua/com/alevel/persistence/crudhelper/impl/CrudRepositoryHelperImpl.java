@@ -53,12 +53,17 @@ public class CrudRepositoryHelperImpl<
     }
 
     @Override
-    public Page<ENTITY> findAll(REPOSITORY repository, Specification<ENTITY> specification, Pageable pageable) {
-        return repository.findAll(specification, pageable);
+    public List<ENTITY> findAll(REPOSITORY repository) {
+        return repository.findAll();
     }
 
     @Override
-    public List<ENTITY> findAll(REPOSITORY repository) {
-        return repository.findAll();
+    public Page<ENTITY> findAll(REPOSITORY repository, Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ENTITY> findAll(REPOSITORY repository, Specification<ENTITY> specification, Pageable pageable) {
+        return repository.findAll(specification, pageable);
     }
 }

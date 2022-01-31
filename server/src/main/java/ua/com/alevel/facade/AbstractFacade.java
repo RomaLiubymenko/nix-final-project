@@ -66,6 +66,26 @@ public abstract class AbstractFacade<
     }
 
     @Override
+    public List<TABLE_DTO> findAll() {
+        return service.findAll().stream()
+                .map(mapper::toTableDto)
+                .toList();
+    }
+
+    @Override
+    public Page<TABLE_DTO> findAll(Pageable pageable) {
+        return service.findAll(pageable)
+                .map(mapper::toTableDto);
+    }
+
+    @Override
+    public Page<TABLE_DTO> findAll(String query, Pageable pageable) {
+        Specification<ENTITY> specification = specificationBuilder.build(query);
+        return service.findAll(specification, pageable)
+                .map(mapper::toTableDto);
+    }
+
+    @Override
     public Page<TABLE_DTO> findAll(FILTER_DTO filterDto, Pageable pageable) {
         Specification<ENTITY> specification = specificationBuilder.build(filterDto);
         return service.findAll(specification, pageable)
@@ -77,18 +97,5 @@ public abstract class AbstractFacade<
         Specification<ENTITY> specification = specificationBuilder.build(query, filterDto);
         return service.findAll(specification, pageable)
                 .map(mapper::toTableDto);
-    }
-
-    @Override
-    public Page<TABLE_DTO> findAll(Pageable pageable) {
-        return service.findAll(null, pageable)
-                .map(mapper::toTableDto);
-    }
-
-    @Override
-    public List<TABLE_DTO> findAll() {
-        return service.findAll().stream()
-                .map(mapper::toTableDto)
-                .toList();
     }
 }

@@ -2,9 +2,9 @@ package ua.com.alevel.persistence.entity.user;
 
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.DiscriminatorOptions;
+import ua.com.alevel.enumeration.GenderType;
 import ua.com.alevel.persistence.entity.AbstractEntity;
 import ua.com.alevel.persistence.entity.finance.Account;
-import ua.com.alevel.enumeration.GenderType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,6 +29,9 @@ public class User extends AbstractEntity {
     @Column(unique = true, name = "username")
     private String username;
 
+    @Column(name = "password", length = 256)
+    private String password;
+
     @Column(name = "first_name", length = 30)
     private String firstName;
 
@@ -51,6 +54,25 @@ public class User extends AbstractEntity {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account account;
+
+    @ManyToOne
+    private Role role;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public Boolean getActivated() {
         return activated;

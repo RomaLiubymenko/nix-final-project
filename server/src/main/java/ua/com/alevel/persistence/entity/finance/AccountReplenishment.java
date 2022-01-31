@@ -1,6 +1,7 @@
 package ua.com.alevel.persistence.entity.finance;
 
 import org.hibernate.Hibernate;
+import ua.com.alevel.enumeration.ReplenishmentMethod;
 import ua.com.alevel.persistence.entity.AbstractEntity;
 import ua.com.alevel.persistence.entity.user.Student;
 
@@ -36,9 +37,20 @@ public class AccountReplenishment extends AbstractEntity {
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne(optional = false)
+    @Column(name = "replenishment_method")
+    private ReplenishmentMethod replenishmentMethod;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
+
+    public ReplenishmentMethod getReplenishmentMethod() {
+        return replenishmentMethod;
+    }
+
+    public void setReplenishmentMethod(ReplenishmentMethod replenishmentMethod) {
+        this.replenishmentMethod = replenishmentMethod;
+    }
 
     public Student getStudent() {
         return student;
@@ -120,6 +132,7 @@ public class AccountReplenishment extends AbstractEntity {
                 "amount = " + getAmount() + ", " +
                 "payer = " + getPayer() + ", " +
                 "purpose = " + getPurpose() + ", " +
-                "comment = " + getComment() + ")";
+                "comment = " + getComment() + ", " +
+                "replenishmentMethod = " + getReplenishmentMethod() + ")";
     }
 }

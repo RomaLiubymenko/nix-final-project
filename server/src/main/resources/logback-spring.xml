@@ -9,4 +9,6 @@
         </root>
         <logger name="ua.com.alevel" level="DEBUG"/>
     </springProfile>
+
+    <logger name="org.hibernate" level="DEBUG"/>
 </configuration>

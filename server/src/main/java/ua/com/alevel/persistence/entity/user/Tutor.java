@@ -17,7 +17,7 @@ import java.util.Set;
 public class Tutor extends User {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private TutorStatus status = TutorStatus.WORKING;
 
     @OneToMany(mappedBy = "tutor", orphanRemoval = true)

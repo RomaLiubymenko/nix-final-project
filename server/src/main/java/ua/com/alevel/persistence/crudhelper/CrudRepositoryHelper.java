@@ -27,7 +27,9 @@ public interface CrudRepositoryHelper<
 
     ENTITY getByUuid(REPOSITORY repository, UUID uuid);
 
-    Page<ENTITY> findAll(REPOSITORY repository, Specification<ENTITY> specification, Pageable pageable);
-
     List<ENTITY> findAll(REPOSITORY repository);
+
+    Page<ENTITY> findAll(REPOSITORY repository, Pageable pageable);
+
+    Page<ENTITY> findAll(REPOSITORY repository, Specification<ENTITY> specification, Pageable pageable);
 }

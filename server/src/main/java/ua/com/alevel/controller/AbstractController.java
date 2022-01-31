@@ -22,9 +22,9 @@ import java.util.UUID;
 import static ua.com.alevel.enumeration.ControllerLogEnum.*;
 
 public abstract class AbstractController<
-        FILTER_DTO extends AbstractFilterDto,
         TABLE_DTO extends AbstractTableDto,
-        PROFILE_DTO extends AbstractProfileDto> implements CommonController<FILTER_DTO, TABLE_DTO, PROFILE_DTO> {
+        PROFILE_DTO extends AbstractProfileDto,
+        FILTER_DTO extends AbstractFilterDto> implements CommonController<FILTER_DTO, TABLE_DTO, PROFILE_DTO> {
 
     private final String url;
     private final String entityName;
@@ -96,6 +96,10 @@ public abstract class AbstractController<
             } else if (isExistFilter) {
                 logger.info(GET_ALL_PAGE_FOR_FILTER_LOG.getLogInfo(), entityName, pageable, filterDto);
                 page = facade.findAll(filterDto, pageable);
+                headers = PaginationUtil.generatePaginationHttpHeaders(page, url);
+            } else if (StringUtils.isNotBlank(query)) {
+                logger.info(GET_ALL_PAGE_FOR_QUERY_LOG.getLogInfo(), entityName, pageable, query);
+                page = facade.findAll(query, pageable);
                 headers = PaginationUtil.generatePaginationHttpHeaders(page, url);
             } else {
                 logger.info(GET_ALL_PAGE_LOG.getLogInfo(), entityName, pageable);

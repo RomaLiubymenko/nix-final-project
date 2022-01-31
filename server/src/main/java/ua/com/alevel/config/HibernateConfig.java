@@ -1,4 +1,4 @@
-package ua.com.alevel.config.jpa;
+package ua.com.alevel.config;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

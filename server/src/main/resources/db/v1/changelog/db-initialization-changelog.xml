@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="20220127151300-2" author="Roman Liubymenko" runOnChange="true">
+        <loadData tableName="role" file="db/v1/data/roles.csv">
+            <column name="id" type="numeric"/>
+            <column name="uuid" type="uuid"/>
+            <column name="name" type="string"/>
+        </loadData>
+        <loadData tableName="account" file="db/v1/data/accounts.csv">
+            <column name="id" type="numeric"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="string"/>
+            <column name="description" type="string"/>
+            <column name="changed_date" type="timestamp without time zone"/>
+            <column name="balance" type="money"/>
+            <column name="is_blocked" type="BOOLEAN"/>
+            <column name="type" type="string"/>
+            <column name="ownership_type" type="string"/>
+        </loadData>
+        <loadData tableName="user" file="db/v1/data/students.csv">
+            <column name="id" type="numeric"/>
+            <column name="type" type="string"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="username" type="string"/>
+            <column name="first_name" type="string"/>
+            <column name="last_name" type="string"/>
+            <column name="email" type="string"/>
+            <column name="gender" type="string"/>
+            <column name="birth_day" type="date"/>
+            <column name="activated" type="boolean"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

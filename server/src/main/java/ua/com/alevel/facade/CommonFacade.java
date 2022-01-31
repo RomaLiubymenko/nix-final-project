@@ -27,6 +27,8 @@ public interface CommonFacade<FILTER_DTO extends AbstractFilterDto, TABLE_DTO ex
 
     Page<TABLE_DTO> findAll(Pageable pageable);
 
+    Page<TABLE_DTO> findAll(String query, Pageable pageable);
+
     Page<TABLE_DTO> findAll(FILTER_DTO filterDto, Pageable pageable);
 
     Page<TABLE_DTO> findAll(String query, FILTER_DTO filterDto, Pageable pageable);
