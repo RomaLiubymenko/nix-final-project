@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.alevel.controller.AbstractController;
-import ua.com.alevel.dto.filter.StudentFilterDto;
+import ua.com.alevel.dto.filter.user.StudentFilterDto;
 import ua.com.alevel.dto.profile.user.StudentProfileDto;
 import ua.com.alevel.dto.table.user.StudentTableDto;
 import ua.com.alevel.facade.user.StudentFacade;

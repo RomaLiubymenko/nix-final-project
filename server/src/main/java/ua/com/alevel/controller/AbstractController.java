@@ -83,7 +83,8 @@ public abstract class AbstractController<
     @Override
     public ResponseEntity<List<TABLE_DTO>> findAll(String query, FILTER_DTO filterDto, Pageable pageable) {
         boolean isExistFilter = FilterDtoUtil.isExistFields(filterDto);
-        if (pageable == null) {
+        // quick fix
+        if (pageable == null || pageable.getSort().isUnsorted()) {
             logger.info(GET_ALL_LOG.getLogInfo(), entityName);
             return ResponseEntity.ok(facade.findAll());
         } else {

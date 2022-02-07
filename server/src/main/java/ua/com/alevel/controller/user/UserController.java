@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.alevel.controller.AbstractController;
-import ua.com.alevel.dto.filter.UserFilterDto;
+import ua.com.alevel.dto.filter.user.UserFilterDto;
 import ua.com.alevel.dto.profile.user.UserProfileDto;
 import ua.com.alevel.dto.table.user.UserTableDto;
 import ua.com.alevel.facade.user.UserFacade;
