@@ -6,4 +6,6 @@ import ua.com.alevel.persistence.repository.CommonRepository;
 
 @Repository
 public interface RoleRepository extends CommonRepository<Role> {
+
+    Role findByName(String name);
 }

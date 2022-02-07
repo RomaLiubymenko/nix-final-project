@@ -24,6 +24,16 @@ public interface StudentRepository extends CommonRepository<Student> {
     @EntityGraph(attributePaths = {"studentGroups"})
     Page<Student> findAll(Specification<Student> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"account", "studentGroups", "accountReplenishments", "courses"})
+    @EntityGraph(attributePaths = {
+            "account",
+            "studentGroups",
+            "accountReplenishments",
+            "courses",
+            "attendances",
+            "lessons",
+            "exercises",
+            "reports",
+            "role"
+    })
     Optional<Student> findByUuid(UUID uuid);
 }
