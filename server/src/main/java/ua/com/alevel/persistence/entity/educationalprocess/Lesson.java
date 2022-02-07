@@ -23,8 +23,8 @@ public class Lesson extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lesson_id")
-    @SequenceGenerator(name = "lesson_id", sequenceName = "lesson_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lesson_id_sequence")
+    @SequenceGenerator(name = "lesson_id_sequence", sequenceName = "lesson_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -48,7 +48,7 @@ public class Lesson extends AbstractEntity {
     private LessonStatus lessonStatus = LessonStatus.NEW;
 
     @OneToMany(mappedBy = "lesson")
-    private Set<Attendance> attendance = new LinkedHashSet<>();
+    private Set<Attendance> attendances = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "lessons")
     private Set<Student> students = new LinkedHashSet<>();
@@ -73,6 +73,22 @@ public class Lesson extends AbstractEntity {
 
     @ManyToMany(mappedBy = "lessons")
     private Set<StudentGroup> studentGroups = new LinkedHashSet<>();
+
+    public LessonType getLessonType() {
+        return lessonType;
+    }
+
+    public void setLessonType(LessonType lessonType) {
+        this.lessonType = lessonType;
+    }
+
+    public LessonStatus getLessonStatus() {
+        return lessonStatus;
+    }
+
+    public void setLessonStatus(LessonStatus lessonStatus) {
+        this.lessonStatus = lessonStatus;
+    }
 
     public Set<StudentGroup> getStudentGroups() {
         return studentGroups;
@@ -130,12 +146,12 @@ public class Lesson extends AbstractEntity {
         this.students = students;
     }
 
-    public Set<Attendance> getAttendance() {
-        return attendance;
+    public Set<Attendance> getAttendances() {
+        return attendances;
     }
 
-    public void setAttendance(Set<Attendance> attendance) {
-        this.attendance = attendance;
+    public void setAttendances(Set<Attendance> attendances) {
+        this.attendances = attendances;
     }
 
     public Long getId() {
@@ -178,22 +194,6 @@ public class Lesson extends AbstractEntity {
         this.length = length;
     }
 
-    public LessonType getEventType() {
-        return lessonType;
-    }
-
-    public void setEventType(LessonType lessonType) {
-        this.lessonType = lessonType;
-    }
-
-    public LessonStatus getEventStatus() {
-        return lessonStatus;
-    }
-
-    public void setEventStatus(LessonStatus lessonStatus) {
-        this.lessonStatus = lessonStatus;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -218,7 +218,7 @@ public class Lesson extends AbstractEntity {
                 "description = " + getDescription() + ", " +
                 "date = " + getDate() + ", " +
                 "length = " + getLength() + ", " +
-                "eventType = " + getEventType() + ", " +
-                "eventStatus = " + getEventStatus() + ")";
+                "type = " + getLessonType() + ", " +
+                "status = " + getLessonStatus() + ")";
     }
 }

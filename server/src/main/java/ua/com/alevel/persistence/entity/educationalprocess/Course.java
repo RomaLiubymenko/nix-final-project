@@ -20,8 +20,8 @@ public class Course extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_id")
-    @SequenceGenerator(name = "course_id", sequenceName = "course_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_id_sequence")
+    @SequenceGenerator(name = "course_id_sequence", sequenceName = "course_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)

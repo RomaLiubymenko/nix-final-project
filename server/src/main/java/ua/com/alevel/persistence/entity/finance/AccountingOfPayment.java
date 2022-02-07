@@ -2,6 +2,7 @@ package ua.com.alevel.persistence.entity.finance;
 
 import org.hibernate.Hibernate;
 import ua.com.alevel.persistence.entity.AbstractEntity;
+import ua.com.alevel.persistence.entity.user.Admin;
 import ua.com.alevel.persistence.entity.user.Tutor;
 
 import javax.persistence.*;
@@ -17,8 +18,8 @@ public class AccountingOfPayment extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounting_of_payment_id")
-    @SequenceGenerator(name = "accounting_of_payment_id", sequenceName = "accounting_of_payment_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounting_of_payment_id_sequence")
+    @SequenceGenerator(name = "accounting_of_payment_id_sequence", sequenceName = "accounting_of_payment_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp without time zone")
@@ -33,9 +34,21 @@ public class AccountingOfPayment extends AbstractEntity {
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "tutor_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tutor_id", nullable = false)
     private Tutor tutor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
 
     public Tutor getTutor() {
         return tutor;

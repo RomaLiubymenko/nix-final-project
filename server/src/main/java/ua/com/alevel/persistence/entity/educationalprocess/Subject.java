@@ -2,6 +2,7 @@ package ua.com.alevel.persistence.entity.educationalprocess;
 
 import org.hibernate.Hibernate;
 import ua.com.alevel.persistence.entity.AbstractEntity;
+import ua.com.alevel.persistence.entity.user.Tutor;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -16,8 +17,8 @@ public class Subject extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_id")
-    @SequenceGenerator(name = "subject_id", sequenceName = "subject_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_id_sequence")
+    @SequenceGenerator(name = "subject_id_sequence", sequenceName = "subject_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -34,6 +35,29 @@ public class Subject extends AbstractEntity {
 
     @OneToMany(mappedBy = "subject", orphanRemoval = true)
     private Set<Topic> topics = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "subject", orphanRemoval = true)
+    private Set<Exercise> exercises = new LinkedHashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tutor_id")
+    private Tutor tutor;
+
+    public Tutor getTutor() {
+        return tutor;
+    }
+
+    public void setTutor(Tutor tutor) {
+        this.tutor = tutor;
+    }
+
+    public Set<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(Set<Exercise> exercises) {
+        this.exercises = exercises;
+    }
 
     public Set<Topic> getTopics() {
         return topics;

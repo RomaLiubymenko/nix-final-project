@@ -17,8 +17,8 @@ public class Room extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_id")
-    @SequenceGenerator(name = "room_id", sequenceName = "room_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_id_sequence")
+    @SequenceGenerator(name = "room_id_sequence", sequenceName = "room_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -31,7 +31,7 @@ public class Room extends AbstractEntity {
     private Long capacity;
 
     @Column(name = "is_availability_to_use", nullable = false)
-    private Boolean isAvailabilityToUse = false;
+    private Boolean isAvailabilityToUse = true;
 
     @Column(name = "description", length = 510)
     private String description;

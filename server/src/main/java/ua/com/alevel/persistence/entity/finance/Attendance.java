@@ -1,10 +1,11 @@
 package ua.com.alevel.persistence.entity.finance;
 
 import org.hibernate.Hibernate;
+import ua.com.alevel.enumeration.AttendanceStatus;
 import ua.com.alevel.persistence.entity.AbstractEntity;
 import ua.com.alevel.persistence.entity.educationalprocess.Lesson;
+import ua.com.alevel.persistence.entity.user.Admin;
 import ua.com.alevel.persistence.entity.user.Student;
-import ua.com.alevel.enumeration.AttendanceStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,8 +19,8 @@ public class Attendance extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attendance_id")
-    @SequenceGenerator(name = "attendance_id", sequenceName = "attendance_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attendance_id_sequence")
+    @SequenceGenerator(name = "attendance_id_sequence", sequenceName = "attendance_id_sequence", allocationSize = 1)
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -32,13 +33,25 @@ public class Attendance extends AbstractEntity {
     @Column(name = "payment_amount", precision = 9, scale = 2, nullable = false)
     private BigDecimal paymentAmount = BigDecimal.ZERO;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
 
     public Student getStudent() {
         return student;

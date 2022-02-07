@@ -1,9 +1,7 @@
 package ua.com.alevel.persistence.entity.user;
 
 import org.hibernate.Hibernate;
-import ua.com.alevel.persistence.entity.educationalprocess.Course;
-import ua.com.alevel.persistence.entity.educationalprocess.Lesson;
-import ua.com.alevel.persistence.entity.educationalprocess.Report;
+import ua.com.alevel.persistence.entity.educationalprocess.*;
 import ua.com.alevel.persistence.entity.finance.AccountingOfPayment;
 import ua.com.alevel.enumeration.TutorStatus;
 
@@ -37,6 +35,28 @@ public class Tutor extends User {
             joinColumns = @JoinColumn(name = "tutor_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private Set<Lesson> lessons = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "tutor")
+    private Set<Subject> subjects = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "tutor")
+    private Set<Exercise> exercises = new LinkedHashSet<>();
+
+    public Set<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(Set<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    public Set<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = subjects;
+    }
 
     public Set<Lesson> getLessons() {
         return lessons;

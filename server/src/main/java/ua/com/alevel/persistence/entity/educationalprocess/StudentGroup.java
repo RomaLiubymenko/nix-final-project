@@ -1,9 +1,9 @@
 package ua.com.alevel.persistence.entity.educationalprocess;
 
 import org.hibernate.Hibernate;
+import ua.com.alevel.enumeration.GroupType;
 import ua.com.alevel.persistence.entity.AbstractEntity;
 import ua.com.alevel.persistence.entity.user.Student;
-import ua.com.alevel.enumeration.GroupType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,8 +19,8 @@ public class StudentGroup extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_group_id")
-    @SequenceGenerator(name = "student_group_id", sequenceName = "student_group_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_group_id_sequence")
+    @SequenceGenerator(name = "student_group_id_sequence", sequenceName = "student_group_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -42,7 +42,7 @@ public class StudentGroup extends AbstractEntity {
     @Column(name = "is_formed")
     private Boolean isFormed;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "student_group_students",
             joinColumns = @JoinColumn(name = "student_group_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
@@ -57,6 +57,20 @@ public class StudentGroup extends AbstractEntity {
             joinColumns = @JoinColumn(name = "student_group_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private Set<Lesson> lessons = new LinkedHashSet<>();
+
+    public void addStudent(Student student) {
+        if (!students.contains(student)) {
+            students.add(student);
+            student.addStudentGroup(this);
+        }
+    }
+
+    public void removeStudent(Student student) {
+        if (students.contains(student)) {
+            students.remove(student);
+            student.removeStudentGroup(this);
+        }
+    }
 
     public Set<Lesson> getLessons() {
         return lessons;

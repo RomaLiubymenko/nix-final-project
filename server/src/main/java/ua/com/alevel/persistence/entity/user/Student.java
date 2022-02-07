@@ -1,10 +1,7 @@
 package ua.com.alevel.persistence.entity.user;
 
 import org.hibernate.Hibernate;
-import ua.com.alevel.persistence.entity.educationalprocess.Course;
-import ua.com.alevel.persistence.entity.educationalprocess.Exercise;
-import ua.com.alevel.persistence.entity.educationalprocess.Lesson;
-import ua.com.alevel.persistence.entity.educationalprocess.StudentGroup;
+import ua.com.alevel.persistence.entity.educationalprocess.*;
 import ua.com.alevel.persistence.entity.finance.AccountReplenishment;
 import ua.com.alevel.persistence.entity.finance.Attendance;
 
@@ -29,7 +26,7 @@ public class Student extends User {
             inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private Set<Lesson> lessons = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "students")
+    @ManyToMany(mappedBy = "students", cascade = CascadeType.MERGE)
     private Set<StudentGroup> studentGroups = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "students")
@@ -40,6 +37,31 @@ public class Student extends User {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Set<Course> courses = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "student")
+    private Set<Report> reports = new LinkedHashSet<>();
+
+    public void addStudentGroup(StudentGroup studentGroup) {
+        if (!studentGroups.contains(studentGroup)) {
+            studentGroups.add(studentGroup);
+            studentGroup.addStudent(this);
+        }
+    }
+
+    public void removeStudentGroup(StudentGroup studentGroup) {
+        if (studentGroups.contains(studentGroup)) {
+            studentGroups.remove(studentGroup);
+            studentGroup.removeStudent(this);
+        }
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
+    }
 
     public Set<Course> getCourses() {
         return courses;

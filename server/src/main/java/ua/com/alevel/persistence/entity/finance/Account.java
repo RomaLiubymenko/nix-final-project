@@ -21,8 +21,8 @@ public class Account extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id")
-    @SequenceGenerator(name = "account_id", sequenceName = "account_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_sequence")
+    @SequenceGenerator(name = "account_id_sequence", sequenceName = "account_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)

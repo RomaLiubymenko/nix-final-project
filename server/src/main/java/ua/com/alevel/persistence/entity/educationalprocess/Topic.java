@@ -16,8 +16,8 @@ public class Topic extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topic_id")
-    @SequenceGenerator(name = "topic_id", sequenceName = "topic_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topic_id_sequence")
+    @SequenceGenerator(name = "topic_id_sequence", sequenceName = "topic_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -32,11 +32,11 @@ public class Topic extends AbstractEntity {
     @OneToMany(mappedBy = "topic")
     private Set<Exercise> exercises = new LinkedHashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 

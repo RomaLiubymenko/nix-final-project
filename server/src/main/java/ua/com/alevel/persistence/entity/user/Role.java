@@ -5,8 +5,9 @@ import org.hibernate.Hibernate;
 import ua.com.alevel.persistence.entity.AbstractEntity;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "role", indexes = {
@@ -16,8 +17,8 @@ public class Role extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id")
-    @SequenceGenerator(name = "role_id", sequenceName = "role_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_sequence")
+    @SequenceGenerator(name = "role_id_sequence", sequenceName = "role_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
@@ -25,7 +26,31 @@ public class Role extends AbstractEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "role")
-    private Collection<User> users;
+    private Set<User> users = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     @Override
     public boolean equals(Object o) {

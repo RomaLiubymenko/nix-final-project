@@ -2,6 +2,7 @@ package ua.com.alevel.persistence.entity.educationalprocess;
 
 import org.hibernate.Hibernate;
 import ua.com.alevel.persistence.entity.AbstractEntity;
+import ua.com.alevel.persistence.entity.user.Student;
 import ua.com.alevel.persistence.entity.user.Tutor;
 
 import javax.persistence.*;
@@ -18,8 +19,8 @@ public class Report extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_id")
-    @SequenceGenerator(name = "report_id", sequenceName = "report_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_id_sequence")
+    @SequenceGenerator(name = "report_id_sequence", sequenceName = "report_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp without time zone")
@@ -35,12 +36,35 @@ public class Report extends AbstractEntity {
     @JoinColumn(name = "tutor_id", nullable = false)
     private Tutor tutor;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
+
+    @OneToMany(mappedBy = "report")
+    private Set<Exercise> exercises = new LinkedHashSet<>();
+
     @OneToMany(mappedBy = "report", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<LmsFile> lmsFiles = new LinkedHashSet<>();
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "grade_id")
     private Grade grade;
+
+    public Set<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(Set<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public Grade getGrade() {
         return grade;

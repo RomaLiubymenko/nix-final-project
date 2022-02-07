@@ -15,8 +15,8 @@ public class Grade extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grade_id")
-    @SequenceGenerator(name = "grade_id", sequenceName = "grade_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grade_id_sequence")
+    @SequenceGenerator(name = "grade_id_sequence", sequenceName = "grade_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "value", nullable = false)
@@ -28,9 +28,20 @@ public class Grade extends AbstractEntity {
     @Column(name = "date", nullable = false, columnDefinition = "timestamp without time zone")
     private LocalDateTime date;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "grade", fetch = FetchType.LAZY)
+    private Report report;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
 
     public Course getCourse() {
         return course;

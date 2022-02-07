@@ -18,8 +18,8 @@ public class AccountReplenishment extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_replenishment_id")
-    @SequenceGenerator(name = "account_replenishment_id", sequenceName = "account_replenishment_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_replenishment_id_sequence")
+    @SequenceGenerator(name = "account_replenishment_id_sequence", sequenceName = "account_replenishment_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp without time zone")
@@ -37,6 +37,7 @@ public class AccountReplenishment extends AbstractEntity {
     @Column(name = "comment")
     private String comment;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "replenishment_method")
     private ReplenishmentMethod replenishmentMethod;
 

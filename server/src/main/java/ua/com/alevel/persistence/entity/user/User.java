@@ -22,14 +22,14 @@ public class User extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id")
-    @SequenceGenerator(name = "user_id", sequenceName = "user_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence")
+    @SequenceGenerator(name = "user_id_sequence", sequenceName = "user_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(unique = true, name = "username")
     private String username;
 
-    @Column(name = "password", length = 256)
+    @Transient
     private String password;
 
     @Column(name = "first_name", length = 30)
@@ -55,7 +55,7 @@ public class User extends AbstractEntity {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account account;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     public String getPassword() {

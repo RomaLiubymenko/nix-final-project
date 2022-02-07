@@ -15,8 +15,8 @@ public class LmsFile extends AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lms_file_id")
-    @SequenceGenerator(name = "lms_file_id", sequenceName = "lms_file_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lms_file_id_sequence")
+    @SequenceGenerator(name = "lms_file_id_sequence", sequenceName = "lms_file_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)
