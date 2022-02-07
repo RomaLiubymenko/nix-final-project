@@ -1,7 +1,7 @@
 package ua.com.alevel.facade.user;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.dto.filter.UserFilterDto;
+import ua.com.alevel.dto.filter.user.UserFilterDto;
 import ua.com.alevel.dto.profile.user.UserProfileDto;
 import ua.com.alevel.dto.table.user.UserTableDto;
 import ua.com.alevel.facade.AbstractFacade;

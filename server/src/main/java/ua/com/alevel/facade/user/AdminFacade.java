@@ -1,7 +1,7 @@
 package ua.com.alevel.facade.user;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.dto.filter.AdminFilterDto;
+import ua.com.alevel.dto.filter.user.AdminFilterDto;
 import ua.com.alevel.dto.profile.user.AdminProfileDto;
 import ua.com.alevel.dto.table.user.AdminTableDto;
 import ua.com.alevel.facade.AbstractFacade;
