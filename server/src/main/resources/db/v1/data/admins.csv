@@ -1,0 +1,2 @@
+id,type,uuid,created,updated,username,first_name,last_name,email,gender,birth_day,activated,account_id,role_id
+user_id_sequence,admin,5d162947-0689-4a20-9558-ef0314db9895,2021-10-28,2021-02-10,admin,admin,admin,admin@admin.admin,MALE,1999-01-01,true,201,1

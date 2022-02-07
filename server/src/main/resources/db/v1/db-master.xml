@@ -3,9 +3,10 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.7.xsd">
 
     <include file="db/v1/changelog/db-changelog.xml"/>
+    <include file="db/v1/changelog/db-add-sequence-to-table-id-changelog.xml"/>
     <include file="db/v1/changelog/db-initialization-changelog.xml"/>
 
 </databaseChangeLog>

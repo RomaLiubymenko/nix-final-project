@@ -3,29 +3,29 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.7.xsd">
 
     <changeSet id="20220127151300-2" author="Roman Liubymenko" runOnChange="true">
         <loadData tableName="role" file="db/v1/data/roles.csv">
-            <column name="id" type="numeric"/>
+            <column name="id" type="sequence"/>
             <column name="uuid" type="uuid"/>
             <column name="name" type="string"/>
         </loadData>
         <loadData tableName="account" file="db/v1/data/accounts.csv">
-            <column name="id" type="numeric"/>
+            <column name="id" type="sequence"/>
             <column name="uuid" type="UUID"/>
             <column name="created" type="timestamp without time zone"/>
             <column name="updated" type="timestamp without time zone"/>
             <column name="name" type="string"/>
             <column name="description" type="string"/>
-            <column name="changed_date" type="timestamp without time zone"/>
+            <column name="changed_date" type="timestamp"/>
             <column name="balance" type="money"/>
             <column name="is_blocked" type="BOOLEAN"/>
             <column name="type" type="string"/>
             <column name="ownership_type" type="string"/>
         </loadData>
         <loadData tableName="user" file="db/v1/data/students.csv">
-            <column name="id" type="numeric"/>
+            <column name="id" type="sequence"/>
             <column name="type" type="string"/>
             <column name="uuid" type="UUID"/>
             <column name="created" type="timestamp"/>
@@ -37,6 +37,222 @@
             <column name="gender" type="string"/>
             <column name="birth_day" type="date"/>
             <column name="activated" type="boolean"/>
+            <column name="account_id" type="numeric"/>
+            <column name="role_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="user" file="db/v1/data/tutors.csv">
+            <column name="id" type="sequence"/>
+            <column name="type" type="string"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="username" type="string"/>
+            <column name="first_name" type="string"/>
+            <column name="last_name" type="string"/>
+            <column name="email" type="string"/>
+            <column name="gender" type="string"/>
+            <column name="birth_day" type="date"/>
+            <column name="activated" type="boolean"/>
+            <column name="account_id" type="numeric"/>
+            <column name="role_id" type="BIGINT"/>
+            <column name="status" type="string"/>
+        </loadData>
+        <loadData tableName="user" file="db/v1/data/admins.csv">
+            <column name="id" type="sequence"/>
+            <column name="type" type="string"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="username" type="string"/>
+            <column name="first_name" type="string"/>
+            <column name="last_name" type="string"/>
+            <column name="email" type="string"/>
+            <column name="gender" type="string"/>
+            <column name="birth_day" type="date"/>
+            <column name="activated" type="boolean"/>
+            <column name="account_id" type="numeric"/>
+            <column name="role_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="room" file="db/v1/data/rooms.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="name" type="string"/>
+            <column name="number" type="string"/>
+            <column name="capacity" type="BIGINT"/>
+            <column name="is_availability_to_use" type="BOOLEAN"/>
+            <column name="description" type="string"/>
+        </loadData>
+        <loadData tableName="accounting_of_payment" file="db/v1/data/accounting_of_payments.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="date" type="timestamp"/>
+            <column name="amount" type="numeric"/>
+            <column name="purpose" type="string"/>
+            <column name="comment" type="string"/>
+            <column name="tutor_id" type="BIGINT"/>
+            <column name="admin_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="account_replenishment" file="db/v1/data/account_replenishments.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="date" type="timestamp without time zone"/>
+            <column name="amount" type="numeric"/>
+            <column name="payer" type="string"/>
+            <column name="purpose" type="string"/>
+            <column name="comment" type="string"/>
+            <column name="replenishment_method" type="string"/>
+            <column name="student_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="course" file="db/v1/data/courses.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="name" type="string"/>
+            <column name="description" type="string"/>
+            <column name="language_of_instruction" type="string"/>
+            <column name="knowledge_level_of_course" type="string"/>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="is_completed" type="BOOLEAN"/>
+        </loadData>
+        <loadData tableName="student_group" file="db/v1/data/student_groups.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="name" type="string"/>
+            <column name="description" type="string"/>
+            <column name="group_type" type="string"/>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="is_formed" type="BOOLEAN"/>
+            <column name="course_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="subject" file="db/v1/data/subjects.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="name" type="string"/>
+            <column name="description" type="string"/>
+            <column name="tutor_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="topic" file="db/v1/data/topics.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="name" type="string"/>
+            <column name="description" type="string"/>
+            <column name="length" type="DOUBLE"/>
+            <column name="subject_id" type="BIGINT"/>
+            <column name="course_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="lesson" file="db/v1/data/lessons.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="name" type="string"/>
+            <column name="description" type="string"/>
+            <column name="date" type="timestamp"/>
+            <column name="length" type="numeric"/>
+            <column name="type" type="string"/>
+            <column name="status" type="string"/>
+            <column name="subject_id" type="numeric"/>
+            <column name="course_id" type="numeric"/>
+            <column name="room_id" type="numeric"/>
+        </loadData>
+        <loadData tableName="attendance" file="db/v1/data/attendances.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="status" type="string"/>
+            <column name="description" type="string"/>
+            <column name="payment_amount" type="numeric"/>
+            <column name="lesson_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT"/>
+            <column name="admin_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="grade" file="db/v1/data/grades.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="value" type="string"/>
+            <column name="weight" type="numeric"/>
+            <column name="date" type="timestamp"/>
+            <column name="course_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="report" file="db/v1/data/reports.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="date" type="timestamp"/>
+            <column name="content" type="string"/>
+            <column name="comment" type="string"/>
+            <column name="tutor_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT"/>
+            <column name="grade_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="exercise" file="db/v1/data/exercises.csv">
+            <column name="id" type="sequence"/>
+            <column name="uuid" type="UUID"/>
+            <column name="created" type="timestamp"/>
+            <column name="updated" type="timestamp"/>
+            <column name="name" type="string"/>
+            <column name="date" type="timestamp"/>
+            <column name="content" type="string"/>
+            <column name="report_id" type="BIGINT"/>
+            <column name="topic_id" type="BIGINT"/>
+            <column name="course_id" type="BIGINT"/>
+            <column name="subject_id" type="BIGINT"/>
+            <column name="tutor_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="student_courses" file="db/v1/data/student_courses.csv">
+            <column name="course_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="student_group_lessons" file="db/v1/data/student_group_lessons.csv">
+            <column name="lesson_id" type="BIGINT"/>
+            <column name="student_group_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="student_group_students" file="db/v1/data/student_group_students.csv">
+            <column name="student_group_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="student_lessons" file="db/v1/data/student_lessons.csv">
+            <column name="lesson_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="topic_lessons" file="db/v1/data/topic_lessons.csv">
+            <column name="lesson_id" type="BIGINT"/>
+            <column name="topic_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="tutor_courses" file="db/v1/data/tutor_courses.csv">
+            <column name="course_id" type="BIGINT"/>
+            <column name="tutor_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="tutor_lessons" file="db/v1/data/tutor_lessons.csv">
+            <column name="lesson_id" type="BIGINT"/>
+            <column name="tutor_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="course_subjects" file="db/v1/data/course_subjects.csv">
+            <column name="course_id" type="BIGINT"/>
+            <column name="subject_id" type="BIGINT"/>
+        </loadData>
+        <loadData tableName="exercise_students" file="db/v1/data/exercise_students.csv">
+            <column name="exercise_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT"/>
         </loadData>
     </changeSet>
 </databaseChangeLog>

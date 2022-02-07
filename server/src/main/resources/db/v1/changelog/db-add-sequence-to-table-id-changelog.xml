@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.7.xsd">
+
+    <changeSet author="Roman Liubymenko" id="20220202145200-1">
+        <addDefaultValue tableName="account"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="account_id_sequence"/>
+        <addDefaultValue tableName="account_replenishment"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="account_replenishment_id_sequence"/>
+        <addDefaultValue tableName="accounting_of_payment"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="accounting_of_payment_id_sequence"/>
+        <addDefaultValue tableName="attendance"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="attendance_id_sequence"/>
+        <addDefaultValue tableName="course"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="course_id_sequence"/>
+        <addDefaultValue tableName="exercise"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="exercise_id_sequence"/>
+        <addDefaultValue tableName="grade"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="grade_id_sequence"/>
+        <addDefaultValue tableName="lesson"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="lesson_id_sequence"/>
+        <addDefaultValue tableName="lms_file"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="lms_file_id_sequence"/>
+        <addDefaultValue tableName="report"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="report_id_sequence"/>
+        <addDefaultValue tableName="role"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="role_id_sequence"/>
+        <addDefaultValue tableName="room"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="room_id_sequence"/>
+        <addDefaultValue tableName="student_group"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="student_group_id_sequence"/>
+        <addDefaultValue tableName="subject"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="subject_id_sequence"/>
+        <addDefaultValue tableName="topic"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="topic_id_sequence"/>
+        <addDefaultValue tableName="user"
+                         columnName="id"
+                         columnDataType="BIGINT"
+                         defaultValueSequenceNext="user_id_sequence"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,4 +1,4 @@
 id,uuid,name
-1,f272f8ad-170a-45b7-ab2c-b08c37b78f08,ADMIN
-2,bcb05f1b-d8d9-43ca-b4ea-9a32ce50dc82,TUTOR
-3,b53e14ec-fae9-4e4a-a27c-e93352dc7965,STUDENT
+role_id_sequence,f272f8ad-170a-45b7-ab2c-b08c37b78f08,ADMIN
+role_id_sequence,bcb05f1b-d8d9-43ca-b4ea-9a32ce50dc82,TUTOR
+role_id_sequence,b53e14ec-fae9-4e4a-a27c-e93352dc7965,STUDENT
