@@ -4,7 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import ua.com.alevel.dto.AbstractProfileDto;
-import ua.com.alevel.dto.profile.AccountProfileDto;
+import ua.com.alevel.dto.profile.finance.AccountProfileDto;
 import ua.com.alevel.enumeration.GenderType;
 
 import javax.validation.constraints.Email;

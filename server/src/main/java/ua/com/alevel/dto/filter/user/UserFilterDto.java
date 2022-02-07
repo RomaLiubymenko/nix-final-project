@@ -1,4 +1,4 @@
-package ua.com.alevel.dto.filter;
+package ua.com.alevel.dto.filter.user;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

@@ -1,14 +1,12 @@
-package ua.com.alevel.dto.profile;
+package ua.com.alevel.dto.filter.educationalprocess;
 
-import ua.com.alevel.persistence.entity.user.Student;
+import ua.com.alevel.dto.AbstractFilterDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-public class CourseProfileDto {
+public class CourseFilterDto extends AbstractFilterDto {
 
     private String name;
     private String description;
@@ -16,16 +14,7 @@ public class CourseProfileDto {
     private String knowledgeLevelOfCourse;
     private LocalDate startDate;
     private LocalDateTime endDate;
-    private Boolean isCompleted;
-    private Set<Student> students = new HashSet<>();
-
-    public Set<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Set<Student> students) {
-        this.students = students;
-    }
+    private String isCompleted;
 
     public String getName() {
         return name;
@@ -75,11 +64,11 @@ public class CourseProfileDto {
         this.endDate = endDate;
     }
 
-    public Boolean getIsCompleted() {
+    public String getIsCompleted() {
         return isCompleted;
     }
 
-    public void setIsCompleted(Boolean isCompleted) {
+    public void setIsCompleted(String isCompleted) {
         this.isCompleted = isCompleted;
     }
 
@@ -87,7 +76,7 @@ public class CourseProfileDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CourseProfileDto entity = (CourseProfileDto) o;
+        CourseFilterDto entity = (CourseFilterDto) o;
         return Objects.equals(this.name, entity.name) &&
                 Objects.equals(this.description, entity.description) &&
                 Objects.equals(this.languageOfInstruction, entity.languageOfInstruction) &&

@@ -1,30 +1,30 @@
-package ua.com.alevel.dto.profile;
+package ua.com.alevel.dto.filter.educationalprocess;
 
-import ua.com.alevel.dto.AbstractProfileDto;
-import ua.com.alevel.dto.profile.user.StudentProfileDto;
+import ua.com.alevel.dto.AbstractFilterDto;
 import ua.com.alevel.enumeration.GroupType;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import java.util.UUID;
 
-public class StudentGroupProfileDto extends AbstractProfileDto {
+public class StudentGroupFilterDto extends AbstractFilterDto {
 
     private String name;
     private String description;
     private GroupType groupType;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Boolean isFormed;
-    private Set<StudentProfileDto> students = new HashSet<>();
+    private String isFormed;
+    private List<UUID> studentUuids = new ArrayList<>();
 
-    public Set<StudentProfileDto> getStudents() {
-        return students;
+    public List<UUID> getStudentUuids() {
+        return studentUuids;
     }
 
-    public void setStudents(Set<StudentProfileDto> students) {
-        this.students = students;
+    public void setStudentUuids(List<UUID> studentUuids) {
+        this.studentUuids = studentUuids;
     }
 
     public String getName() {
@@ -67,11 +67,11 @@ public class StudentGroupProfileDto extends AbstractProfileDto {
         this.endDate = endDate;
     }
 
-    public Boolean getIsFormed() {
+    public String getIsFormed() {
         return isFormed;
     }
 
-    public void setIsFormed(Boolean isFormed) {
+    public void setIsFormed(String isFormed) {
         this.isFormed = isFormed;
     }
 
@@ -79,7 +79,7 @@ public class StudentGroupProfileDto extends AbstractProfileDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StudentGroupProfileDto entity = (StudentGroupProfileDto) o;
+        StudentGroupFilterDto entity = (StudentGroupFilterDto) o;
         return Objects.equals(this.name, entity.name) &&
                 Objects.equals(this.description, entity.description) &&
                 Objects.equals(this.groupType, entity.groupType) &&

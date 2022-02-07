@@ -1,4 +1,4 @@
-package ua.com.alevel.dto.profile;
+package ua.com.alevel.dto.profile.finance;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

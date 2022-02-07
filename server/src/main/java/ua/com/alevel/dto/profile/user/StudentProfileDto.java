@@ -3,9 +3,9 @@ package ua.com.alevel.dto.profile.user;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import ua.com.alevel.dto.profile.AccountReplenishmentProfileDto;
-import ua.com.alevel.dto.profile.CourseProfileDto;
-import ua.com.alevel.dto.profile.StudentGroupProfileDto;
+import ua.com.alevel.dto.profile.educationalprocess.*;
+import ua.com.alevel.dto.profile.finance.AccountReplenishmentProfileDto;
+import ua.com.alevel.dto.profile.finance.AttendanceProfileDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +13,44 @@ import java.util.Set;
 public class StudentProfileDto extends UserProfileDto {
 
     private Set<AccountReplenishmentProfileDto> accountReplenishments = new HashSet<>();
+    private Set<AttendanceProfileDto> attendances = new HashSet<>();
+    private Set<LessonProfileDto> lessons = new HashSet<>();
     private Set<StudentGroupProfileDto> studentGroups = new HashSet<>();
+    private Set<ExerciseProfileDto> exercises = new HashSet<>();
     private Set<CourseProfileDto> courses = new HashSet<>();
+    private Set<ReportProfileDto> reports = new HashSet<>();
+
+    public Set<AttendanceProfileDto> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(Set<AttendanceProfileDto> attendances) {
+        this.attendances = attendances;
+    }
+
+    public Set<LessonProfileDto> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Set<LessonProfileDto> lessons) {
+        this.lessons = lessons;
+    }
+
+    public Set<ExerciseProfileDto> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(Set<ExerciseProfileDto> exercises) {
+        this.exercises = exercises;
+    }
+
+    public Set<ReportProfileDto> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<ReportProfileDto> reports) {
+        this.reports = reports;
+    }
 
     public Set<AccountReplenishmentProfileDto> getAccountReplenishments() {
         return accountReplenishments;

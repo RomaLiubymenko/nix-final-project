@@ -1,22 +1,32 @@
-package ua.com.alevel.dto.filter;
+package ua.com.alevel.dto.filter.user;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import ua.com.alevel.enumeration.TutorStatus;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class StudentFilterDto extends UserFilterDto implements Serializable {
+public class TutorFilterDto extends UserFilterDto {
 
-    private List<UUID> studentGroupUuids;
+    private TutorStatus status;
+    private List<UUID> subjectUuids = new ArrayList<>();
 
-    public List<UUID> getStudentGroupUuids() {
-        return studentGroupUuids;
+    public List<UUID> getSubjectUuids() {
+        return subjectUuids;
     }
 
-    public void setStudentGroupUuids(List<UUID> studentGroupUuids) {
-        this.studentGroupUuids = studentGroupUuids;
+    public void setSubjectUuids(List<UUID> subjectUuids) {
+        this.subjectUuids = subjectUuids;
+    }
+
+    public TutorStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TutorStatus status) {
+        this.status = status;
     }
 
     @Override
@@ -25,7 +35,7 @@ public class StudentFilterDto extends UserFilterDto implements Serializable {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        StudentFilterDto that = (StudentFilterDto) o;
+        TutorFilterDto that = (TutorFilterDto) o;
 
         return new EqualsBuilder()
                 .append(getFirstName(), that.getFirstName())
@@ -34,7 +44,6 @@ public class StudentFilterDto extends UserFilterDto implements Serializable {
                 .append(getGender(), that.getGender())
                 .append(getBirthDay(), that.getBirthDay())
                 .append(getActivated(), that.getActivated())
-                .append(studentGroupUuids, that.studentGroupUuids)
                 .isEquals();
     }
 
@@ -47,7 +56,6 @@ public class StudentFilterDto extends UserFilterDto implements Serializable {
                 .append(getGender())
                 .append(getBirthDay())
                 .append(getActivated())
-                .append(studentGroupUuids)
                 .toHashCode();
     }
 

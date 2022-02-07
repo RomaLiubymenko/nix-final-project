@@ -1,10 +1,13 @@
-package ua.com.alevel.dto.profile;
+package ua.com.alevel.dto.profile.finance;
 
 import ua.com.alevel.dto.AbstractProfileDto;
-import ua.com.alevel.dto.profile.user.StudentProfileDto;
+import ua.com.alevel.dto.profile.user.UserProfileDto;
 import ua.com.alevel.enumeration.AccountOwnershipType;
 import ua.com.alevel.enumeration.AccountType;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -13,14 +16,21 @@ import java.util.Set;
 
 public class AccountProfileDto extends AbstractProfileDto {
 
+    @NotBlank
+    @NotEmpty
     private String name;
+
+    @NotBlank
+    @NotEmpty
     private String description;
     private LocalDateTime accountChangedDate;
+
+    @NotNull
     private BigDecimal balance;
     private Boolean isBlocked;
     private AccountType type;
     private AccountOwnershipType ownershipType;
-    private Set<StudentProfileDto> users = new HashSet<>();
+    private Set<UserProfileDto> users = new HashSet<>();
 
     public String getName() {
         return name;
@@ -78,11 +88,11 @@ public class AccountProfileDto extends AbstractProfileDto {
         this.ownershipType = ownershipType;
     }
 
-    public Set<StudentProfileDto> getUsers() {
+    public Set<UserProfileDto> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<StudentProfileDto> users) {
+    public void setUsers(Set<UserProfileDto> users) {
         this.users = users;
     }
 

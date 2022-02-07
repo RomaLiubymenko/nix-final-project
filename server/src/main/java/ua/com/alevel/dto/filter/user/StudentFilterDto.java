@@ -1,11 +1,23 @@
-package ua.com.alevel.dto.filter;
+package ua.com.alevel.dto.filter.user;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.UUID;
 
-public class AdminFilterDto extends UserFilterDto implements Serializable {
+public class StudentFilterDto extends UserFilterDto implements Serializable {
+
+    private List<UUID> studentGroupUuids;
+
+    public List<UUID> getStudentGroupUuids() {
+        return studentGroupUuids;
+    }
+
+    public void setStudentGroupUuids(List<UUID> studentGroupUuids) {
+        this.studentGroupUuids = studentGroupUuids;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -13,7 +25,7 @@ public class AdminFilterDto extends UserFilterDto implements Serializable {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        AdminFilterDto that = (AdminFilterDto) o;
+        StudentFilterDto that = (StudentFilterDto) o;
 
         return new EqualsBuilder()
                 .append(getFirstName(), that.getFirstName())
@@ -22,6 +34,7 @@ public class AdminFilterDto extends UserFilterDto implements Serializable {
                 .append(getGender(), that.getGender())
                 .append(getBirthDay(), that.getBirthDay())
                 .append(getActivated(), that.getActivated())
+                .append(studentGroupUuids, that.studentGroupUuids)
                 .isEquals();
     }
 
@@ -34,6 +47,7 @@ public class AdminFilterDto extends UserFilterDto implements Serializable {
                 .append(getGender())
                 .append(getBirthDay())
                 .append(getActivated())
+                .append(studentGroupUuids)
                 .toHashCode();
     }
 
