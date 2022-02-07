@@ -1,13 +1,13 @@
 package ua.com.alevel.mapper.user;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValueCheckStrategy;
-import org.mapstruct.ReportingPolicy;
-import org.springframework.stereotype.Service;
+import org.mapstruct.*;
 import ua.com.alevel.dto.profile.user.StudentProfileDto;
 import ua.com.alevel.dto.table.user.StudentTableDto;
-import ua.com.alevel.mapper.*;
+import ua.com.alevel.mapper.CommonMapper;
+import ua.com.alevel.mapper.educationalprocess.*;
+import ua.com.alevel.mapper.finance.AccountMapper;
+import ua.com.alevel.mapper.finance.AccountReplenishmentMapper;
+import ua.com.alevel.mapper.finance.AttendanceMapper;
 import ua.com.alevel.persistence.entity.user.Student;
 
 @Mapper(
@@ -16,27 +16,59 @@ import ua.com.alevel.persistence.entity.user.Student;
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         uses = {
                 AccountReplenishmentMapper.class,
+                AttendanceMapper.class,
+                LessonMapper.class,
                 StudentGroupMapper.class,
+                ExerciseMapper.class,
                 CourseMapper.class,
+                ReportMapper.class,
                 AccountMapper.class
         }
 )
-public abstract class StudentMapper implements CommonMapper<Student, StudentTableDto, StudentProfileDto> {
+public interface StudentMapper extends CommonMapper<Student, StudentTableDto, StudentProfileDto> {
 
     @Override
-    public abstract StudentTableDto toTableDto(Student student);
+    StudentTableDto toTableDto(Student student);
+
+    @Override
+    Student toEntity(StudentProfileDto studentProfileDto);
 
     @Override
     @Mapping(target = "accountReplenishments", qualifiedByName = "forStudentProfileDto")
+    @Mapping(target = "attendances", qualifiedByName = "forStudentProfileDto")
+    @Mapping(target = "lessons", qualifiedByName = "forStudentProfileDto")
     @Mapping(target = "studentGroups", qualifiedByName = "forStudentProfileDto")
+    @Mapping(target = "exercises", qualifiedByName = "forStudentProfileDto")
     @Mapping(target = "courses", qualifiedByName = "forStudentProfileDto")
+    @Mapping(target = "reports", qualifiedByName = "forStudentProfileDto")
     @Mapping(target = "account", qualifiedByName = "forUserProfileDto")
-    public abstract StudentProfileDto toProfileDto(Student student);
+    StudentProfileDto toProfileDto(Student student);
 
-    @Override
+    @Named("forAccountReplenishmentProfileDto")
     @Mapping(target = "accountReplenishments", ignore = true)
-    @Mapping(target = "studentGroups", ignore = true)
+    StudentProfileDto studentToStudentProfileDtoForAccountReplenishmentsProfileDto(Student student);
+
+    @Named("forCourseProfileDto")
     @Mapping(target = "courses", ignore = true)
-    @Mapping(target = "account", ignore = true)
-    public abstract Student toEntity(StudentProfileDto studentProfileDto);
+    StudentProfileDto studentToCourseProfileDtoForCourseProfileDto(Student student);
+
+    @Named("forStudentGroupProfileDto")
+    @Mapping(target = "studentGroups", ignore = true)
+    StudentProfileDto studentToStudentProfileDtoForStudentGroupProfileDto(Student student);
+
+    @Named("forLessonProfileDto")
+    @Mapping(target = "lessons", ignore = true)
+    StudentProfileDto studentToStudentProfileDtoForLessonProfileDto(Student student);
+
+    @Named("forAttendanceProfileDto")
+    @Mapping(target = "attendances", ignore = true)
+    StudentProfileDto studentToStudentProfileDtoForAttendanceProfileDto(Student student);
+
+    @Named("forReportProfileDto")
+    @Mapping(target = "reports", ignore = true)
+    StudentProfileDto studentToStudentProfileDtoForReportProfileDto(Student student);
+
+    @Named("forExerciseProfileDto")
+    @Mapping(target = "exercises", ignore = true)
+    StudentProfileDto studentToStudentProfileDtoForExerciseProfileDto(Student student);
 }

@@ -1,16 +1,19 @@
-package ua.com.alevel.mapper;
+package ua.com.alevel.mapper.finance;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
-import ua.com.alevel.dto.profile.AccountReplenishmentProfileDto;
+import org.mapstruct.*;
+import ua.com.alevel.dto.profile.finance.AccountReplenishmentProfileDto;
 import ua.com.alevel.dto.table.finance.AccountReplenishmentTableDto;
+import ua.com.alevel.mapper.CommonMapper;
+import ua.com.alevel.mapper.user.StudentMapper;
 import ua.com.alevel.persistence.entity.finance.AccountReplenishment;
 
 @Mapper(
         componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        uses = {
+                StudentMapper.class
+        }
 )
 public interface AccountReplenishmentMapper extends CommonMapper<AccountReplenishment, AccountReplenishmentTableDto, AccountReplenishmentProfileDto> {
 
@@ -21,11 +24,10 @@ public interface AccountReplenishmentMapper extends CommonMapper<AccountReplenis
     AccountReplenishmentTableDto toTableDto(AccountReplenishment entity);
 
     @Override
+    @Mapping(target = "student", qualifiedByName = "forAccountReplenishmentProfileDto")
     AccountReplenishmentProfileDto toProfileDto(AccountReplenishment entity);
 
-    // For student
     @Named("forStudentProfileDto")
     @Mapping(target = "student", ignore = true)
     AccountReplenishmentProfileDto accountReplenishmentToAccountReplenishmentProfileDtoForStudentProfileDto(AccountReplenishment accountReplenishment);
-
 }

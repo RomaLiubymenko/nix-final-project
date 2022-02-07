@@ -6,8 +6,8 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import ua.com.alevel.dto.profile.user.UserProfileDto;
 import ua.com.alevel.dto.table.user.UserTableDto;
-import ua.com.alevel.mapper.AccountMapper;
 import ua.com.alevel.mapper.CommonMapper;
+import ua.com.alevel.mapper.finance.AccountMapper;
 import ua.com.alevel.persistence.entity.user.User;
 
 @Mapper(
@@ -18,16 +18,16 @@ import ua.com.alevel.persistence.entity.user.User;
                 AccountMapper.class
         }
 )
-public abstract class UserMapper implements CommonMapper<User, UserTableDto, UserProfileDto> {
+public interface UserMapper extends CommonMapper<User, UserTableDto, UserProfileDto> {
 
     @Override
-    public abstract UserTableDto toTableDto(User user);
-
-    @Override
-    @Mapping(target = "account", qualifiedByName = "forUserProfileDto")
-    public abstract UserProfileDto toProfileDto(User user);
+    UserTableDto toTableDto(User user);
 
     @Override
     @Mapping(target = "account", ignore = true)
-    public abstract User toEntity(UserProfileDto userProfileDto);
+    UserProfileDto toProfileDto(User user);
+
+    @Override
+    @Mapping(target = "account", ignore = true)
+    User toEntity(UserProfileDto userProfileDto);
 }
