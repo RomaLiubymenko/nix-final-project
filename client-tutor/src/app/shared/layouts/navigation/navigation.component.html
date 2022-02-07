@@ -1,18 +1,21 @@
 <mat-toolbar class="mat-elevation-z8 register-btn">
-  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
-    <mat-icon *ngIf="!sidenav.opened">{{'Menu'}}</mat-icon>
-    <mat-icon *ngIf="sidenav.opened">{{'Close'}}</mat-icon>
-  </button>
-  <button pButton class="p-button-raised p-button-outlined p-button-link" icon="pi pi-user"
-          (click)="redirectToTutorFullInfo()"></button>
-  <button pButton class="p-button-raised p-button-outlined" [label]="'LOGOUT' | transloco" icon="pi pi-sign-out"
-          (click)="logout()"></button>
-  <div class="lang-select">
-    <p-dropdown optionLabel="name"
-                optionValue="code"
-                [options]="langs"
-                (ngModelChange)="onChangeLang($event)"
-                [(ngModel)]="selectedLang"></p-dropdown>
+  <div class="title flex justify-content-start">{{'TUTOR' | transloco}}</div>
+  <div class="flex justify-content-end">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">{{'Menu'}}</mat-icon>
+      <mat-icon *ngIf="sidenav.opened">{{'Close'}}</mat-icon>
+    </button>
+    <button pButton class="p-button-raised p-button-outlined p-button-link" icon="pi pi-user"
+            (click)="redirectToTutorFullInfo()"></button>
+    <button pButton class="p-button-raised p-button-outlined" [label]="'LOGOUT' | transloco" icon="pi pi-sign-out"
+            (click)="logout()"></button>
+    <div class="lang-select">
+      <p-dropdown optionLabel="name"
+                  optionValue="code"
+                  [options]="langs"
+                  (ngModelChange)="onChangeLang($event)"
+                  [(ngModel)]="selectedLang"></p-dropdown>
+    </div>
   </div>
 </mat-toolbar>
 <mat-sidenav-container [ngClass]="{'side-nav': isLogin}">

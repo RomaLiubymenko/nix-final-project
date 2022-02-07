@@ -64,7 +64,11 @@ mat-divider {
 }
 
 .register-btn {
-  justify-content: flex-end;
+
+  .title {
+    flex: 1;
+    color: #673AB7;
+  }
 
   .p-button {
     font-size: 0.9rem !important;
