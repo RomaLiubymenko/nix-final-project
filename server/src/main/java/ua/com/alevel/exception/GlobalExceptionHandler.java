@@ -28,6 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     public static final String INVALID_REQUEST = "Invalid request";
+    public static final String ACCESS_DENIED = "Access denied!";
     public static final String ERROR_MESSAGE_TEMPLATE = "message: {} {} requested uri: {}";
     private static final String PATH = "path";
     private static final String ERRORS = "error";
@@ -91,6 +92,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private String getMessageForStatus(HttpStatus status) {
         return switch (status) {
+            case UNAUTHORIZED -> ACCESS_DENIED;
             case BAD_REQUEST -> INVALID_REQUEST;
             default -> status.getReasonPhrase();
         };
