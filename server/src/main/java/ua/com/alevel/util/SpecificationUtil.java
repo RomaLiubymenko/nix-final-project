@@ -63,6 +63,5 @@ public class SpecificationUtil {
             return criteriaBuilder.conjunction();
         };
     }
-
 }
 
