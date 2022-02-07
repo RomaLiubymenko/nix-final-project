@@ -67,6 +67,24 @@ public class LmsProperties {
     public class Client {
 
         private String admin;
+        private String tutor;
+        private String student;
+
+        public String getTutor() {
+            return tutor;
+        }
+
+        public void setTutor(String tutor) {
+            this.tutor = tutor;
+        }
+
+        public String getStudent() {
+            return student;
+        }
+
+        public void setStudent(String student) {
+            this.student = student;
+        }
 
         public String getAdmin() {
             return admin;

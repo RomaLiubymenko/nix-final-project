@@ -33,6 +33,7 @@ import javax.servlet.Filter;
 @KeycloakConfiguration
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
+    private static final String API_VERSION = "/api/v1";
     private final LmsProperties lmsProperties;
 
     public SecurityConfig(LmsProperties lmsProperties) {
@@ -110,10 +111,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringAntMatchers("/api/auth/").disable()
+                .ignoringAntMatchers(API_VERSION + "/auth/").disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/**").hasAnyRole("ADMIN")
+                .antMatchers(API_VERSION + "/auth/**").permitAll()
+                .antMatchers(API_VERSION + "/**").hasAnyRole("ADMIN", "STUDENT", "TUTOR")
                 .anyRequest().denyAll();
     }
 
@@ -121,7 +122,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @ConditionalOnProperty(name = "lms.cors.allowed-origins")
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", this.lmsProperties.getCors());
+        source.registerCorsConfiguration("/**", lmsProperties.getCors());
         return source;
     }
 

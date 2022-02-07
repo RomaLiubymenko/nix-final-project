@@ -1,4 +1,4 @@
-package ua.com.alevel.service;
+package ua.com.alevel.service.auth;
 
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.persistence.entity.user.User;
-import ua.com.alevel.persistence.repository.user.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
@@ -23,60 +22,45 @@ import java.util.*;
 
 @Service
 @Transactional
-public class KeycloakAdminService {
-    private final Logger log = LoggerFactory.getLogger(KeycloakAdminService.class);
+public class KeycloakService {
+
+    private static final Logger log = LoggerFactory.getLogger(KeycloakService.class);
+    private final String realm;
+    private final String authServerUrl;
+    private final String keycloakAdminUsername;
+    private final String keycloakAdminPassword;
+    private final String clientSecret;
+    private final String clientId;
 
     private Keycloak keycloak = null;
-    private List<String> lmsRoles = null;
 
-    private final UserRepository userRepository;
-    private final StudentRepository studentRepository;
-    private final TutorRepository tutorRepository;
-    private final AdminRepository adminRepository;
-    private final RoleRepository roleRepository;
-
-    @Value("${keycloak.auth-server-url}")
-    public String serverUrl = "http://localhost:8081/auth";
-
-    @Value("${keycloak.realm}")
-    public String realm = "altronica-lms";
-
-    @Value("${keycloak-admin-username}")
-    public String adminUsername = "admin";
-
-    @Value("${keycloak-admin-password}")
-    public String adminPassword = "password";
-
-    @Value("${keycloak.credentials.secret}")
-    public String clientSecret = "secret";
-
-    @Value("${keycloak.resource}")
-    public String clientId = "lms-base";
-
-    public KeycloakAdminService(
-            UserRepository userRepository,
-            StudentRepository studentRepository,
-            TutorRepository tutorRepository,
-            AdminRepository adminRepository,
-            RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.studentRepository = studentRepository;
-        this.tutorRepository = tutorRepository;
-        this.adminRepository = adminRepository;
-        this.roleRepository = roleRepository;
+    public KeycloakService(
+            @Value("${keycloak.auth-server-url}") String authServerUrl,
+            @Value("${keycloak.realm}") String realm,
+            @Value("${keycloak-admin-username}") String keycloakAdminUsername,
+            @Value("${keycloak-admin-password}") String keycloakAdminPassword,
+            @Value("${keycloak.credentials.secret}") String clientSecret,
+            @Value("${keycloak.resource}") String clientId
+    ) {
+        this.keycloakAdminPassword = keycloakAdminPassword;
+        this.clientSecret = clientSecret;
+        this.clientId = clientId;
+        this.authServerUrl = authServerUrl;
+        this.realm = realm;
+        this.keycloakAdminUsername = keycloakAdminUsername;
     }
 
     @PostConstruct
     public void initConfiguration() {
         keycloak = KeycloakBuilder.builder()
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
-                .serverUrl(serverUrl)
+                .serverUrl(authServerUrl)
                 .realm(realm)
-                .username(adminUsername)
-                .password(adminPassword)
+                .username(keycloakAdminUsername)
+                .password(keycloakAdminPassword)
                 .clientId(clientId)
                 .clientSecret(clientSecret)
-                .resteasyClient(new ResteasyClientBuilder().connectionPoolSize(10).build())
+                .resteasyClient(new ResteasyClientBuilder().connectionPoolSize(20).build())
                 .build();
     }
 
@@ -88,7 +72,7 @@ public class KeycloakAdminService {
         return this.keycloak.realm(realm).users().get(uuid);
     }
 
-    public Response createUser(User user, String userType) {
+    public Response createUser(User user) {
         UsersResource usersResource = this.getInstance().realm(realm).users();
         CredentialRepresentation credentialRepresentation = createPasswordCredentials(user.getPassword());
 
@@ -99,11 +83,10 @@ public class KeycloakAdminService {
         kcUser.setLastName(user.getLastName());
         kcUser.setEmail(user.getEmail());
         kcUser.setEnabled(true);
-
         kcUser.setEmailVerified(false);
 
         Map<String, List<String>> attributes = new HashMap<>();
-        attributes.put("gender", Collections.singletonList(user.getGender().name()));
+        attributes.put("gender", Collections.singletonList(user.getGender() != null ? user.getGender().name() : null));
         attributes.put("birth_day", Collections.singletonList(user.getBirthDay() != null ? user.getBirthDay().toString() : null));
 
         kcUser.setAttributes(attributes);
@@ -119,7 +102,6 @@ public class KeycloakAdminService {
         kcUser.setEmail(user.getEmail());
         kcUser.setEnabled(true);
         kcUser.setEmailVerified(false);
-
         userResource.update(kcUser);
         return userResource;
     }
@@ -133,8 +115,7 @@ public class KeycloakAdminService {
     }
 
     public List<String> getAllRealmRoles() {
-        return keycloak
-                .realm(realm)
+        return keycloak.realm(realm)
                 .roles()
                 .list()
                 .stream()
@@ -158,8 +139,7 @@ public class KeycloakAdminService {
                 .roles()
                 .list();
 
-        List<String> serverRoles = existingRoles
-                .stream()
+        List<String> serverRoles = existingRoles.stream()
                 .map(RoleRepresentation::getName)
                 .toList();
 
@@ -169,21 +149,9 @@ public class KeycloakAdminService {
             if (index != -1) {
                 resultRoles.add(existingRoles.get(index));
             } else {
-                log.info("Role doesn't exist");
+                log.error("Role doesn't exist");
             }
         }
         return resultRoles;
-    }
-
-    private void transferValues(User castUser, User currentUser) {
-        currentUser.setUuid(castUser.getUuid());
-        currentUser.setUsername(castUser.getUsername());
-        currentUser.setFirstName(castUser.getFirstName());
-        currentUser.setLastName(castUser.getLastName());
-        currentUser.setEmail(castUser.getEmail());
-        currentUser.setActivated(castUser.getActivated());
-        currentUser.setBirthDay(castUser.getBirthDay());
-        currentUser.setGender(castUser.getGender());
-        currentUser.setRole(castUser.getRole());
     }
 }
