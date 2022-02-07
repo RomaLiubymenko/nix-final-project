@@ -1,0 +1,111 @@
+mat-toolbar {
+  background: #7f7fff;
+  color: white;
+}
+
+mat-sidenav {
+  margin: 16px;
+  width: 200px;
+  border-right: none;
+  background: #b2b2ff;
+  color: white;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.content {
+  height: calc(100vh - 98px);
+  border-radius: 10px;
+  margin: 16px 16px 16px 30px;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 65px);
+}
+
+.menu-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+
+  mdb-icon {
+    margin-right: 8px;
+  }
+}
+
+mat-divider {
+
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+::ng-deep .p-panelmenu {
+  font-size: 0.85rem !important;
+
+  .p-panelmenu-header-link {
+    font-size: 0.85rem !important;
+    background: #9999ff !important;
+    padding: 0.5rem 0.5rem !important;
+  }
+
+  .p-menuitem-link {
+    padding: 0.5rem 0.5rem !important;
+    background: #b7b7ff !important;
+    padding-left: 25px !important;
+  }
+
+  .p-panelmenu-content {
+    background: #b7b7ff !important;
+  }
+}
+
+.register-btn {
+  justify-content: flex-end;
+
+  .p-button {
+    font-size: 0.9rem !important;
+    padding: 0.3rem 0.2rem !important;
+    margin: 0 10px;
+  }
+}
+
+.lang-select ::ng-deep .p-dropdown {
+
+  .p-inputtext, .p-dropdown-item, .p-dropdown-panel {
+    color: #673AB7 !important;
+    font-size: 0.9rem !important;
+    padding: 0.7px !important;
+    background: #a4a4ff;
+  }
+
+  .p-dropdown-trigger {
+    width: 1.5rem !important;
+    padding-left: 0.5px !important;
+    padding-right: 0.2px !important;
+    background: #a4a4ff;
+    color: #673AB7 !important;
+  }
+}
+
+.login {
+  padding-top: 10rem;
+  padding-left: 570px;
+  padding-right: 570px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.side-nav {
+
+  .mat-sidenav-content {
+    margin-left: unset !important;
+  }
+
+  .content {
+    margin-left: 14.2rem !important;
+  }
+}

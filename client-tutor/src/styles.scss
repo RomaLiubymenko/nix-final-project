@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #e2e2ff;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.lms-content {
+
+  .p-card .p-card-content {
+    padding: unset;
+    font-size: 0.9rem !important;
+
+    .p-component {
+      font-size: unset;
+    }
+  }
+
+  .p-card .p-card-body {
+    padding-top: 0;
+
+    .p-datatable-header {
+      padding: 0.7rem 0.1rem 0.1rem;
+    }
+  }
+
+  .table-button-bar {
+
+    .p-button {
+      font-size: 0.64rem;
+    }
+
+    .md-form {
+      width: Calc(50% - 12px);
+      margin: 0.2rem auto;
+    }
+  }
+}
+
+.sign-in-up {
+  background: rgba(183, 183, 255, 0.58);
+  padding: 1rem 2rem;
+  border-radius: 15px;
+
+  .name {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.8rem;
+    color: #432263;
+  }
+}

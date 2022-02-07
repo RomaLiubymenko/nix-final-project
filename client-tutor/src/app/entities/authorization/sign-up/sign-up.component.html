@@ -1,0 +1,86 @@
+<ng-container *transloco="let translate">
+  <p-toast></p-toast>
+  <div class="mat-elevation-z10 sign-in-up">
+    <div class="flex align-items-center justify-content-center name">{{translate('REGISTRATION')}}</div>
+    <form [formGroup]="registerForm">
+      <div class="form-group">
+        <label for="firstName">{{translate('FIRST_NAME')}}</label>
+        <input pInputText id="firstName" type="text" formControlName="firstName" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && getFormControls['firstName'].errors }"/>
+        <div *ngIf="submitted && getFormControls['firstName'].errors" class="invalid-feedback">
+          <div *ngIf="getFormControls['firstName'].errors['required']">{{translate('FIRST_NAME_REQUIRED')}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">{{translate('LAST_NAME')}}</label>
+        <input pInputText id="lastName" type="text" formControlName="lastName" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && getFormControls['lastName'].errors }"/>
+        <div *ngIf="submitted && getFormControls['lastName'].errors" class="invalid-feedback">
+          <div *ngIf="getFormControls['lastName'].errors['required']">{{translate('LAST_NAME_REQUIRED')}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="username">{{translate('USERNAME')}}</label>
+        <input pInputText id="username" type="text" formControlName="username" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && getFormControls['username'].errors }"/>
+        <div *ngIf="submitted && getFormControls['username'].errors" class="invalid-feedback">
+          <div *ngIf="getFormControls['username'].errors['required']">{{translate('USERNAME_REQUIRED')}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="gender">{{translate('GENDER')}}</label>
+        <p-selectButton id="gender" [options]="genderTypeForSelect"
+                        [(ngModel)]="selectedGender"
+                        formControlName="gender"
+                        optionLabel="name" optionValue="code"
+                        [ngClass]="{ 'is-invalid': submitted && getFormControls['gender'].errors }"></p-selectButton>
+        <div *ngIf="submitted && getFormControls['gender'].errors" class="invalid-feedback">
+          <div *ngIf="getFormControls['gender'].errors['required']">{{translate('GENDER_REQUIRED')}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div>
+          <label for="birthDay">{{translate('BIRTHDAY')}}</label>
+        </div>
+        <div>
+          <p-calendar
+            id="birthDay"
+            appendTo="body"
+            dateFormat="yy-mm-dd"
+            formControlName="birthDay"
+            [ngClass]="{ 'is-invalid': submitted && getFormControls['birthDay'].errors }">
+          </p-calendar>
+        </div>
+        <div *ngIf="submitted && getFormControls['birthDay'].errors" class="invalid-feedback">
+          <div *ngIf="getFormControls['birthDay'].errors['required']">{{translate('BIRTHDAY_REQUIRED')}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">{{translate('EMAIL_ADDRESS')}}</label>
+        <input pInputText id="email" type="text" formControlName="email" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && getFormControls['email'].errors }"/>
+        <div *ngIf="submitted && getFormControls['email'].errors" class="invalid-feedback">
+          <div
+            *ngIf="getFormControls['email'].errors['required'] || getFormControls['email'].errors['email']">{{translate(('EMAIL_ADDRESS_REQUIRED'))}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">{{translate('PASSWORD')}}</label>
+        <input pInputText id="password" type="password" formControlName="password" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && getFormControls['password'].errors }"/>
+        <div *ngIf="submitted && getFormControls['password'].errors" class="invalid-feedback">
+          <div *ngIf="getFormControls['password'].errors['required']">{{translate('PASSWORD_REQUIRED')}}</div>
+          <div *ngIf="getFormControls['password'].errors['minlength']">{{translate('PASSWORD_REQUIRED_LENGTH')}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button pButton type="button" class="btn btn-primary" [loading]="loading"
+                (click)="signUp()">{{translate('REGISTER')}}</button>
+        <a [routerLink]="['/authorization/sign-in']" class="btn btn-link">{{translate('BACK_TO_LOGIN')}}</a>
+      </div>
+    </form>
+  </div>
+</ng-container>
+
+
+

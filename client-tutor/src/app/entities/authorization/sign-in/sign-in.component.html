@@ -1,0 +1,32 @@
+<ng-container *transloco="let translate">
+  <p-toast></p-toast>
+  <div class="sign-up mat-elevation-z10 sign-in-up">
+    <div class="flex align-items-center justify-content-center name">{{translate('LOGIN')}}</div>
+    <form [formGroup]="loginForm">
+      <div class="form-group">
+        <label for="username">{{translate('USERNAME')}}</label>
+        <div class="p-fluid ui-fluid">
+          <input pInputText id="username" type="text" formControlName="username" class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && formControls['username'].errors }"/>
+          <div *ngIf="submitted && formControls['username'].errors" class="invalid-feedback">
+            <div *ngIf="formControls['username'].errors['required']">{{translate('USERNAME_REQUIRED')}}</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <label for="password">{{translate('PASSWORD')}}</label>
+        <input pInputText id="password" type="password" formControlName="password" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && formControls['password'].errors }"/>
+        <div *ngIf="submitted && formControls['password'].errors" class="invalid-feedback">
+          <div *ngIf="formControls['password'].errors['required']">{{translate('PASSWORD_REQUIRED')}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button pButton type="button" class="btn btn-primary" [loading]="loading"
+                (click)="signIn()">{{translate('LOGIN')}}</button>
+        <a [routerLink]="['/authorization/sign-up']" class="btn btn-link">{{translate('REGISTER')}}</a>
+      </div>
+    </form>
+  </div>
+</ng-container>
