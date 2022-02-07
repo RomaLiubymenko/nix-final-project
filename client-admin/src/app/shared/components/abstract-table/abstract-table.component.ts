@@ -8,6 +8,7 @@ import {map} from "rxjs/operators";
 import {SearchWithPagination} from "../../utils/request/param-util";
 import {HttpHeaders, HttpResponse} from "@angular/common/http";
 import {IAbstractFilter} from "../../models/filters/abstract-filter.model";
+import {TranslocoService} from "@ngneat/transloco";
 
 @Directive()
 export abstract class AbstractTableComponent<ENTITY extends AbstractModel, FILTER extends IAbstractFilter> implements OnInit {
@@ -34,7 +35,8 @@ export abstract class AbstractTableComponent<ENTITY extends AbstractModel, FILTE
     public router: Router,
     public activatedRoute: ActivatedRoute,
     public messageService: MessageService,
-    public confirmationService: ConfirmationService) {
+    public confirmationService: ConfirmationService,
+    public translocoService: TranslocoService) {
   }
 
   ngOnInit(): void {
@@ -129,32 +131,34 @@ export abstract class AbstractTableComponent<ENTITY extends AbstractModel, FILTE
   }
 
   deleteSelectedElements() {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected entries?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.entryService.deleteEntities(this.selectedElementsForDelete).subscribe({
-          next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'Entries deleted successfully',
-              life: 3000
-            });
-            this.selectedElementsForDelete.length = 0;
-            this.loadAll()
-          },
-          error: err => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: err.error.error.join('\n'),
-              life: 20000
-            });
-          }
-        });
-      }
+    this.translocoService.langChanges$.subscribe(() => {
+      this.confirmationService.confirm({
+        message: this.translocoService.translate('DELETION_WARNING_MESSAGE') + '?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.entryService.deleteEntities(this.selectedElementsForDelete).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: this.translocoService.translate('ENTRIES_DELETED_SUCCESSFULLY'),
+                life: 3000
+              });
+              this.selectedElementsForDelete.length = 0;
+              this.loadAll()
+            },
+            error: err => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.error.error.join('\n'),
+                life: 20000
+              });
+            }
+          });
+        }
+      });
     });
   }
 

@@ -1,6 +1,8 @@
-import {IAbstractFilter} from "./abstract-filter.model";
+import { TutorStatus } from "../../user/tutor.model";
+import {IAbstractFilter} from "../abstract-filter.model";
 
 export class StudentFilter implements IAbstractFilter {
+
   constructor(
     public firstName?: string,
     public lastName?: string,
@@ -8,6 +10,7 @@ export class StudentFilter implements IAbstractFilter {
     public gender?: string,
     public birthDay?: string,
     public activated?: string,
-    public studentGroupUuids?: string) {
+    public status?: TutorStatus,
+    public subjectUuids?: string[]) {
   }
 }

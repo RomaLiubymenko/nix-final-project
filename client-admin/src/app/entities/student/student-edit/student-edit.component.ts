@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import * as moment from 'moment';
-import {StudentGroupService} from "../../../shared/services/student-group.service";
-import {StudentGroup} from 'src/app/shared/models/student-group.model';
-import {HttpResponse} from "@angular/common/http";
+import {StudentGroupService} from "../../../shared/services/educationalprocess/student-group.service";
+import {StudentGroup} from 'src/app/shared/models/educationalprocess/student-group.model';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {Student} from "../../../shared/models/user/student.model";
 import {StudentService} from "../../../shared/services/user/student.service";
+import {SelectModal} from "../../../shared/models/select.model";
+import {TranslocoService} from "@ngneat/transloco";
+import {GenderType} from "../../../shared/models/user/user.model";
 
 @Component({
   selector: 'student-edit',
@@ -15,12 +16,11 @@ import {StudentService} from "../../../shared/services/user/student.service";
 })
 export class StudentEditComponent implements OnInit {
 
-  // todo: add validation
   student: Student;
-  date: Date;
   selectedGroupUuids: string[] = [];
   groupsForSelect: any[] = [];
   groups: StudentGroup[] = [];
+  genderTypeForSelect: any[] = [];
   isLoading: boolean = true;
 
   constructor(
@@ -29,60 +29,57 @@ export class StudentEditComponent implements OnInit {
     private studentService: StudentService,
     private studentGroupService: StudentGroupService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private translocoService: TranslocoService
+  ) {
   }
 
   ngOnInit(): void {
+    this.setGenderTypeForSelect();
     this.route.data.subscribe(({student}) => {
-      this.student = student; this.isLoading = false;
-      if (this.student.studentGroups && this.student.studentGroups?.length) {
-
-        this.setSelectedGroup();
-        this.createGroupForSelect();
-      }
-      if (!!student.birthDay) {
-        this.date = moment(student.birthDay, 'YYYY-MM-DD').toDate();
-      }
-
+      this.student = student;
+      this.setSelectedGroup();
+      this.createGroupForSelect();
     });
   }
 
   save() {
-    this.student.birthDay = this.date;
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to save student ?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.preparedGroupForSave();
-        this.studentService.save(this.student).subscribe({
-          next: () => this.router.navigate(['students']),
-          error: err => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: err.error.error.join('\n'),
-              life: 20000
-            });
-          }
-        });
-      }
-    });
-  }
-
-  createGroupForSelect() {
-    // @ts-ignore
-    this.studentGroupService.getAll().subscribe((groupRes: HttpResponse<StudentGroup[]>) => {
-      this.groups = groupRes.body!.map(group => {
-        this.groupsForSelect.push({name: group.name, code: group.uuid});
-        this.isLoading = false;
-        return group;
-      })
-    });
+    this.translocoService.langChanges$.subscribe(() => {
+      this.confirmationService.confirm({
+        message: this.translocoService.translate('CONFIRMATION_TO_SAVE_ENTITY'),
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.preparedGroupForSave();
+          console.log(this.student)
+          this.studentService.save(this.student).subscribe({
+            next: () => this.router.navigate(['students']),
+            error: err => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.error.error.join('\n'),
+                life: 20000
+              });
+            }
+          });
+        }
+      });
+    })
   }
 
   setSelectedGroup() {
     this.selectedGroupUuids = this.student.studentGroups!?.map(group => group.uuid!);
+  }
+
+  createGroupForSelect() {
+    this.studentGroupService.getAll().subscribe(groupRes => {
+      this.groups = groupRes.map(group => {
+        this.groupsForSelect.push(new SelectModal(group.name!, group.uuid));
+        return group;
+      })
+      this.isLoading = false;
+    });
   }
 
   preparedGroupForSave() {
@@ -91,6 +88,18 @@ export class StudentEditComponent implements OnInit {
     } else {
       this.student.studentGroups = [];
     }
+  }
+
+  setGenderTypeForSelect() {
+    this.translocoService.langChanges$.subscribe(() => {
+      this.genderTypeForSelect = [{
+        name: this.translocoService.translate('MALE'),
+        code: GenderType.MALE
+      }, {
+        name: this.translocoService.translate('FEMALE'),
+        code: GenderType.FEMALE
+      }];
+    });
   }
 }
 

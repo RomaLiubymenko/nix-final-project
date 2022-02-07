@@ -1,5 +1,5 @@
 
-export class KeycloakServerInfo {
+export class KeycloakInfo {
   authServerUrl?: string;
   realm?: string;
   clientId?: string;

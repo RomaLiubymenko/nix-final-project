@@ -1,20 +1,9 @@
 import {AbstractModel} from "../abstract.model";
-import {StudentGroup} from "../student-group.model";
-import {AccountReplenishment} from "../account-replenishment.model";
-import {Course} from "../course.model";
-import {Account} from "../account.model";
-
-export class CredentialRepresentation {
-  public type: string = 'password';
-  public temporary: boolean = false;
-  public value: string;
-
-  constructor(value: string, type: string = 'password', temporary: boolean = false) {
-    this.value = value;
-    this.temporary = temporary;
-    this.type = type;
-  }
-}
+import {StudentGroup} from "../educationalprocess/student-group.model";
+import {AccountReplenishment} from "../finance/account-replenishment.model";
+import {Course} from "../educationalprocess/course.model";
+import {Account} from "../finance/account.model";
+import {Role} from "./role.model";
 
 export interface IUser extends AbstractModel {
   username?: string,
@@ -35,8 +24,8 @@ export class User implements IUser {
 
   constructor(
     public uuid?: string,
-    public created?: string,
-    public updated?: string,
+    public created?: Date,
+    public updated?: Date,
     public username?: string,
     public firstName?: string,
     public lastName?: string,
@@ -45,13 +34,13 @@ export class User implements IUser {
     public birthDay?: Date,
     public activated?: boolean,
     public password?: string,
-    public credentials?: CredentialRepresentation[],
+    public role?: Role
   ) {
   }
 }
 
 export enum GenderType {
-  MALE='MALE', FEMALE='FEMALE'
+  MALE = 'MALE', FEMALE = 'FEMALE'
 }
 
 

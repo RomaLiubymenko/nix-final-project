@@ -3,8 +3,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {IAbstractFilter} from 'src/app/shared/models/filters/abstract-filter.model';
 import {AbstractTableComponent} from "../../../shared/components/abstract-table/abstract-table.component";
-import {StudentGroup} from "../../../shared/models/student-group.model";
-import {StudentGroupService} from "../../../shared/services/student-group.service";
+import {StudentGroup} from "../../../shared/models/educationalprocess/student-group.model";
+import {StudentGroupService} from "../../../shared/services/educationalprocess/student-group.service";
+import {TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'student-group-table',
@@ -25,9 +26,10 @@ export class StudentGroupTableComponent extends AbstractTableComponent<StudentGr
     public override activatedRoute: ActivatedRoute,
     public studentGroupService: StudentGroupService,
     public override messageService: MessageService,
-    public override confirmationService: ConfirmationService
+    public override confirmationService: ConfirmationService,
+    public override translocoService: TranslocoService,
   ) {
-    super(studentGroupService, router, activatedRoute, messageService, confirmationService)
+    super(studentGroupService, router, activatedRoute, messageService, confirmationService, translocoService)
   }
 
   addStudentGroup(): void {

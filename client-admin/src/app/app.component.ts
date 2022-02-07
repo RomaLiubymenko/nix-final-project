@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Inject, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject} from '@angular/core';
 import {LOCAL_STORAGE, StorageService} from "ngx-webstorage-service";
 import {UserService} from "./shared/services/user/user.service";
 import {AuthService} from "./shared/services/auth/auth.service";
@@ -11,11 +11,9 @@ import {timer as observableTimer} from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'lms';
+
   isLogin: boolean = false;
   admin: Admin = this._authService.user;
-  showAnimation: boolean = true;
-  private _isShow: boolean = false;
   private loginCounter = 0;
 
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService,
@@ -31,36 +29,29 @@ export class AppComponent {
   }
 
   getCurrentUser() {
-    let uuid = this.storage.get('current user');
-    this.showAnimation = !!uuid;
+    let uuid = this.storage.get('user');
     if (!!uuid) {
-      this.userService.getByUuid(uuid).subscribe(value => {
-        this.admin = value;
-        this.isLogin = !!this.admin.uuid;
-      }, error => {
-        const source = observableTimer(1000).subscribe(value => {
-          this.loginCounter++;
-          if (this.loginCounter < 5) {
-            this.getCurrentUser();
-          } else {
-            this.loginCounter = 0;
-            this._authService.logout();
-          }
-        });
+      this.userService.getByUuid(uuid).subscribe({
+        next: (data) => {
+          this.admin = data;
+          this.isLogin = !!this.admin.uuid;
+        },
+        error: () => {
+          observableTimer(1000).subscribe(() => {
+            this.loginCounter++;
+            if (this.loginCounter < 5) {
+              this.getCurrentUser();
+            } else {
+              this.loginCounter = 0;
+              this._authService.logout();
+            }
+          });
+        }
       });
     } else {
       if (this._authService.isAuthenticated()) {
         this._authService.logout();
       }
     }
-  }
-
-  @Input()
-  set isShow(isShow: boolean) {
-    this._isShow = isShow;
-  }
-
-  get isShow(): boolean {
-    return this._isShow;
   }
 }

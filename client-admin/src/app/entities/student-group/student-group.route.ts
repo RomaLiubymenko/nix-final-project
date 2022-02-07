@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, Resolve, Routes} from "@angular/router";
-import {StudentGroup} from "../../shared/models/student-group.model";
-import {StudentGroupService} from "../../shared/services/student-group.service";
+import {StudentGroup} from "../../shared/models/educationalprocess/student-group.model";
+import {StudentGroupService} from "../../shared/services/educationalprocess/student-group.service";
 import {Observable, of} from "rxjs";
 import {StudentGroupTableComponent} from "./student-group-table/student-group-table.component";
 import {StudentGroupEditComponent} from "./student-group-edit/student-group-edit.component";

@@ -1,10 +1,13 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatSidenav} from "@angular/material/sidenav";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {delay, Subscription, take} from "rxjs";
 import {MenuItem} from "primeng/api";
 import {ISelectModal} from '../../models/select.model';
 import {AvailableLangs, TranslocoService} from "@ngneat/transloco";
+import {Router} from '@angular/router';
+import {AuthService} from "../../services/auth/auth.service";
+import {LOCAL_STORAGE, StorageService} from "ngx-webstorage-service";
 
 
 @Component({
@@ -17,57 +20,48 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
-  @Input()
-  isLogin: boolean
+  private _isLogin: boolean
 
   langs: ISelectModal[];
   selectedLang: ISelectModal = {name: 'en_EN', code: 'en'};
 
   sideNavNavigations: MenuItem[];
-  menuBarNavigations: MenuItem[];
 
   private subscription: Subscription = Subscription.EMPTY;
   availableLangs: AvailableLangs;
 
-  constructor(private translocoService: TranslocoService, private observer: BreakpointObserver) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private translocoService: TranslocoService,
+    private observer: BreakpointObserver,
+    @Inject(LOCAL_STORAGE) private storage: StorageService) {
   }
 
   ngOnInit(): void {
-    this.langs = [{name: 'en_EN', code: 'en'}, {name: 'ru_RU', code: 'ru'}];
-    this.sideNavNavigations = [
-      {
-        label: 'Users',
-        icon: 'pi pi-pw pi-users',
-        items: [
-          {
-            label: 'Students',
-            icon: 'pi pi-fw pi-user',
-            routerLink: 'students'
-          },
-        ]
-      },
-    ];
-
-    this.menuBarNavigations = [];
-
-    this.translocoService.langChanges$.subscribe(lang =>  {
-
-    });
+    this.setSelectedLang();
+    this.setSideNavNavigations();
   }
 
   ngAfterViewInit() {
-    this.observer
-      .observe(['(max-width: 800px)'])
-      .pipe(delay(1))
-      .subscribe((res) => {
-        if (res.matches) {
-          this.sidenav.mode = 'over';
-          this.sidenav.close();
-        } else {
-          this.sidenav.mode = 'side';
-          this.sidenav.open();
-        }
-      });
+    this.observer.observe(['(max-width: 800px)']).pipe(delay(1)).subscribe(res => {
+      if (res.matches) {
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
+      } else {
+        this.sidenav.mode = 'side';
+        this.sidenav.open();
+      }
+    });
+  }
+
+  get isLogin(): boolean {
+    return this._isLogin;
+  }
+
+  @Input()
+  set isLogin(value: boolean) {
+    this._isLogin = value;
   }
 
   get activeLang() {
@@ -81,6 +75,40 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(() => {
         this.translocoService.setActiveLang(lang);
       });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  redirectToAdminFullInfo() {
+    if (this.storage.get('user')) {
+      this.router.navigate(['admins', this.storage.get('user'), 'full-info']);
+    }
+  }
+
+  setSelectedLang() {
+    this.translocoService.langChanges$.subscribe(() => this.langs = [{
+      name: this.translocoService.translate('en_EN'),
+      code: 'en'
+    }, {
+      name: this.translocoService.translate('ru_RU'),
+      code: 'ru'
+    }]);
+  }
+
+  setSideNavNavigations() {
+    this.translocoService.langChanges$.subscribe(() => this.sideNavNavigations = [{
+      label: this.translocoService.translate('USERS'),
+      icon: 'pi pi-pw pi-users',
+      items: [
+        {
+          label: this.translocoService.translate('STUDENTS'),
+          icon: 'pi pi-fw pi-user',
+          routerLink: 'students'
+        },
+      ]
+    }])
   }
 
   ngOnDestroy() {

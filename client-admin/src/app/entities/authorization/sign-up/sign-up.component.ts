@@ -1,43 +1,46 @@
-import {Component, HostListener, OnInit, ViewChildren} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {TranslocoService} from "@ngneat/transloco";
 import {AuthService} from "../../../shared/services/auth/auth.service";
 import {MessageService} from "primeng/api";
-import {CredentialRepresentation, User} from "../../../shared/models/user/user.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {GenderType, User} from "../../../shared/models/user/user.model";
+import {ISelectModal} from "../../../shared/models/select.model";
 
 @Component({
-  selector: 'lms-sign-up',
+  selector: 'sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss', '../sign-in/sign-in.component.scss']
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
 
-  @ViewChildren('input') refInputs: { valid: boolean, validSave: boolean }[];
-
-  key: string;
   registerForm: FormGroup;
   loading = false;
   submitted = false;
+  userType = 'ADMIN'
+  genderTypeForSelect: ISelectModal[] = [];
+  selectedGender: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private _authService: AuthService,
     private _router: Router,
-    private route: ActivatedRoute,
-    private translate: TranslocoService,
+    private translocoService: TranslocoService,
     public messageService: MessageService,
   ) {
   }
 
   ngOnInit(): void {
+    this.setGenderTypeForSelect();
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(4)]]
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      gender: ['', Validators.required],
+      birthDay: ['', Validators.required]
     });
-    this.route.data.subscribe(({key}) => this.key = key);
   }
 
   @HostListener('document:keypress', ['$event'])
@@ -53,17 +56,32 @@ export class SignUpComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this._authService.signUp(this.createClient(), 'ADMIN', this.key).subscribe(() => {
-      this.loading = false;
-      this._router.navigate(['authorization', 'sign-in']);
-    }, err => {
-      this.loading = false;
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Invalid Credentials',
-        life: 20000
-      });
+    const client = this.createClient();
+    this._authService.signUp(client, this.userType).subscribe({
+      next: () => {
+        this.loading = false;
+        this._router.navigate(['authorization', 'sign-in']);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.translocoService.langChanges$.subscribe(() => {
+          if (err.error.status.toUpperCase() === 'CONFLICT') {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: this.translocoService.translate('EMAIL_ADDRESS_IS_ALREADY_IN_USE'),
+              life: 20000
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: this.translocoService.translate('SOMETHING_WENT_WRONG'),
+              life: 20000
+            });
+          }
+        });
+      }
     });
   }
 
@@ -76,10 +94,22 @@ export class SignUpComponent implements OnInit {
     client.username = this.getFormControls['username'].value;
     client.firstName = this.getFormControls['firstName'].value;
     client.lastName = this.getFormControls['lastName'].value;
-    client.credentials = [new CredentialRepresentation(this.getFormControls['password'].value)];
+    client.email = this.getFormControls['email'].value;
     client.password = this.getFormControls['password'].value;
+    client.gender = this.getFormControls['gender'].value;
+    client.birthDay = this.getFormControls['birthDay'].value;
     return client;
   }
 
+  setGenderTypeForSelect() {
+    this.translocoService.langChanges$.subscribe(() => {
+      this.genderTypeForSelect = [{
+        name: this.translocoService.translate('MALE'),
+        code: GenderType.MALE
+      }, {
+        name: this.translocoService.translate('FEMALE'),
+        code: GenderType.FEMALE
+      }];
+    });
+  }
 }
-

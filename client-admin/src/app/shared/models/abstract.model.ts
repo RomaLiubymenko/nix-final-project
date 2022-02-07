@@ -1,5 +1,5 @@
 export interface AbstractModel {
   uuid?: string;
-  created?: string;
-  updated?: string;
+  created?: Date;
+  updated?: Date;
 }

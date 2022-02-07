@@ -17,7 +17,7 @@ mat-sidenav {
 .content {
   height: calc(100vh - 98px);
   border-radius: 10px;
-  margin: 16px 16px 16px 32px;
+  margin: 16px 16px 16px 30px;
 }
 
 mat-sidenav-container {
@@ -44,10 +44,10 @@ mat-divider {
 }
 
 ::ng-deep .p-panelmenu {
-  font-size: 0.9rem !important;
+  font-size: 0.85rem !important;
 
   .p-panelmenu-header-link {
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important;
     background: #9999ff !important;
     padding: 0.5rem 0.5rem !important;
   }
@@ -76,19 +76,36 @@ mat-divider {
 .lang-select ::ng-deep .p-dropdown {
 
   .p-inputtext, .p-dropdown-item, .p-dropdown-panel {
-    color: white !important;
+    color: #673AB7 !important;
     font-size: 0.9rem !important;
     padding: 0.7px !important;
-    background: #673AB7;
+    background: #a4a4ff;
   }
 
   .p-dropdown-trigger {
+    width: 1.5rem !important;
     padding-left: 0.5px !important;
     padding-right: 0.2px !important;
-    background: #673AB7;
-    color: white !important;
+    background: #a4a4ff;
+    color: #673AB7 !important;
   }
 }
+
 .login {
-  margin: 2rem 35rem;
+  padding-top: 10rem;
+  padding-left: 570px;
+  padding-right: 570px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.side-nav {
+
+  .mat-sidenav-content {
+    margin-left: unset !important;
+  }
+
+  .content {
+    margin-left: 14.2rem !important;
+  }
 }

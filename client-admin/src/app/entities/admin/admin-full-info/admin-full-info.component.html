@@ -1,0 +1,35 @@
+<ng-container *transloco="let translate">
+  <div class="grid">
+    <div class="col-12">
+      <p-panel [header]="translate('USERNAME') + ':'">
+        {{admin.username}}
+      </p-panel>
+    </div>
+    <div class="col-12">
+      <p-panel [header]="translate('FIRST_NAME') + ':'">
+        {{admin.firstName}}
+      </p-panel>
+    </div>
+    <div class="col-12">
+      <p-panel [header]="translate('LAST_NAME') + ':'">
+        {{admin.lastName}}
+      </p-panel>
+    </div>
+    <div class="col-12">
+      <p-panel [header]="translate('EMAIL_ADDRESS') + ':'">
+        {{admin.email}}
+      </p-panel>
+    </div>
+    <div class="col-12">
+      <p-panel [header]="translate('GENDER') + ':'">
+        {{admin.gender}}
+      </p-panel>
+    </div>
+    <div class="col-12">
+      <p-panel [header]="translate('BIRTHDAY') + ':'">
+        {{admin.birthDay}}
+      </p-panel>
+    </div>
+  </div>
+</ng-container>
+

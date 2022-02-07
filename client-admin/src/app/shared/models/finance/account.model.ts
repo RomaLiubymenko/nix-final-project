@@ -1,5 +1,5 @@
-import {AbstractModel} from "./abstract.model";
-import {IUser} from "./user/user.model";
+import {AbstractModel} from "../abstract.model";
+import {IUser} from "../user/user.model";
 
 export interface IAccount extends AbstractModel {
   name?: string;
@@ -16,25 +16,29 @@ export class Account implements IAccount {
 
   constructor(
     public uuid?: string,
-    public created?: string,
-    public updated?: string,
+    public created?: Date,
+    public updated?: Date,
     public name?: string,
     public description?: string,
     public accountChangedDate?: Date,
     public balance?: number,
     public isBlocked?: boolean,
     public type?: AccountType,
+    public ownershipType?: AccountOwnershipType,
     public users?: IUser[],
-    public ownershipType?: AccountOwnershipType
   ) {
   }
 }
 
 export enum AccountType {
-  STANDARD = 'STANDARD', WITHDRAWAL = "WITHDRAWAL", REPLENISHMENT = "REPLENISHMENT"
+  STANDARD = 'STANDARD',
+  WITHDRAWAL = "WITHDRAWAL",
+  REPLENISHMENT = "REPLENISHMENT"
 }
 
 export enum AccountOwnershipType {
-  STUDENT = "STUDENT", TUTOR = "TUTOR", ADMIN = "ADMIN"
+  STUDENT = "STUDENT",
+  TUTOR = "TUTOR",
+  ADMIN = "ADMIN"
 }
 

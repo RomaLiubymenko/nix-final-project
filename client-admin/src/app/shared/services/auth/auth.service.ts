@@ -1,39 +1,16 @@
 import {EventEmitter, Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {MessageService} from "primeng/api";
-import {interval as observableInterval, Observable, of, timer as observableTimer} from 'rxjs';
+import {Observable, of, timer as observableTimer} from 'rxjs';
 import {environment} from "../../../../environments/environment";
 import {UserService} from '../user/user.service';
 import {User} from "../../models/user/user.model";
-import {KeycloakServerInfo} from "../../models/keycloak-server-info.model";
 import {LOCAL_STORAGE, StorageService} from "ngx-webstorage-service";
 import {CustomHttpParamEncoder} from "../../utils/request/custom-http-param-encoder";
 import {httpOptions} from "../../utils/request/http-body-constant";
-
-export class Credentials {
-  public username: string;
-  public password: string;
-
-  constructor(username: string, password: string) {
-    this.username = username;
-    this.password = password;
-  }
-}
-
-export class AccessTokenRepresentation {
-  public access_token: string;
-  public expires_in: number;
-  public expires_in_date: Date;
-  public refresh_expires_in: number;
-  public refresh_expires_in_date: Date;
-  public refresh_token: string;
-  public token_type: string;
-  public not_before_policy: number;
-  public session_state: string;
-  public issued_at: number;
-  public scope: string;
-}
+import {AccessTokenRepresentation} from "../../models/auth/access-token-representation.model";
+import {KeycloakInfo} from "../../models/auth/keycloak-info.model";
+import {Credentials} from "../../models/auth/credentials.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +23,12 @@ export class AuthService {
   private _expiresIn: number;
   private _refreshExpiresIn: number;
   private _issuedAt: number;
-  private _keycloakServerInfo: KeycloakServerInfo = new KeycloakServerInfo();
+  private _keycloakInfo: KeycloakInfo = new KeycloakInfo();
+  userChange = new EventEmitter();
+  private _signUpUrl = `${environment.apiUrl}/api/v1/auth/signup`;
+  private _keycloakInfoUrl: string = `${environment.apiUrl}/api/v1/auth/keycloak-info`;
+  private _keycloakTokenUrl: string;
+  private _keycloakUserInfoUrl: string;
 
   constructor(
     @Inject(LOCAL_STORAGE) private storage: StorageService,
@@ -60,12 +42,12 @@ export class AuthService {
     }
   }
 
-  get keycloakServerInfo(): KeycloakServerInfo {
-    return this._keycloakServerInfo;
+  get keycloakInfo(): KeycloakInfo {
+    return this._keycloakInfo;
   }
 
-  set keycloakServerInfo(value: KeycloakServerInfo) {
-    this._keycloakServerInfo = value;
+  set keycloakInfo(value: KeycloakInfo) {
+    this._keycloakInfo = value;
   }
 
   get user(): User {
@@ -78,8 +60,6 @@ export class AuthService {
       this.userChange.emit(this.user);
     }, 100);
   }
-
-  userChange = new EventEmitter();
 
   get accessToken(): AccessTokenRepresentation {
     return this._accessToken;
@@ -114,15 +94,16 @@ export class AuthService {
   }
 
   public initKeycloakServerInfo(): void {
-    this._httpClient.get<KeycloakServerInfo>(`${environment.apiUrl}/api/auth/keycloak-server-info`).subscribe((value) => {
-      this._keycloakServerInfo = value;
+    this._httpClient.get<KeycloakInfo>(this._keycloakInfoUrl).subscribe((value) => {
+      this.keycloakInfo = value;
+      this._keycloakTokenUrl = `${this.keycloakInfo.authServerUrl}realms/${this.keycloakInfo.realm}/protocol/openid-connect/token`;
+      this._keycloakUserInfoUrl = `${this.keycloakInfo.authServerUrl}realms/${this.keycloakInfo.realm}/protocol/openid-connect/userinfo`;
     });
   }
 
   public login(credentials: Credentials): Observable<any> {
-    return this._httpClient.post<AccessTokenRepresentation>(
-      `${this.keycloakServerInfo.authServerUrl}realms/${this.keycloakServerInfo.realm}/protocol/openid-connect/token`,
-      `username=${credentials.username}&password=${credentials.password}&grant_type=${this.keycloakServerInfo.grantType}&client_id=${this.keycloakServerInfo.clientId}`, {
+    return this._httpClient.post<AccessTokenRepresentation>(this._keycloakTokenUrl,
+      `username=${credentials.username}&password=${credentials.password}&grant_type=${this.keycloakInfo.grantType}&client_id=${this.keycloakInfo.clientId}`, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         }
@@ -139,10 +120,6 @@ export class AuthService {
     this._issuedAt = new Date().getTime();
     token.issued_at = this._issuedAt
     this.storage.set('token', token);
-    let h = new Date();
-    h.setTime(this._issuedAt);
-    let g = new Date();
-    g.setTime(this._expiresIn);
     this.startupTokenRefresh();
   }
 
@@ -152,52 +129,43 @@ export class AuthService {
     this._expiresIn = new Date(token.expires_in_date).getTime();
     this.refreshExpiresIn = new Date(token.refresh_expires_in_date).getTime();
     this._issuedAt = token.issued_at;
-    let h = new Date();
-    h.setTime(this._issuedAt);
-    let g = new Date();
-    g.setTime(this._expiresIn);
     this.startupTokenRefresh();
   }
 
   public setCurrentUser(username: string) {
     this.userService.getUserByUsername(username).subscribe((value) => {
-      this.storage.set('current user', value.uuid);
+      this.storage.set('user', value.uuid);
       this.user = value;
     });
   }
 
   public removeCurrentUserFromLocalStorage() {
-    this.storage.remove('current user')
+    this.storage.remove('user')
   }
 
   public getUserInfo(credentials: Credentials, accessToken: string): Observable<any> {
-    return this._httpClient.post<AccessTokenRepresentation>(
-      `${this.keycloakServerInfo.authServerUrl}realms/${this.keycloakServerInfo.realm}/protocol/openid-connect/userinfo`, null, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
+    return this._httpClient.post<AccessTokenRepresentation>(this._keycloakUserInfoUrl, null, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
   }
 
   public refreshToken(): Observable<any> {
     const value: AccessTokenRepresentation = this.storage.get('token');
     if (!!value) {
       let refreshTokenRequest: Observable<any>;
-      if (Object.keys(this._keycloakServerInfo).length == 0) {
-        this._httpClient.get<KeycloakServerInfo>(`${environment.apiUrl}/api/auth/keycloak-server-info`)
-          .subscribe((info: KeycloakServerInfo) => {
-
-            refreshTokenRequest = this._httpClient.post<AccessTokenRepresentation>(
-              `${info.authServerUrl}realms/${info.realm}/protocol/openid-connect/token`,
-              `grant_type=refresh_token&client_id=${info.clientId}&refresh_token=${value.refresh_token}`, {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-              });
-          });
+      if (Object.keys(this._keycloakInfo).length == 0) {
+        this._httpClient.get<KeycloakInfo>(this._keycloakInfoUrl).subscribe((info: KeycloakInfo) => {
+          refreshTokenRequest = this._httpClient.post<AccessTokenRepresentation>(`${info.authServerUrl}realms/${info.realm}/protocol/openid-connect/token`,
+            `grant_type=refresh_token&client_id=${info.clientId}&refresh_token=${value.refresh_token}`, {
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            });
+        });
       } else {
-        refreshTokenRequest = this._httpClient.post<AccessTokenRepresentation>(
-          `${this.keycloakServerInfo.authServerUrl}realms/${this.keycloakServerInfo.realm}/protocol/openid-connect/token`,
-          `grant_type=refresh_token&client_id=${this.keycloakServerInfo.clientId}&refresh_token=${value.refresh_token}`, {
+        refreshTokenRequest = this._httpClient.post<AccessTokenRepresentation>(this._keycloakTokenUrl,
+          `grant_type=refresh_token&client_id=${this.keycloakInfo.clientId}&refresh_token=${value.refresh_token}`, {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           });
       }
@@ -221,14 +189,13 @@ export class AuthService {
       // Use the delay in a timer to
       // run the refresh at the proper time
       const source = observableTimer(delay);
-
       // Once the delay time from above is
       // reached, get a new JWT and schedule
       // additional refreshes
       source.subscribe(() => {
-        if (Object.keys(this._keycloakServerInfo).length == 0) {
-          this._httpClient.get<KeycloakServerInfo>(`${environment.apiUrl}/api/auth/keycloak-server-info`).subscribe((value) => {
-            this._keycloakServerInfo = value;
+        if (Object.keys(this._keycloakInfo).length == 0) {
+          this._httpClient.get<KeycloakInfo>(this._keycloakInfoUrl).subscribe((value) => {
+            this._keycloakInfo = value;
             this.getNewToken();
           });
         } else {
@@ -262,19 +229,7 @@ export class AuthService {
     return !!this.storage.get('token') && !this.isRefreshTokenExpired();
   }
 
-  public scheduleRefresh(): void {
-    // The delay to generate in this case is the difference
-    // between the expiry time and the issued at time
-    const now: number = new Date().valueOf();
-    const delay: number = (this._refreshExpiresIn) - now;
-    const source = observableInterval(delay);
-
-    this.refreshSubscription = source.subscribe(() => {
-      this.getNewToken();
-    });
-  }
-
-  public unscheduleRefresh(): void {
+  public unscheduledRefresh(): void {
     if (this.refreshSubscription) {
       this.refreshSubscription.unsubscribe();
     }
@@ -282,12 +237,10 @@ export class AuthService {
 
   public getNewToken(): void {
     if (this.isAuthenticated()) {
-      this.refreshToken().subscribe(data => {
-          this.writeDownTokenInfo(data);
-        },
-        () => {
-          this.logout();
-        });
+      this.refreshToken().subscribe({
+        next: data => this.writeDownTokenInfo(data),
+        error: () => this.logout()
+      });
     } else {
       this.logout();
     }
@@ -295,30 +248,17 @@ export class AuthService {
 
   public logout() {
     this.storage.remove('token');
-    this.storage.remove('current user');
-    this.unscheduleRefresh();
+    this.storage.remove('user');
+    this.unscheduledRefresh();
+    console.log(this._router.url)
     window.location.href = this._router.url;
   }
 
-  signUp(client: User, userType: string, key?: string): Observable<any> {
+  signUp(client: User, userType: string): Observable<any> {
     const params = new HttpParams({encoder: new CustomHttpParamEncoder()}).set('user-type', userType.toUpperCase());
-    if (key != undefined) {
-      return this._httpClient.post(`${environment.apiUrl}/api/auth/signup/${key}`, client, {
-        headers: httpOptions["headers"],
-        params: params
-      });
-    }
-    return this._httpClient.post(`${environment.apiUrl}/api/auth/signup`, client, {
+    return this._httpClient.post(this._signUpUrl, client, {
       headers: httpOptions["headers"],
       params: params
     });
   }
-
-  public invitation(author: User, invited: User): Observable<string> {
-    return this._httpClient.post<string>(`${environment.apiUrl}/api/auth/invitation`, {
-      author,
-      invited,
-    });
-  }
-
 }

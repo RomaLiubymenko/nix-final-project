@@ -43,7 +43,7 @@ export class BreadcrumbComponent implements OnInit {
 
     for (const child of children) {
       const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
-      if (routeURL != 'auth' && routeURL != 'redirect') {
+      if (routeURL != 'authorization') {
         const label = child.snapshot.data[BreadcrumbComponent.ROUTE_DATA_BREADCRUMB];
         if (routeURL !== '') {
           routerLink += `/${routeURL}`;

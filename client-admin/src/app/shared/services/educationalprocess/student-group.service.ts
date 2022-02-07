@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AbstractService} from "./abstract.service";
+import {AbstractService} from "../abstract.service";
 import {HttpClient} from "@angular/common/http";
-import {StudentGroup} from "../models/student-group.model";
+import {StudentGroup} from "../../models/educationalprocess/student-group.model";
 
 @Injectable({
   providedIn: 'root'

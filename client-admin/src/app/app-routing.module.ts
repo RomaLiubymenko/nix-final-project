@@ -5,6 +5,7 @@ import {studentGroupsRoute} from "./entities/student-group/student-group.route";
 import {studentsRoute} from "./entities/student/student.route";
 import {AuthGuardService} from "./shared/services/auth/auth-guard.service";
 import {authorizationRoute} from "./entities/authorization/authorization.route";
+import {adminRoute} from "./entities/admin/admin.route";
 
 const LAYOUT_ROUTES = [navigationRoute];
 
@@ -14,6 +15,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuardService],
     data: {breadcrumb: ''},
     children: [
+      {path: 'admins', data: {breadcrumb: 'ADMIN'}, children: adminRoute},
       {path: 'students', data: {breadcrumb: 'STUDENTS'}, children: studentsRoute},
       {path: 'student-groups', data: {breadcrumb: 'STUDENT-GROUPS'}, children: studentGroupsRoute},
     ],
@@ -26,8 +28,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       [
         ...LAYOUT_ROUTES,
-        ...appRoutes,
-        {path: 'auth/redirect', redirectTo: ''}
+        ...appRoutes
       ]
     )
   ],

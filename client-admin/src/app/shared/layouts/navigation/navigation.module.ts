@@ -16,6 +16,7 @@ import {PanelMenuModule} from "primeng/panelmenu";
 import {InputTextModule} from "primeng/inputtext";
 import {ButtonModule} from "primeng/button";
 import {DropdownModule} from "primeng/dropdown";
+import {TranslocoRootModule} from "../../../transloco-root.module";
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import {DropdownModule} from "primeng/dropdown";
     PanelMenuModule,
     InputTextModule,
     ButtonModule,
-    DropdownModule
+    DropdownModule,
+    TranslocoRootModule
   ],
   declarations: [
     NavigationComponent,

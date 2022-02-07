@@ -1,6 +1,7 @@
-import {AbstractModel} from "./abstract.model";
-import {Student} from "./user/student.model";
-
+import {AbstractModel} from "../abstract.model";
+import {Student} from "../user/student.model";
+import {Course} from "./course.model";
+import {Lesson} from "./lesson.model";
 
 export interface IStudentGroup extends AbstractModel {
   name?: string;
@@ -9,15 +10,17 @@ export interface IStudentGroup extends AbstractModel {
   startDate?: Date;
   endDate?: Date;
   isFormed?: boolean
-  students?: Student[]
+  students?: Student[],
+  course?: Course;
+  lessons?: Lesson[];
 }
 
 export class StudentGroup implements IStudentGroup {
 
   constructor(
     public uuid?: string,
-    public created?: string,
-    public updated?: string,
+    public created?: Date,
+    public updated?: Date,
     public name?: string,
     public description?: string,
     public groupType?: GroupType,
@@ -29,7 +32,9 @@ export class StudentGroup implements IStudentGroup {
 }
 
 export enum GroupType {
-  INDIVIDUAL = 'INDIVIDUAL', MINI_GROUP = 'MINI_GROUP', GROUP = 'GROUP'
+  INDIVIDUAL = 'INDIVIDUAL',
+  MINI_GROUP = 'MINI_GROUP',
+  GROUP = 'GROUP'
 }
 
 

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
@@ -25,7 +25,7 @@ import {RadioButtonModule} from "primeng/radiobutton";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RatingModule} from "primeng/rating";
 import {ToolbarModule} from "primeng/toolbar";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ProgressBarModule} from "primeng/progressbar";
 import {ToastModule} from "primeng/toast";
 import {ButtonModule} from "primeng/button";
@@ -43,6 +43,15 @@ import {SignInComponent} from "./entities/authorization/sign-in/sign-in.componen
 import {SignUpComponent} from "./entities/authorization/sign-up/sign-up.component";
 import {AuthService} from "./shared/services/auth/auth.service";
 import {AuthGuardService} from "./shared/services/auth/auth-guard.service";
+import {registerLocaleData} from "@angular/common";
+import localeRuUa from '@angular/common/locales/ru-UA';
+import localeRu from '@angular/common/locales/ru';
+import localeUa from '@angular/common/locales/uk';
+import {AuthInterceptor} from "./shared/services/auth/auth-interceptor.service";
+import {TranslocoService} from "@ngneat/transloco";
+import { AdminFullInfoComponent } from './entities/admin/admin-full-info/admin-full-info.component';
+import {DividerModule} from "primeng/divider";
+import {PanelModule} from "primeng/panel";
 
 const LMS_MODULES = [
   NavigationModule
@@ -72,8 +81,17 @@ const PRIMENG_MODULES = [
   ProgressSpinnerModule,
   DynamicDialogModule,
   SelectButtonModule,
-  CheckboxModule
+  CheckboxModule,
+  DividerModule,
+  PanelModule,
 ];
+
+const preLoad = {
+  provide: APP_INITIALIZER,
+  multi: true,
+  useFactory: preloadUser,
+  deps: [TranslocoService]
+};
 
 @NgModule({
   declarations: [
@@ -84,6 +102,7 @@ const PRIMENG_MODULES = [
     StudentEditComponent,
     StudentGroupTableComponent,
     StudentGroupEditComponent,
+    AdminFullInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,15 +115,32 @@ const PRIMENG_MODULES = [
     MDBBootstrapModule.forRoot(),
     ...PRIMENG_MODULES,
     ...LMS_MODULES,
-    TranslocoRootModule,
+    TranslocoRootModule
   ],
   providers: [
     MessageService,
     ConfirmationService,
     AuthService,
-    AuthGuardService
+    AuthGuardService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    preLoad
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 }
+
+export function preloadUser(transloco: TranslocoService) {
+  return function () {
+    transloco.setActiveLang(transloco.getDefaultLang());
+    return transloco.load(transloco.getDefaultLang()).toPromise();
+  }
+}
+
+registerLocaleData(localeRuUa);
+registerLocaleData(localeRu);
+registerLocaleData(localeUa);

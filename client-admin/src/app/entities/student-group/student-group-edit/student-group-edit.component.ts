@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {GroupType, StudentGroup} from 'src/app/shared/models/student-group.model';
-import {StudentGroupService} from "../../../shared/services/student-group.service";
+import {GroupType, StudentGroup} from 'src/app/shared/models/educationalprocess/student-group.model';
+import {StudentGroupService} from "../../../shared/services/educationalprocess/student-group.service";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {HttpResponse} from "@angular/common/http";
 import {Student} from "../../../shared/models/user/student.model";

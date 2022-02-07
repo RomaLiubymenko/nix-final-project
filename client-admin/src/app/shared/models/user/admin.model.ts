@@ -1,10 +1,11 @@
 import {GenderType, IUser} from "./user.model";
 
 export class Admin implements IUser {
+
   constructor(
     public uuid?: string,
-    public created?: string,
-    public updated?: string,
+    public created?: Date,
+    public updated?: Date,
     public username?: string,
     public firstName?: string,
     public lastName?: string,
