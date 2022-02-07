@@ -14,7 +14,7 @@
     </properties>
 
     <modules>
-        <module>auth</module>
+<!--        <module>auth</module>-->
         <module>server</module>
         <module>client-admin</module>
         <module>client-student</module>
