@@ -18,7 +18,7 @@ export class Tutor implements IUser {
     public lastName?: string,
     public email?: string,
     public gender?: GenderType,
-    public birthDay?: Date,
+    public birthDay?: string,
     public activated?: boolean,
     public status?: TutorStatus,
     public accountingOfPayments?: AccountingOfPayment[],

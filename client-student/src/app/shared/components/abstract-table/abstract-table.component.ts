@@ -131,34 +131,35 @@ export abstract class AbstractTableComponent<ENTITY extends AbstractModel, FILTE
   }
 
   deleteSelectedElements() {
-    this.translocoService.langChanges$.subscribe(() => {
-      this.confirmationService.confirm({
-        message: this.translocoService.translate('DELETION_WARNING_MESSAGE') + '?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.entryService.deleteEntities(this.selectedElementsForDelete).subscribe({
-            next: () => {
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Successful',
-                detail: this.translocoService.translate('ENTRIES_DELETED_SUCCESSFULLY'),
-                life: 3000
-              });
-              this.selectedElementsForDelete.length = 0;
-              this.loadAll()
-            },
-            error: err => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: err.error.error.join('\n'),
-                life: 20000
-              });
-            }
-          });
-        }
-      });
+    this.confirmationService.confirm({
+      message: this.translocoService.translate('DELETION_WARNING_MESSAGE') + '?',
+      header: this.translocoService.translate('CONFIRMATION'),
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.entryService.deleteEntities(this.selectedElementsForDelete).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translocoService.translate('SUCCESSFUL'),
+              detail: this.translocoService.translate('ENTRIES_DELETED_SUCCESSFULLY'),
+              life: 3000
+            });
+            this.selectedElementsForDelete.length = 0;
+            this.loadAll()
+          },
+          error: err => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translocoService.translate('ERROR'),
+              detail: err.error.error.join('\n'),
+              life: 20000
+            });
+          }
+        });
+      },
+      reject: () => {
+        this.confirmationService.close();
+      }
     });
   }
 

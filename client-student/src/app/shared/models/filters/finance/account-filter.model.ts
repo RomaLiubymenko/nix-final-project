@@ -6,7 +6,7 @@ export class AccountFilter implements IAbstractFilter {
   constructor(
     public name?: string,
     public description?: string,
-    public accountChangedDate?: Date,
+    public accountChangedDate?: string,
     public balance?: string,
     public isBlocked?: string,
     public type?: AccountType,

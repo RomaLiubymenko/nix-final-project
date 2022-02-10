@@ -128,8 +128,8 @@ export class AppModule {
 
 export function preloadUser(transloco: TranslocoService) {
   return function () {
-    transloco.setActiveLang(transloco.getDefaultLang());
-    return transloco.load(transloco.getDefaultLang()).toPromise();
+    transloco.setActiveLang(transloco.getActiveLang());
+    return transloco.load(transloco.getActiveLang()).toPromise();
   }
 }
 

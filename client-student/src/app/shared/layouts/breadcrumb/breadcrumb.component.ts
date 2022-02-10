@@ -29,12 +29,18 @@ export class BreadcrumbComponent implements OnInit {
       )
       .subscribe(() => {
         this.translocoService.langChanges$.subscribe(lang => {
-          this.menuItems = this.createBreadcrumbs(this.activatedRoute.root, lang)!
+          this.menuItems = this.createBreadcrumbs(this.activatedRoute.root)!
+          this.menuItems = this.menuItems.map(item => {
+            return {
+              routerLink: item.routerLink,
+              label: this.translocoService.translate(item.label!)
+            }
+          })
         });
       });
   }
 
-  private createBreadcrumbs(route: ActivatedRoute, lang: string, routerLink: string = '', breadcrumbs: MenuItem[] = []): MenuItem[] | undefined {
+  private createBreadcrumbs(route: ActivatedRoute, routerLink: string = '', breadcrumbs: MenuItem[] = []): MenuItem[] | undefined {
     const children: ActivatedRoute[] = route.children;
 
     if (!children.length) {
@@ -48,14 +54,13 @@ export class BreadcrumbComponent implements OnInit {
         if (routeURL !== '') {
           routerLink += `/${routeURL}`;
         }
-        const localeLabel = this.translocoService.translate(label);
-        const isExistPath = breadcrumbs.filter(breadcrumb => breadcrumb.label == localeLabel).length > 0;
+        const isExistPath = breadcrumbs.filter(breadcrumb => breadcrumb.label == label).length > 0;
 
         if (label && !isExistPath) {
-          breadcrumbs.push({label: localeLabel, routerLink});
+          breadcrumbs.push({label: label, routerLink});
         }
 
-        return this.createBreadcrumbs(child, lang, routerLink, breadcrumbs);
+        return this.createBreadcrumbs(child, routerLink, breadcrumbs);
       }
     }
   }
