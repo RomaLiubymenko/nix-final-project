@@ -45,7 +45,14 @@ public interface LessonMapper extends CommonMapper<Lesson, LessonTableDto, Lesso
     LessonProfileDto toProfileDto(Lesson entity);
 
     @Named("forTutorProfileDto")
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "course", ignore = true)
+    @Mapping(target = "room", ignore = true)
     @Mapping(target = "tutors", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     LessonProfileDto lessonToLessonProfileDtoForTutorProfileDto(Lesson entity);
 
     @Named("forStudentProfileDto")
@@ -60,26 +67,68 @@ public interface LessonMapper extends CommonMapper<Lesson, LessonTableDto, Lesso
     LessonProfileDto lessonToLessonProfileDtoForStudentProfileDto(Lesson entity);
 
     @Named("forRoomProfileDto")
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "course", ignore = true)
     @Mapping(target = "room", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     LessonProfileDto lessonToLessonProfileDtoForRoomProfileDto(Lesson entity);
 
     @Named("forCourseProfileDto")
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "topics", ignore = true)
     @Mapping(target = "course", ignore = true)
+    @Mapping(target = "room", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     LessonProfileDto lessonToLessonProfileDtoForCourseProfileDto(Lesson entity);
 
     @Named("forStudentGroupProfileDto")
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "course", ignore = true)
+    @Mapping(target = "room", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
     @Mapping(target = "studentGroups", ignore = true)
     LessonProfileDto lessonToLessonProfileDtoForStudentGroupProfileDto(Lesson entity);
 
     @Named("forSubjectProfileDto")
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
     @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "course", ignore = true)
+    @Mapping(target = "room", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     LessonProfileDto lessonToLessonProfileDtoForSubjectProfileDto(Lesson entity);
 
     @Named("forTopicProfileDto")
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "subject", ignore = true)
     @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "course", ignore = true)
+    @Mapping(target = "room", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     LessonProfileDto lessonToLessonProfileDtoForTopicProfileDto(Lesson entity);
 
     @Named("forAttendanceProfileDto")
+    @Mapping(target = "students", ignore = true)
     @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "course", ignore = true)
+    @Mapping(target = "room", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     LessonProfileDto lessonToLessonProfileDtoForAttendanceProfileDto(Lesson entity);
 }

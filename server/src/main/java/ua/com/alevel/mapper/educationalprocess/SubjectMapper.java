@@ -36,22 +36,42 @@ public interface SubjectMapper extends CommonMapper<Subject, SubjectTableDto, Su
     SubjectProfileDto toProfileDto(Subject entity);
 
     @Named("forTutorProfileDto")
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     @Mapping(target = "tutor", ignore = true)
     SubjectProfileDto subjectToSubjectProfileDtoForTutorProfileDto(Subject entity);
 
     @Named("forCourseProfileDto")
     @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "tutor", ignore = true)
     SubjectProfileDto subjectToSubjectProfileDtoForCourseProfileDto(Subject entity);
 
     @Named("forTopicProfileDto")
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "tutor", ignore = true)
     SubjectProfileDto subjectToSubjectProfileDtoForTopicProfileDto(Subject entity);
 
     @Named("forLessonProfileDto")
+    @Mapping(target = "courses", ignore = true)
     @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "tutor", ignore = true)
     SubjectProfileDto subjectToSubjectProfileDtoForLessonProfileDto(Subject subject);
 
     @Named("forExerciseProfileDto")
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "topics", ignore = true)
     @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "tutor", ignore = true)
     SubjectProfileDto subjectToSubjectProfileDtoForExerciseProfileDto(Subject subject);
 }

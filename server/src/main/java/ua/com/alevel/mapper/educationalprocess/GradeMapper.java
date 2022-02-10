@@ -42,10 +42,12 @@ public interface GradeMapper extends CommonMapper<Grade, GradeTableDto, GradePro
     GradeProfileDto toProfileDto(Grade entity);
 
     @Named("forCourseProfileDto")
+    @Mapping(target = "report", ignore = true)
     @Mapping(target = "course", ignore = true)
     GradeProfileDto gradeToGradeProfileDtoForCourseProfileDto(Grade entity);
 
     @Named("forReportProfileDto")
     @Mapping(target = "report", ignore = true)
+    @Mapping(target = "course", ignore = true)
     GradeProfileDto gradeToGradeProfileDtoForReportProfileDto(Grade entity);
 }

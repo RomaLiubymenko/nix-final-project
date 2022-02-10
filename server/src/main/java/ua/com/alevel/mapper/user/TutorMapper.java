@@ -42,26 +42,62 @@ public interface TutorMapper extends CommonMapper<Tutor, TutorTableDto, TutorPro
     TutorProfileDto toProfileDto(Tutor tutor);
 
     @Named("forAccountingOfPaymentProfileDto")
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     @Mapping(target = "accountingOfPayments", ignore = true)
+    @Mapping(target = "account", ignore = true)
     TutorProfileDto tutorToTutorProfileDtoForAccountingOfPaymentProfileDto(Tutor tutor);
 
     @Named("forCourseProfileDto")
+    @Mapping(target = "reports", ignore = true)
     @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "accountingOfPayments", ignore = true)
+    @Mapping(target = "account", ignore = true)
     TutorProfileDto tutorToTutorProfileDtoForCourseProfileDto(Tutor tutor);
 
     @Named("forSubjectProfileDto")
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "accountingOfPayments", ignore = true)
+    @Mapping(target = "account", ignore = true)
     TutorProfileDto tutorToTutorProfileDtoForSubjectProfileDto(Tutor tutor);
 
     @Named("forLessonProfileDto")
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "courses", ignore = true)
     @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "accountingOfPayments", ignore = true)
+    @Mapping(target = "account", ignore = true)
     TutorProfileDto tutorToTutorProfileDtoForLessonProfileDto(Tutor tutor);
 
     @Named("forReportProfileDto")
     @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "accountingOfPayments", ignore = true)
+    @Mapping(target = "account", ignore = true)
     TutorProfileDto tutorToTutorProfileDtoForReportProfileDto(Tutor tutor);
 
     @Named("forExerciseProfileDto")
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
     @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "accountingOfPayments", ignore = true)
+    @Mapping(target = "account", ignore = true)
     TutorProfileDto tutorToTutorProfileDtoForExerciseProfileDto(Tutor tutor);
 }

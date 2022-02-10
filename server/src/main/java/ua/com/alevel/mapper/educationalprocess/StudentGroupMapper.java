@@ -7,11 +7,6 @@ import ua.com.alevel.mapper.CommonMapper;
 import ua.com.alevel.mapper.user.StudentMapper;
 import ua.com.alevel.persistence.entity.educationalprocess.StudentGroup;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -43,10 +38,14 @@ public interface StudentGroupMapper extends CommonMapper<StudentGroup, StudentGr
     StudentGroupProfileDto studentGroupToStudentGroupProfileDtoForStudentProfileDto(StudentGroup studentGroup);
 
     @Named("forCourseProfileDto")
+    @Mapping(target = "students", ignore = true)
     @Mapping(target = "course", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
     StudentGroupProfileDto studentGroupToStudentGroupProfileDtoForCourseProfileDto(StudentGroup studentGroup);
 
     @Named("forLessonProfileDto")
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "course", ignore = true)
     @Mapping(target = "lessons", ignore = true)
     StudentGroupProfileDto studentGroupToStudentGroupProfileDtoForLessonProfileDto(StudentGroup studentGroup);
 }

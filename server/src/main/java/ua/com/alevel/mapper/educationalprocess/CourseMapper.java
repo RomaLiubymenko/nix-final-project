@@ -54,30 +54,79 @@ public interface CourseMapper extends CommonMapper<Course, CourseTableDto, Cours
     CourseProfileDto courseToCourseProfileDtoForStudentProfileDto(Course course);
 
     @Named("forTutorProfileDto")
+    @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "studentGroup", ignore = true)
     @Mapping(target = "tutors", ignore = true)
     CourseProfileDto courseToCourseProfileDtoForTutorProfileDto(Course course);
 
     @Named("forStudentGroupProfileDto")
+    @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
     @Mapping(target = "studentGroup", ignore = true)
     CourseProfileDto courseToCourseProfileDtoForStudentGroupProfileDto(Course course);
 
     @Named("forSubjectProfileDto")
+    @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "studentGroup", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
     CourseProfileDto courseToCourseProfileDtoForSubjectsProfileDto(Course course);
 
     @Named("forTopicProfileDto")
+    @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
     @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "studentGroup", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
     CourseProfileDto courseToCourseProfileDtoForTopicProfileDto(Course course);
 
     @Named("forLessonProfileDto")
+    @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "topics", ignore = true)
     @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "studentGroup", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
     CourseProfileDto courseToCourseProfileDtoForLessonProfileDto(Course course);
 
     @Named("forGradeProfileDto")
     @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "studentGroup", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
     CourseProfileDto courseToCourseProfileDtoForGradeProfileDto(Course course);
 
     @Named("forExerciseProfileDto")
+    @Mapping(target = "grades", ignore = true)
     @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "topics", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    @Mapping(target = "studentGroup", ignore = true)
+    @Mapping(target = "tutors", ignore = true)
     CourseProfileDto courseToCourseProfileDtoForExerciseProfileDto(Course course);
 }

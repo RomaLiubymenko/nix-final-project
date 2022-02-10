@@ -36,6 +36,7 @@ public interface AttendanceMapper extends CommonMapper<Attendance, AttendanceTab
     AttendanceProfileDto attendanceToAttendanceProfileDtoForStudentProfileDto(Attendance entity);
 
     @Named("forLessonProfileDto")
+    @Mapping(target = "student", ignore = true)
     @Mapping(target = "lesson", ignore = true)
     AttendanceProfileDto attendanceToAttendanceProfileDtoForLessonProfileDto(Attendance entity);
 }

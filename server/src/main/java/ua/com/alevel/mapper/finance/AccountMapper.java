@@ -24,7 +24,6 @@ public interface AccountMapper extends CommonMapper<Account, AccountTableDto, Ac
     AccountTableDto toTableDto(Account entity);
 
     @Override
-    @Mapping(target = "users", ignore = true)
     AccountProfileDto toProfileDto(Account entity);
 
     @Named("forUserProfileDto")

@@ -33,18 +33,30 @@ public interface TopicMapper extends CommonMapper<Topic, TopicTableDto, TopicPro
     TopicProfileDto toProfileDto(Topic entity);
 
     @Named("forCourseProfileDto")
+    @Mapping(target = "subject", ignore = true)
     @Mapping(target = "course", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     TopicProfileDto topicToTopicProfileDtoForCourseProfileDto(Topic entity);
 
     @Named("forSubjectProfileDto")
     @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "course", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     TopicProfileDto topicToTopicProfileDtoForSubjectProfileDto(Topic entity);
 
     @Named("forLessonProfileDto")
+    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "course", ignore = true)
     @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     TopicProfileDto topicToTopicProfileDtoForLessonProfileDto(Topic entity);
 
     @Named("forExerciseProfileDto")
+    @Mapping(target = "subject", ignore = true)
+    @Mapping(target = "course", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "exercises", ignore = true)
     TopicProfileDto topicToTopicProfileDtoForExerciseProfileDto(Topic entity);
 }

@@ -33,7 +33,10 @@ public interface ReportMapper extends CommonMapper<Report, ReportTableDto, Repor
     ReportProfileDto toProfileDto(Report entity);
 
     @Named("forTutorProfileDto")
+    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "grade", ignore = true)
     @Mapping(target = "tutor", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     ReportProfileDto reportToReportProfileDtoForTutorProfileDto(Report entity);
 
     @Named("forStudentProfileDto")
@@ -44,10 +47,16 @@ public interface ReportMapper extends CommonMapper<Report, ReportTableDto, Repor
     ReportProfileDto reportToReportProfileDtoForStudentProfileDto(Report entity);
 
     @Named("forGradeProfileDto")
+    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "tutor", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     @Mapping(target = "grade", ignore = true)
     ReportProfileDto reportToReportProfileDtoForGradeProfileDto(Report entity);
 
     @Named("forExerciseProfileDto")
+    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "tutor", ignore = true)
     @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "grade", ignore = true)
     ReportProfileDto reportToReportProfileDtoForExerciseProfileDto(Report entity);
 }

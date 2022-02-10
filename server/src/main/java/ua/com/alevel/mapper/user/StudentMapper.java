@@ -49,26 +49,74 @@ public interface StudentMapper extends CommonMapper<Student, StudentTableDto, St
     StudentProfileDto studentToStudentProfileDtoForAccountReplenishmentsProfileDto(Student student);
 
     @Named("forCourseProfileDto")
+    @Mapping(target = "accountReplenishments", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
     @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     StudentProfileDto studentToCourseProfileDtoForCourseProfileDto(Student student);
 
     @Named("forStudentGroupProfileDto")
+    @Mapping(target = "accountReplenishments", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "role", ignore = true)
     @Mapping(target = "studentGroups", ignore = true)
     StudentProfileDto studentToStudentProfileDtoForStudentGroupProfileDto(Student student);
 
     @Named("forLessonProfileDto")
+    @Mapping(target = "accountReplenishments", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
     @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     StudentProfileDto studentToStudentProfileDtoForLessonProfileDto(Student student);
 
     @Named("forAttendanceProfileDto")
+    @Mapping(target = "accountReplenishments", ignore = true)
     @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     StudentProfileDto studentToStudentProfileDtoForAttendanceProfileDto(Student student);
 
     @Named("forReportProfileDto")
+    @Mapping(target = "accountReplenishments", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
+    @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "courses", ignore = true)
     @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     StudentProfileDto studentToStudentProfileDtoForReportProfileDto(Student student);
 
     @Named("forExerciseProfileDto")
+    @Mapping(target = "accountReplenishments", ignore = true)
+    @Mapping(target = "attendances", ignore = true)
+    @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "exercises", ignore = true)
+    @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "reports", ignore = true)
+    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "studentGroups", ignore = true)
     StudentProfileDto studentToStudentProfileDtoForExerciseProfileDto(Student student);
 }
