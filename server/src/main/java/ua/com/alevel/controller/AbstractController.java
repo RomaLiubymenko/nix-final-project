@@ -14,10 +14,7 @@ import ua.com.alevel.facade.CommonFacade;
 import ua.com.alevel.util.FilterDtoUtil;
 import ua.com.alevel.util.PaginationUtil;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static ua.com.alevel.enumeration.ControllerLogEnum.*;
 
@@ -86,7 +83,7 @@ public abstract class AbstractController<
         // quick fix
         if (pageable == null || pageable.getSort().isUnsorted()) {
             logger.info(GET_ALL_LOG.getLogInfo(), entityName);
-            return ResponseEntity.ok(facade.findAll());
+            return ResponseEntity.ok(new ArrayList<>(facade.findAll()));
         } else {
             HttpHeaders headers;
             Page<TABLE_DTO> page;

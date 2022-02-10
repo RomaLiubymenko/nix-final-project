@@ -23,7 +23,7 @@ public interface CommonFacade<FILTER_DTO extends AbstractFilterDto, TABLE_DTO ex
 
     Optional<PROFILE_DTO> findByUuid(UUID uuid);
 
-    List<TABLE_DTO> findAll();
+    Set<TABLE_DTO> findAll();
 
     Page<TABLE_DTO> findAll(Pageable pageable);
 

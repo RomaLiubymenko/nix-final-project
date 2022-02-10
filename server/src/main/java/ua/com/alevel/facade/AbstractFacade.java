@@ -11,10 +11,10 @@ import ua.com.alevel.persistence.entity.AbstractEntity;
 import ua.com.alevel.service.CommonService;
 import ua.com.alevel.specification.SpecificationBuilder;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public abstract class AbstractFacade<
         ENTITY extends AbstractEntity,
@@ -66,10 +66,10 @@ public abstract class AbstractFacade<
     }
 
     @Override
-    public List<TABLE_DTO> findAll() {
+    public Set<TABLE_DTO> findAll() {
         return service.findAll().stream()
                 .map(mapper::toTableDto)
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     @Override
