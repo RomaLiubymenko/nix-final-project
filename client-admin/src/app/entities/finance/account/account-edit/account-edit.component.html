@@ -1,0 +1,57 @@
+<ng-container *transloco="let translate">
+  <p-card class="lms-edit-form">
+    <p-toast></p-toast>
+    <p-progressSpinner class="loader" *ngIf="isLoading; else loaded"></p-progressSpinner>
+    <ng-template #loaded>
+      <div class="p-grid">
+        <div class="p-col-6 col-format">
+          <span class="p-float-label display-label box">
+            <input id="name" type="text" class="input-style" pInputText [(ngModel)]="account.name">
+            <label for="name">{{translate('account.name')}}</label>
+          </span>
+        </div>
+        <div class="p-col-6 col-format">
+          <span class="p-float-label display-label box">
+            <input id="description" type="text" class="input-style" pInputText [(ngModel)]="account.description">
+            <label for="description">{{translate('account.description')}}</label>
+          </span>
+        </div>
+        <div class="p-col-6 col-format">
+          <span class="p-float-label display-label box">
+            <div class="text-left">{{translate('account.balance')}}</div>
+            <p-inputNumber [(ngModel)]="account.balance"
+                           inputId="balance"
+                           mode="currency"
+                           currency="USD"
+                           locale="en-US"
+                           [showButtons]="true">
+            </p-inputNumber>
+          </span>
+        </div>
+        <div class="checkbox">
+          <label style="margin: unset; padding-right: 1rem;" for="activated">{{translate('account.isBlocked')}}</label>
+          <p-checkbox id="activated" [(ngModel)]="account.isBlocked" [binary]="true"></p-checkbox>
+        </div>
+        <div class="p-col-6 col-format">
+          <p-multiSelect
+            appendTo="body"
+            [options]="usersForSelect"
+            [(ngModel)]="selectedUserUuids"
+            [defaultLabel]="translate('account.users')"
+            optionLabel="name"
+            optionValue="code">
+          </p-multiSelect>
+        </div>
+      </div>
+
+      <form>
+        <div class="text-center">
+          <button pButton pRipple [label]="translate('SAVE')" icon="pi pi-check" (click)="save()"></button>
+        </div>
+      </form>
+    </ng-template>
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+  </p-card>
+</ng-container>
+
+

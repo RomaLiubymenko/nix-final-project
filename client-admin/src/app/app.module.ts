@@ -9,10 +9,14 @@ import {NavigationModule} from './shared/layouts/navigation/navigation.module';
 import {FileUploadModule} from "primeng/fileupload";
 import {CalendarModule} from "primeng/calendar";
 import {SliderModule} from "primeng/slider";
-import {StudentTableComponent} from "./entities/student/student-table/student-table.component";
-import {StudentEditComponent} from "./entities/student/student-edit/student-edit.component";
-import {StudentGroupTableComponent} from "./entities/student-group/student-group-table/student-group-table.component";
-import {StudentGroupEditComponent} from "./entities/student-group/student-group-edit/student-group-edit.component";
+import {StudentTableComponent} from "./entities/user/student/student-table/student-table.component";
+import {StudentEditComponent} from "./entities/user/student/student-edit/student-edit.component";
+import {
+  StudentGroupTableComponent
+} from "./entities/educationalprocess/student-group/student-group-table/student-group-table.component";
+import {
+  StudentGroupEditComponent
+} from "./entities/educationalprocess/student-group/student-group-edit/student-group-edit.component";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {InputTextModule} from "primeng/inputtext";
@@ -49,9 +53,15 @@ import localeRu from '@angular/common/locales/ru';
 import localeUa from '@angular/common/locales/uk';
 import {AuthInterceptor} from "./shared/services/auth/auth-interceptor.service";
 import {TranslocoService} from "@ngneat/transloco";
-import { AdminFullInfoComponent } from './entities/admin/admin-full-info/admin-full-info.component';
+import {AdminFullInfoComponent} from './entities/user/admin/admin-full-info/admin-full-info.component';
 import {DividerModule} from "primeng/divider";
 import {PanelModule} from "primeng/panel";
+import {TutorEditComponent} from './entities/user/tutor/tutor-edit/tutor-edit.component';
+import {TutorTableComponent} from './entities/user/tutor/tutor-table/tutor-table.component';
+import {SubjectTableComponent} from './entities/educationalprocess/subject/subject-table/subject-table.component';
+import {SubjectEditComponent} from './entities/educationalprocess/subject/subject-edit/subject-edit.component';
+import {AccountTableComponent} from './entities/finance/account/account-table/account-table.component';
+import {AccountEditComponent} from './entities/finance/account/account-edit/account-edit.component';
 
 const LMS_MODULES = [
   NavigationModule
@@ -103,6 +113,12 @@ const preLoad = {
     StudentGroupTableComponent,
     StudentGroupEditComponent,
     AdminFullInfoComponent,
+    TutorEditComponent,
+    TutorTableComponent,
+    SubjectTableComponent,
+    SubjectEditComponent,
+    AccountTableComponent,
+    AccountEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,8 +152,8 @@ export class AppModule {
 
 export function preloadUser(transloco: TranslocoService) {
   return function () {
-    transloco.setActiveLang(transloco.getDefaultLang());
-    return transloco.load(transloco.getDefaultLang()).toPromise();
+    transloco.setActiveLang(transloco.getActiveLang());
+    return transloco.load(transloco.getActiveLang()).toPromise();
   }
 }
 

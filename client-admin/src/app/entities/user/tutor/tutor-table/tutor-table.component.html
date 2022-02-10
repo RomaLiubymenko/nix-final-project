@@ -1,0 +1,205 @@
+<ng-container *transloco="let translate">
+  <p-card class="lms-content">
+    <p-toast></p-toast>
+
+    <div class="card">
+      <p-table #table
+               [value]="entities"
+               [columns]="columns"
+               dataKey="uuid"
+               [rowHover]="true"
+               [(selection)]="selectedElementsForDelete"
+               currentPageReportTemplate="{{translate('PAGE_REPORT', {min: getMinItemsOnCurrPage(), max: getMaxItemsOnCurrPage(), total:  totalItems})}}"
+               [showCurrentPageReport]="true"
+               [paginator]="true"
+               [rows]="itemsPerPage"
+               [rowsPerPageOptions]="itemsPerPages"
+               [totalRecords]="totalItems"
+               [lazy]="true"
+               (onLazyLoad)="onChangePage($event)">
+        <ng-template pTemplate="caption">
+          <div class="table-button-bar">
+            <div class="grid">
+              <div class="col-2">
+                <div class="grid">
+                  <div class="col-6">
+                    <button pButton pRipple [label]="translate('ADD')" icon="pi pi-plus" class="p-button-success"
+                            (click)="addTutor()"></button>
+                  </div>
+                  <div class="col-6">
+                    <button pButton pRipple [label]="translate('DELETE')"
+                            icon="pi pi-trash"
+                            class="p-button-danger"
+                            (click)="deleteSelectedElements()"
+                            [disabled]="!selectedElementsForDelete || !selectedElementsForDelete.length">
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="md-form form-group col-7">
+                <input type="text" class="form-control" placeholder="{{translate('SEARCH')}}" [ngModel]="searchText"
+                       (ngModelChange)="searchItems($event)"
+                       id="search-input">
+              </div>
+              <div class="col-3">
+                <div class="grid">
+                  <div class="col-6">
+                    <button pButton pRipple [label]="translate('COLUMNS_VISIBILITY')" class="p-button-info"
+                            (click)="openFieldFilters()">
+                      <i class="pi pi-filter"></i>
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button pButton pRipple [label]="translate('FIELD_SEARCH')" class="p-button-info"
+                            (click)="openFilters()">
+                      <i class="pi pi pi-table"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let column of columns" [pSortableColumn]="column.field">
+              {{translate(namespace + '.' + column.field)}}
+              <ng-container *ngIf="column.field != 'subjects'">
+                <p-sortIcon [field]="column.field"></p-sortIcon>
+              </ng-container>
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tutor let-columns="columns">
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="tutor"></p-tableCheckbox>
+            </td>
+            <td *ngFor="let column of columns">
+              <ng-container *ngIf="column.field != 'subjects' &&
+              column.field != 'activated' &&
+              column.field != 'birthDay' &&
+              column.field != 'status' &&
+              column.field != 'gender'">
+                {{tutor[column.field]}}
+              </ng-container>
+              <ng-container *ngIf="column.field == 'subjects'">
+                <div *ngFor="let subject of tutor.subjects">
+                  <a [routerLink]="['/subjects', subject.uuid, 'edit-form']">{{subject.name}}</a>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="column.field == 'activated'">
+                <div class="text-center">
+                  <i class="pi"
+                     [ngClass]="{'true-icon pi-check-circle': tutor[column.field], 'false-icon pi-times-circle': !tutor[column.field]}"></i>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="column.field == 'birthDay'">
+                {{tutor[column.field] | date: 'dd-MM-yyyy'}}
+              </ng-container>
+              <ng-container *ngIf="column.field == 'gender' || column.field == 'status'">
+                {{translate(tutor[column.field])}}
+              </ng-container>
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                      (click)="editTutor(tutor)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    <p-dialog [header]="translate('SETTING_FIELDS_VISIBILITY')" [(visible)]="displayFieldFilters"
+              [modal]="true" [style]="{width: '25vw'}"
+              [draggable]="false" [resizable]="false">
+
+      <div>
+        <div *ngFor="let propertyName of allPropertyNames; let i = index">
+          <div class="form-check">
+            <p-checkbox [label]="translate(namespace + '.' + propertyName.field)"
+                        [ngModel]="propertyName.selected"
+                        (onChange)="fieldsFilters(propertyName)"
+                        [binary]="true"
+                        [id]="'flexCheck'+i"
+            ></p-checkbox>
+          </div>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayFieldFilters=false" [label]="'SAVE' | transloco"
+                  styleClass="p-button-text"></p-button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [header]="translate('FIELD_SEARCH')" [(visible)]="displayFilters"
+              [modal]="true" [style]="{width: '40vw'}"
+              [draggable]="false" [resizable]="false">
+
+      <div class="grid">
+        <div class="col-12 pt-4">
+        <span class="p-float-label display-label box">
+          <input id="firstName" type="text" pInputText [(ngModel)]="filterEntity.firstName">
+          <label for="firstName">{{translate(namespace + '.' + 'firstName')}}</label>
+        </span>
+        </div>
+        <div class="col-12">
+        <span class="p-float-label display-label box">
+          <input id="lastName" type="text" pInputText [(ngModel)]="filterEntity.lastName">
+          <label for="lastName">{{translate(namespace + '.' + 'lastName')}}</label>
+        </span>
+        </div>
+        <div class="col-12">
+        <span class="p-float-label display-label box">
+          <input id="email" type="text" pInputText [(ngModel)]="filterEntity.email">
+          <label for="email">{{translate(namespace + '.' + 'email')}}</label>
+        </span>
+        </div>
+        <div class="col-12">
+          <p-selectButton [options]="genderTypeForSelect" [(ngModel)]="selectedGender"
+                          optionLabel="name" optionValue="code"></p-selectButton>
+        </div>
+        <div class="col-12">
+          <p-selectButton [options]="statusForSelect" [(ngModel)]="selectedStatus"
+                          optionLabel="name" optionValue="code"></p-selectButton>
+        </div>
+        <div class="col-12">
+          <p-multiSelect
+            [options]="subjectForSelect"
+            [(ngModel)]="selectedSubjectUuids"
+            [defaultLabel]="translate('tutor.subjects')"
+            optionLabel="name"
+            optionValue="code"
+            appendTo="body">
+          </p-multiSelect>
+        </div>
+        <div class="col-12">
+          <p>{{translate(namespace + '.' + 'birthDay')}}</p>
+          <p-calendar
+            [showButtonBar]="true"
+            appendTo="body"
+            [(ngModel)]="searchDate"
+            dateFormat="dd-mm-yy">
+          </p-calendar>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="clear()" [label]="translate('CLEAR')"
+                  styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="filter()" [label]="translate('SET')"
+                  styleClass="p-button-text"></p-button>
+      </ng-template>
+    </p-dialog>
+
+  </p-card>
+</ng-container>
+

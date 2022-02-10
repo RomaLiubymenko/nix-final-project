@@ -7,8 +7,8 @@ export class StudentGroupFilter implements IAbstractFilter {
     public name?: string,
     public description?: string,
     public groupType?: GroupType,
-    public startDate?: Date,
-    public endDate?: Date,
+    public startDate?: string,
+    public endDate?: string,
     public isFormed?: string,
     public studentUuids?: string[]) {
   }

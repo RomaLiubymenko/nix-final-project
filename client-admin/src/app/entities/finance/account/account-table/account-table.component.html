@@ -1,0 +1,223 @@
+<ng-container *transloco="let translate">
+  <p-card class="lms-content">
+    <p-toast></p-toast>
+
+    <div class="card">
+      <p-table #table
+               [value]="entities"
+               [columns]="columns"
+               dataKey="uuid"
+               [rowHover]="true"
+               [(selection)]="selectedElementsForDelete"
+               currentPageReportTemplate="{{translate('PAGE_REPORT', {min: getMinItemsOnCurrPage(), max: getMaxItemsOnCurrPage(), total:  totalItems})}}"
+               [showCurrentPageReport]="true"
+               [paginator]="true"
+               [rows]="itemsPerPage"
+               [rowsPerPageOptions]="itemsPerPages"
+               [totalRecords]="totalItems"
+               [lazy]="true"
+               (onLazyLoad)="onChangePage($event)">
+        <ng-template pTemplate="caption">
+          <div class="table-button-bar">
+            <div class="grid">
+              <div class="col-4">
+                <div class="grid">
+                  <div class="col-4 pr-0">
+                    <button pButton pRipple [label]="translate('ADD_STUDENT_ACCOUNT')" icon="pi pi-plus"
+                            class="p-button-success"
+                            (click)="addStudentAccount()"></button>
+                  </div>
+                  <div class="col-4">
+                    <button pButton pRipple [label]="translate('ADD_TUTOR_ACCOUNT')" icon="pi pi-plus"
+                            class="p-button-success"
+                            (click)="addTutorAccount()"></button>
+                  </div>
+                  <div class="col-4">
+                    <button pButton pRipple [label]="translate('DELETE')"
+                            icon="pi pi-trash"
+                            class="p-button-danger"
+                            (click)="deleteSelectedElements()"
+                            [disabled]="!selectedElementsForDelete || !selectedElementsForDelete.length">
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="md-form form-group col-5">
+                <input type="text" class="form-control" placeholder="{{translate('SEARCH')}}" [ngModel]="searchText"
+                       (ngModelChange)="searchItems($event)"
+                       id="search-input">
+              </div>
+              <div class="col-3">
+                <div class="grid">
+                  <div class="col-6">
+                    <button pButton pRipple [label]="translate('COLUMNS_VISIBILITY')" class="p-button-info"
+                            (click)="openFieldFilters()">
+                      <i class="pi pi-filter"></i>
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button pButton pRipple [label]="translate('FIELD_SEARCH')" class="p-button-info"
+                            (click)="openFilters()">
+                      <i class="pi pi pi-table"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let column of columns" [pSortableColumn]="column.field">
+              {{translate(namespace + '.' + column.field)}}
+              <ng-container *ngIf="column.field != 'users'">
+                <p-sortIcon [field]="column.field"></p-sortIcon>
+              </ng-container>
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-account let-columns="columns">
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="account"></p-tableCheckbox>
+            </td>
+            <td *ngFor="let column of columns">
+              <ng-container *ngIf="column.field != 'users' &&
+              column.field != 'isBlocked' &&
+              column.field != 'accountChangedDate' &&
+              column.field != 'balance' &&
+              column.field != 'ownershipType' &&
+              column.field != 'type'">
+                {{account[column.field]}}
+              </ng-container>
+              <ng-container *ngIf="column.field == 'users'">
+                <div *ngFor="let user of account.users">
+                  <a class="user-link"
+                     (click)="redirectToUser(account, user)"> {{user.lastName + ' ' + user.firstName}}</a>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="column.field == 'isBlocked'">
+                <div class="text-center">
+                  <i class="pi"
+                     [ngClass]="{'true-icon pi-check-circle': account[column.field], 'false-icon pi-times-circle': !account[column.field]}"></i>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="column.field == 'accountChangedDate'">
+                {{account[column.field] | date: 'dd-MM-yyyy'}}
+              </ng-container>
+              <ng-container *ngIf="column.field == 'balance'">
+                {{account[column.field] | currency: 'USD' }}
+              </ng-container>
+              <ng-container *ngIf="column.field == 'ownershipType' || column.field == 'type'">
+                {{translate(account[column.field])}}
+              </ng-container>
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                      (click)="editAccount(account)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    <p-dialog [header]="translate('SETTING_FIELDS_VISIBILITY')" [(visible)]="displayFieldFilters"
+              [modal]="true" [style]="{width: '25vw'}"
+              [draggable]="false" [resizable]="false">
+
+      <div>
+        <div *ngFor="let propertyName of allPropertyNames; let i = index">
+          <div class="form-check">
+            <p-checkbox [label]="translate(namespace + '.' + propertyName.field)"
+                        [ngModel]="propertyName.selected"
+                        (onChange)="fieldsFilters(propertyName)"
+                        [binary]="true"
+                        [id]="'flexCheck'+i"
+            ></p-checkbox>
+          </div>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayFieldFilters=false" [label]="'SAVE' | transloco"
+                  styleClass="p-button-text"></p-button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [header]="translate('FIELD_SEARCH')" [(visible)]="displayFilters"
+              [modal]="true" [style]="{width: '35vw'}"
+              [draggable]="false" [resizable]="false">
+
+      <div class="grid">
+        <div class="col-12 pt-4">
+        <span class="p-float-label display-label box">
+          <input id="name" type="text" pInputText [(ngModel)]="filterEntity.name">
+          <label for="name">{{translate(namespace + '.' + 'name')}}</label>
+        </span>
+        </div>
+        <div class="col-12">
+        <span class="p-float-label display-label box">
+          <input id="description" type="text" pInputText [(ngModel)]="filterEntity.description">
+          <label for="description">{{translate(namespace + '.' + 'description')}}</label>
+        </span>
+        </div>
+        <div class="col-12">
+        <span class="p-float-label display-label box">
+            <div>{{translate(namespace + '.' + 'balance')}}</div>
+            <p-inputNumber [(ngModel)]="filterEntity.balance"
+                           inputId="balance"
+                           mode="currency"
+                           currency="USD"
+                           locale="en-US"
+                           [showButtons]="true">
+            </p-inputNumber>
+        </span>
+        </div>
+        <div class="col-12">
+          <p-selectButton [options]="accountTypeForSelect" [(ngModel)]="selectedAccountType"
+                          optionLabel="name" optionValue="code"></p-selectButton>
+        </div>
+        <div class="col-12">
+          <p-selectButton [options]="ownershipTypeForSelect" [(ngModel)]="selectedOwnershipType"
+                          optionLabel="name" optionValue="code"></p-selectButton>
+        </div>
+
+        <div class="col-12">
+          <p-multiSelect
+            [options]="usersForSelect"
+            [(ngModel)]="selectedUserUuids"
+            [defaultLabel]="translate('account.users')"
+            optionLabel="name"
+            optionValue="code"
+            appendTo="body">
+          </p-multiSelect>
+        </div>
+        <div class="col-12">
+          <p>{{translate(namespace + '.' + 'accountChangedDate')}}</p>
+          <p-calendar
+            [showButtonBar]="true"
+            appendTo="body"
+            [(ngModel)]="searchDate"
+            dateFormat="dd-mm-yy">
+          </p-calendar>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="clear()" [label]="translate('CLEAR')"
+                  styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="filter()" [label]="translate('SET')"
+                  styleClass="p-button-text"></p-button>
+      </ng-template>
+    </p-dialog>
+
+  </p-card>
+</ng-container>
+

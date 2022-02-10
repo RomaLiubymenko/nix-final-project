@@ -1,0 +1,36 @@
+<ng-container *transloco="let translate">
+  <p-card class="lms-edit-form">
+    <p-toast></p-toast>
+    <p-progressSpinner class="loader" *ngIf="isLoading; else loaded"></p-progressSpinner>
+    <ng-template #loaded>
+      <div class="p-grid">
+        <div class="p-col-6 col-format">
+          <span class="p-float-label display-label box">
+            <input id="name" type="text" class="input-style" pInputText [(ngModel)]="subject.name">
+            <label for="name">{{translate('subject.name')}}</label>
+          </span>
+        </div>
+        <div class="p-col-6 col-format">
+          <span class="p-float-label display-label box">
+            <input id="description" type="text" class="input-style" pInputText [(ngModel)]="subject.description">
+            <label for="description">{{translate('subject.description')}}</label>
+          </span>
+        </div>
+        <div class="p-col-6 col-format">
+          <p-dropdown appendTo="body"
+                      [options]="tutorsForSelect"
+                      [(ngModel)]="selectedTutorUuid"
+                      optionLabel="name"
+                      optionValue="code"></p-dropdown>
+        </div>
+      </div>
+      <form>
+        <div class="text-center">
+          <button pButton pRipple [label]="translate('SAVE')" icon="pi pi-check" (click)="save()"></button>
+        </div>
+      </form>
+    </ng-template>
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+  </p-card>
+</ng-container>
+
