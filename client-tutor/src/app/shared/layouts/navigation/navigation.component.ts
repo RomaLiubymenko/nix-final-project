@@ -2,9 +2,9 @@ import {AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, ViewChild} f
 import {MatSidenav} from "@angular/material/sidenav";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {delay, Subscription, take} from "rxjs";
-import {MenuItem} from "primeng/api";
+import {MenuItem, PrimeNGConfig} from "primeng/api";
 import {ISelectModal} from '../../models/select.model';
-import {AvailableLangs, TranslocoService} from "@ngneat/transloco";
+import {TranslocoService} from "@ngneat/transloco";
 import {Router} from '@angular/router';
 import {AuthService} from "../../services/auth/auth.service";
 import {LOCAL_STORAGE, StorageService} from "ngx-webstorage-service";
@@ -23,14 +23,13 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
   private _isLogin: boolean
 
   langs: ISelectModal[];
-  selectedLang: ISelectModal = {name: 'en_EN', code: 'en'};
+  selectedLang: string;
 
-  sideNavNavigations: MenuItem[] = [];
-
+  sideNavNavigations: MenuItem[];
   private subscription: Subscription = Subscription.EMPTY;
-  availableLangs: AvailableLangs;
 
   constructor(
+    private config: PrimeNGConfig,
     private router: Router,
     private authService: AuthService,
     private translocoService: TranslocoService,
@@ -39,6 +38,7 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.onChangeLang(this.activeLang);
     this.setSelectedLang();
     this.setSideNavNavigations();
   }
@@ -73,7 +73,11 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription = this.translocoService.load(lang)
       .pipe(take(1))
       .subscribe(() => {
+        this.selectedLang = lang;
         this.translocoService.setActiveLang(lang);
+        this.config.setTranslation(this.translocoService.translateObject('primeng'));
+        this.setSelectedLang();
+        this.setSideNavNavigations();
       });
   }
 
@@ -88,13 +92,13 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setSelectedLang() {
-    this.translocoService.langChanges$.subscribe(() => this.langs = [{
+    this.langs = [{
       name: this.translocoService.translate('en_EN'),
       code: 'en'
     }, {
       name: this.translocoService.translate('ru_RU'),
       code: 'ru'
-    }]);
+    }];
   }
 
   setSideNavNavigations() {

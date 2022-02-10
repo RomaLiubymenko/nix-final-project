@@ -4,7 +4,7 @@ import {IUser} from "../user/user.model";
 export interface IAccount extends AbstractModel {
   name?: string;
   description?: string;
-  accountChangedDate?: Date;
+  accountChangedDate?: string;
   balance?: number;
   isBlocked?: boolean;
   type?: AccountType;
@@ -20,7 +20,7 @@ export class Account implements IAccount {
     public updated?: Date,
     public name?: string,
     public description?: string,
-    public accountChangedDate?: Date,
+    public accountChangedDate?: string,
     public balance?: number,
     public isBlocked?: boolean,
     public type?: AccountType,

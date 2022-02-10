@@ -1,7 +1,7 @@
 import { TutorStatus } from "../../user/tutor.model";
 import {IAbstractFilter} from "../abstract-filter.model";
 
-export class StudentFilter implements IAbstractFilter {
+export class TutorFilter implements IAbstractFilter {
 
   constructor(
     public firstName?: string,

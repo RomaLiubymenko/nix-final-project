@@ -7,8 +7,8 @@ export interface IStudentGroup extends AbstractModel {
   name?: string;
   description?: string;
   groupType?: GroupType;
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: string;
+  endDate?: string;
   isFormed?: boolean
   students?: Student[],
   course?: Course;
@@ -24,10 +24,12 @@ export class StudentGroup implements IStudentGroup {
     public name?: string,
     public description?: string,
     public groupType?: GroupType,
-    public startDate?: Date,
-    public endDate?: Date,
+    public startDate?: string,
+    public endDate?: string,
     public isFormed?: boolean,
-    public students?: Student[]) {
+    public students?: Student[],
+    public course?: Course,
+    public lessons?: Lesson[]) {
   }
 }
 
