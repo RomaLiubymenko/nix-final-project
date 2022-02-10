@@ -1,5 +1,7 @@
 package ua.com.alevel.dto.table.finance;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 import ua.com.alevel.enumeration.AccountOwnershipType;
 import ua.com.alevel.enumeration.AccountType;
@@ -90,21 +92,33 @@ public class AccountTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountTableDto entity = (AccountTableDto) o;
-        return Objects.equals(this.getUuid(), entity.getUuid()) &&
-                Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.description, entity.description) &&
-                Objects.equals(this.accountChangedDate, entity.accountChangedDate) &&
-                Objects.equals(this.balance, entity.balance) &&
-                Objects.equals(this.isBlocked, entity.isBlocked) &&
-                Objects.equals(this.type, entity.type) &&
-                Objects.equals(this.ownershipType, entity.ownershipType) &&
-                Objects.equals(this.users, entity.users);
+        AccountTableDto that = (AccountTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getDescription(), that.getDescription())
+                .append(getAccountChangedDate(), that.getAccountChangedDate())
+                .append(getBalance(), that.getBalance())
+                .append(getIsBlocked(), that.getIsBlocked())
+                .append(getType(), that.getType())
+                .append(getOwnershipType(), that.getOwnershipType())
+                .append(getUsers(), that.getUsers())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUuid(), name, description, accountChangedDate, balance, isBlocked, type, ownershipType, users);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getDescription())
+                .append(getAccountChangedDate())
+                .append(getBalance())
+                .append(getIsBlocked())
+                .append(getType())
+                .append(getOwnershipType())
+                .append(getUsers())
+                .toHashCode();
     }
 
     @Override

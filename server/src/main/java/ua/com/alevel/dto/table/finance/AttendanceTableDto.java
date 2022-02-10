@@ -62,15 +62,27 @@ public class AttendanceTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AttendanceTableDto entity = (AttendanceTableDto) o;
-        return Objects.equals(this.status, entity.status) &&
-                Objects.equals(this.description, entity.description) &&
-                Objects.equals(this.paymentAmount, entity.paymentAmount);
+        AttendanceTableDto that = (AttendanceTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getStatus(), that.getStatus())
+                .append(getDescription(), that.getDescription())
+                .append(getPaymentAmount(), that.getPaymentAmount())
+                .append(getStudent(), that.getStudent())
+                .append(getLesson(), that.getLesson())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, description, paymentAmount);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getStatus())
+                .append(getDescription())
+                .append(getPaymentAmount())
+                .append(getStudent())
+                .append(getLesson())
+                .toHashCode();
     }
 
     @Override

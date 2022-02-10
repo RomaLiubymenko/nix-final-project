@@ -61,15 +61,28 @@ public class ExerciseTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ExerciseTableDto entity = (ExerciseTableDto) o;
-        return Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.date, entity.date) &&
-                Objects.equals(this.content, entity.content);
+        ExerciseTableDto that = (ExerciseTableDto) o;
+
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getDate(), that.getDate())
+                .append(getContent(), that.getContent())
+                .append(getTutor(), that.getTutor())
+                .append(getSubject(), that.getSubject())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, date, content);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getDate())
+                .append(getContent())
+                .append(getTutor())
+                .append(getSubject())
+                .toHashCode();
     }
 
     @Override

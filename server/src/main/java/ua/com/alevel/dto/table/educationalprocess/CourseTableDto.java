@@ -1,10 +1,11 @@
 package ua.com.alevel.dto.table.educationalprocess;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class CourseTableDto extends AbstractTableDto {
 
@@ -76,19 +77,31 @@ public class CourseTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CourseTableDto entity = (CourseTableDto) o;
-        return Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.description, entity.description) &&
-                Objects.equals(this.languageOfInstruction, entity.languageOfInstruction) &&
-                Objects.equals(this.knowledgeLevelOfCourse, entity.knowledgeLevelOfCourse) &&
-                Objects.equals(this.startDate, entity.startDate) &&
-                Objects.equals(this.endDate, entity.endDate) &&
-                Objects.equals(this.isCompleted, entity.isCompleted);
+        CourseTableDto that = (CourseTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getDescription(), that.getDescription())
+                .append(getLanguageOfInstruction(), that.getLanguageOfInstruction())
+                .append(getKnowledgeLevelOfCourse(), that.getKnowledgeLevelOfCourse())
+                .append(getStartDate(), that.getStartDate())
+                .append(getEndDate(), that.getEndDate())
+                .append(getIsCompleted(), that.getIsCompleted())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, languageOfInstruction, knowledgeLevelOfCourse, startDate, endDate, isCompleted);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getDescription())
+                .append(getLanguageOfInstruction())
+                .append(getKnowledgeLevelOfCourse())
+                .append(getStartDate())
+                .append(getEndDate())
+                .append(getIsCompleted())
+                .toHashCode();
     }
 
     @Override

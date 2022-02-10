@@ -2,10 +2,12 @@ package ua.com.alevel.dto.filter.finance;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.alevel.dto.AbstractFilterDto;
 import ua.com.alevel.enumeration.AccountOwnershipType;
 import ua.com.alevel.enumeration.AccountType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -14,8 +16,10 @@ public class AccountFilterDto extends AbstractFilterDto {
 
     private String name;
     private String description;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime accountChangedDate;
-    private String balance;
+    private BigDecimal balance;
     private String isBlocked;
     private AccountType type;
     private AccountOwnershipType ownershipType;
@@ -45,11 +49,11 @@ public class AccountFilterDto extends AbstractFilterDto {
         this.accountChangedDate = accountChangedDate;
     }
 
-    public String getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

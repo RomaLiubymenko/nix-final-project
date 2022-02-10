@@ -1,15 +1,18 @@
 package ua.com.alevel.dto.filter.finance;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.alevel.dto.AbstractFilterDto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 public class AccountingOfPaymentFilterDto extends AbstractFilterDto {
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime date;
-    private String amount;
+    private BigDecimal amount;
     private String purpose;
     private String comment;
     private UUID tutorUuid;
@@ -30,11 +33,11 @@ public class AccountingOfPaymentFilterDto extends AbstractFilterDto {
         this.date = date;
     }
 
-    public String getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

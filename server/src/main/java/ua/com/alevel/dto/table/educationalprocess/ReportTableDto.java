@@ -70,15 +70,29 @@ public class ReportTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReportTableDto entity = (ReportTableDto) o;
-        return Objects.equals(this.date, entity.date) &&
-                Objects.equals(this.content, entity.content) &&
-                Objects.equals(this.comment, entity.comment);
+        ReportTableDto that = (ReportTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getDate(), that.getDate())
+                .append(getContent(), that.getContent())
+                .append(getComment(), that.getComment())
+                .append(getStudent(), that.getStudent())
+                .append(getTutor(), that.getTutor())
+                .append(getGrade(), that.getGrade())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, content, comment);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getDate())
+                .append(getContent())
+                .append(getComment())
+                .append(getStudent())
+                .append(getTutor())
+                .append(getGrade())
+                .toHashCode();
     }
 
     @Override

@@ -1,8 +1,8 @@
 package ua.com.alevel.dto.table.location;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
-
-import java.util.Objects;
 
 public class RoomTableDto extends AbstractTableDto {
 
@@ -56,17 +56,27 @@ public class RoomTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RoomTableDto entity = (RoomTableDto) o;
-        return Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.number, entity.number) &&
-                Objects.equals(this.capacity, entity.capacity) &&
-                Objects.equals(this.isAvailabilityToUse, entity.isAvailabilityToUse) &&
-                Objects.equals(this.description, entity.description);
+        RoomTableDto that = (RoomTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getNumber(), that.getNumber())
+                .append(getCapacity(), that.getCapacity())
+                .append(getIsAvailabilityToUse(), that.getIsAvailabilityToUse())
+                .append(getDescription(), that.getDescription())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, number, capacity, isAvailabilityToUse, description);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getNumber())
+                .append(getCapacity())
+                .append(getIsAvailabilityToUse())
+                .append(getDescription())
+                .toHashCode();
     }
 
     @Override

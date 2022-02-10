@@ -8,7 +8,6 @@ import ua.com.alevel.enumeration.LessonStatus;
 import ua.com.alevel.enumeration.LessonType;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public class LessonTableDto extends AbstractTableDto {
@@ -90,18 +89,33 @@ public class LessonTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LessonTableDto entity = (LessonTableDto) o;
-        return Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.description, entity.description) &&
-                Objects.equals(this.date, entity.date) &&
-                Objects.equals(this.length, entity.length) &&
-                Objects.equals(this.lessonType, entity.lessonType) &&
-                Objects.equals(this.lessonStatus, entity.lessonStatus);
+        LessonTableDto that = (LessonTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getDescription(), that.getDescription())
+                .append(getDate(), that.getDate())
+                .append(getLength(), that.getLength())
+                .append(getLessonType(), that.getLessonType())
+                .append(getLessonStatus(), that.getLessonStatus())
+                .append(getSubject(), that.getSubject())
+                .append(getRoom(), that.getRoom())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, date, length, lessonType, lessonStatus);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getDescription())
+                .append(getDate())
+                .append(getLength())
+                .append(getLessonType())
+                .append(getLessonStatus())
+                .append(getSubject())
+                .append(getRoom())
+                .toHashCode();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ua.com.alevel.dto.table.finance;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 
 import java.math.BigDecimal;
@@ -59,16 +61,27 @@ public class AccountingOfPaymentTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountingOfPaymentTableDto entity = (AccountingOfPaymentTableDto) o;
-        return Objects.equals(this.date, entity.date) &&
-                Objects.equals(this.amount, entity.amount) &&
-                Objects.equals(this.purpose, entity.purpose) &&
-                Objects.equals(this.comment, entity.comment);
+        AccountingOfPaymentTableDto that = (AccountingOfPaymentTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getDate(), that.getDate())
+                .append(getAmount(), that.getAmount())
+                .append(getPurpose(), that.getPurpose())
+                .append(getComment(), that.getComment())
+                .append(getTutor(), that.getTutor())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, amount, purpose, comment);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getDate())
+                .append(getAmount())
+                .append(getPurpose())
+                .append(getComment())
+                .append(getTutor())
+                .toHashCode();
     }
 
     @Override

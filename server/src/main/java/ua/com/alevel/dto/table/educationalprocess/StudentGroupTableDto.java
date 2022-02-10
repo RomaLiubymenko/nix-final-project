@@ -1,5 +1,7 @@
 package ua.com.alevel.dto.table.educationalprocess;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 import ua.com.alevel.enumeration.GroupType;
 
@@ -79,18 +81,31 @@ public class StudentGroupTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StudentGroupTableDto entity = (StudentGroupTableDto) o;
-        return Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.description, entity.description) &&
-                Objects.equals(this.groupType, entity.groupType) &&
-                Objects.equals(this.startDate, entity.startDate) &&
-                Objects.equals(this.endDate, entity.endDate) &&
-                Objects.equals(this.isFormed, entity.isFormed);
+        StudentGroupTableDto that = (StudentGroupTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getDescription(), that.getDescription())
+                .append(getGroupType(), that.getGroupType())
+                .append(getStartDate(), that.getStartDate())
+                .append(getEndDate(), that.getEndDate())
+                .append(getIsFormed(), that.getIsFormed())
+                .append(getStudents(), that.getStudents())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, groupType, startDate, endDate, isFormed);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getDescription())
+                .append(getGroupType())
+                .append(getStartDate())
+                .append(getEndDate())
+                .append(getIsFormed())
+                .append(getStudents())
+                .toHashCode();
     }
 
     @Override

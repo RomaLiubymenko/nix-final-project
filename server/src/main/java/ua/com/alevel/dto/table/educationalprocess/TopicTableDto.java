@@ -5,7 +5,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class TopicTableDto extends AbstractTableDto {
@@ -60,15 +59,27 @@ public class TopicTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TopicTableDto entity = (TopicTableDto) o;
-        return Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.description, entity.description) &&
-                Objects.equals(this.length, entity.length);
+        TopicTableDto that = (TopicTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getDescription(), that.getDescription())
+                .append(getLength(), that.getLength())
+                .append(getSubject(), that.getSubject())
+                .append(getCourse(), that.getCourse())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, length);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getDescription())
+                .append(getLength())
+                .append(getSubject())
+                .append(getCourse())
+                .toHashCode();
     }
 
     @Override

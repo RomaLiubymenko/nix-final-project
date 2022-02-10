@@ -1,5 +1,7 @@
 package ua.com.alevel.dto.table.finance;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 import ua.com.alevel.enumeration.ReplenishmentMethod;
 
@@ -78,18 +80,31 @@ public class AccountReplenishmentTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountReplenishmentTableDto entity = (AccountReplenishmentTableDto) o;
-        return Objects.equals(this.date, entity.date) &&
-                Objects.equals(this.amount, entity.amount) &&
-                Objects.equals(this.payer, entity.payer) &&
-                Objects.equals(this.purpose, entity.purpose) &&
-                Objects.equals(this.comment, entity.comment) &&
-                Objects.equals(this.replenishmentMethod, entity.replenishmentMethod);
+        AccountReplenishmentTableDto that = (AccountReplenishmentTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getDate(), that.getDate())
+                .append(getAmount(), that.getAmount())
+                .append(getPayer(), that.getPayer())
+                .append(getPurpose(), that.getPurpose())
+                .append(getComment(), that.getComment())
+                .append(getReplenishmentMethod(), that.getReplenishmentMethod())
+                .append(getStudent(), that.getStudent())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, amount, payer, purpose, comment, replenishmentMethod);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getDate())
+                .append(getAmount())
+                .append(getPayer())
+                .append(getPurpose())
+                .append(getComment())
+                .append(getReplenishmentMethod())
+                .append(getStudent())
+                .toHashCode();
     }
 
     @Override

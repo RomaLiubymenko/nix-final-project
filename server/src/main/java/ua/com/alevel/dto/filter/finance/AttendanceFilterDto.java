@@ -3,6 +3,7 @@ package ua.com.alevel.dto.filter.finance;
 import ua.com.alevel.dto.AbstractFilterDto;
 import ua.com.alevel.enumeration.AttendanceStatus;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ public class AttendanceFilterDto extends AbstractFilterDto {
 
     private AttendanceStatus status;
     private String description;
-    private String paymentAmount;
+    private BigDecimal paymentAmount;
     private UUID studentUuid;
     private UUID lessonUuid;
 
@@ -46,11 +47,11 @@ public class AttendanceFilterDto extends AbstractFilterDto {
         this.description = description;
     }
 
-    public String getPaymentAmount() {
+    public BigDecimal getPaymentAmount() {
         return paymentAmount;
     }
 
-    public void setPaymentAmount(String paymentAmount) {
+    public void setPaymentAmount(BigDecimal paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
 

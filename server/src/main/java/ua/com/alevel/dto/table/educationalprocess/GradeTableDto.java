@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public class GradeTableDto extends AbstractTableDto {
@@ -52,15 +51,25 @@ public class GradeTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GradeTableDto entity = (GradeTableDto) o;
-        return Objects.equals(this.value, entity.value) &&
-                Objects.equals(this.weight, entity.weight) &&
-                Objects.equals(this.date, entity.date);
+        GradeTableDto that = (GradeTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getValue(), that.getValue())
+                .append(getWeight(), that.getWeight())
+                .append(getDate(), that.getDate())
+                .append(getReport(), that.getReport())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, weight, date);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getValue())
+                .append(getWeight())
+                .append(getDate())
+                .append(getReport())
+                .toHashCode();
     }
 
     @Override

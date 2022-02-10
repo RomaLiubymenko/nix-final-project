@@ -1,5 +1,7 @@
 package ua.com.alevel.dto.table.educationalprocess;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.alevel.dto.AbstractTableDto;
 
 import java.util.Objects;
@@ -39,14 +41,23 @@ public class SubjectTableDto extends AbstractTableDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SubjectTableDto entity = (SubjectTableDto) o;
-        return Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.description, entity.description);
+        SubjectTableDto that = (SubjectTableDto) o;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(getName(), that.getName())
+                .append(getDescription(), that.getDescription())
+                .append(getTutor(), that.getTutor())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description);
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(getName())
+                .append(getDescription())
+                .append(getTutor())
+                .toHashCode();
     }
 
     @Override
