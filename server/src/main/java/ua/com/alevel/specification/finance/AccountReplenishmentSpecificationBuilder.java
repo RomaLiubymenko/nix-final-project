@@ -34,7 +34,7 @@ public class AccountReplenishmentSpecificationBuilder implements SpecificationBu
                 .and(SpecificationUtil.equalsChain("purpose", filterDto.getPurpose()))
                 .and(SpecificationUtil.equalsChain("comment", filterDto.getComment()))
                 .and(SpecificationUtil.equalsChain("replenishmentMethod", filterDto.getReplenishmentMethod()))
-                .and(SpecificationUtil.<AccountReplenishment, Student>inChainUuid("student", List.of(filterDto.getStudentUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<AccountReplenishment, Student>inChainUuid("student", filterDto.getStudentUuid(), JoinType.LEFT));
     }
 
     private Specification<AccountReplenishment> byQuery(String query) {

@@ -32,8 +32,8 @@ public class TopicSpecificationBuilder implements SpecificationBuilder<Topic, To
         return Specification.where(SpecificationUtil.<Topic>equalsChain("name", filterDto.getName()))
                 .and(SpecificationUtil.equalsChain("description", filterDto.getDescription()))
                 .and(SpecificationUtil.equalsChain("length", filterDto.getLength()))
-                .and(SpecificationUtil.<Topic, Subject>inChainUuid("subject", List.of(filterDto.getSubjectUuid()), JoinType.LEFT))
-                .and(SpecificationUtil.<Topic, Course>inChainUuid("course", List.of(filterDto.getCourseUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<Topic, Subject>inChainUuid("subject", filterDto.getSubjectUuid(), JoinType.LEFT))
+                .and(SpecificationUtil.<Topic, Course>inChainUuid("course", filterDto.getCourseUuid(), JoinType.LEFT));
     }
 
     private Specification<Topic> byQuery(String query) {

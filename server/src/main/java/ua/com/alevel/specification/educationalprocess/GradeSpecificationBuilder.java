@@ -12,7 +12,6 @@ import ua.com.alevel.util.SpecificationUtil;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import java.util.List;
 
 @Service
 public class GradeSpecificationBuilder implements SpecificationBuilder<Grade, GradeFilterDto> {
@@ -32,8 +31,8 @@ public class GradeSpecificationBuilder implements SpecificationBuilder<Grade, Gr
         return Specification.where(SpecificationUtil.<Grade>equalsChain("value", filterDto.getValue()))
                 .and(SpecificationUtil.equalsChain("weight", filterDto.getWeight()))
                 .and(SpecificationUtil.equalsChain("date", filterDto.getDate()))
-                .and(SpecificationUtil.<Grade, Student>inChainUuid("student", List.of(filterDto.getStudentUuid()), JoinType.LEFT))
-                .and(SpecificationUtil.<Grade, Tutor>inChainUuid("tutor", List.of(filterDto.getTutorUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<Grade, Student>inChainUuid("student", filterDto.getStudentUuid(), JoinType.LEFT))
+                .and(SpecificationUtil.<Grade, Tutor>inChainUuid("tutor", filterDto.getTutorUuid(), JoinType.LEFT));
     }
 
     private Specification<Grade> byQuery(String query) {

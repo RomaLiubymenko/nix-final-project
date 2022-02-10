@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import java.math.BigDecimal;
 import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +39,15 @@ public class SpecificationUtil {
         };
     }
 
+    public static <ENTITY extends AbstractEntity> Specification<ENTITY> equalsChain(String fieldName, BigDecimal fieldValue) {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            if (fieldValue != null) {
+                return criteriaBuilder.equal(root.get(fieldName), fieldValue);
+            }
+            return criteriaBuilder.conjunction();
+        };
+    }
+
     public static <ENTITY extends AbstractEntity> Specification<ENTITY> equalsChain(String fieldName, TemporalAccessor fieldValue) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             if (fieldValue != null) {
@@ -58,6 +68,21 @@ public class SpecificationUtil {
                 for (UUID uuid : relatedEntityUuids) {
                     inClause = inClause.value(uuid);
                 }
+                return inClause;
+            }
+            return criteriaBuilder.conjunction();
+        };
+    }
+
+    public static <ENTITY extends AbstractEntity, JOINED_ENTITY extends AbstractEntity> Specification<ENTITY> inChainUuid(
+            String fieldName,
+            UUID uuid,
+            JoinType joinType) {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            if (uuid != null) {
+                Join<ENTITY, JOINED_ENTITY> relatedEntityJoin = root.join(fieldName, joinType);
+                CriteriaBuilder.In<UUID> inClause = criteriaBuilder.in(relatedEntityJoin.get("uuid"));
+                inClause = inClause.value(uuid);
                 return inClause;
             }
             return criteriaBuilder.conjunction();

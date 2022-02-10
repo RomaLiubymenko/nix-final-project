@@ -12,7 +12,6 @@ import ua.com.alevel.util.SpecificationUtil;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import java.util.List;
 
 @Service
 public class ExerciseSpecificationBuilder implements SpecificationBuilder<Exercise, ExerciseFilterDto> {
@@ -32,8 +31,8 @@ public class ExerciseSpecificationBuilder implements SpecificationBuilder<Exerci
         return Specification.where(SpecificationUtil.<Exercise>equalsChain("name", filterDto.getName()))
                 .and(SpecificationUtil.equalsChain("date", filterDto.getDate()))
                 .and(SpecificationUtil.equalsChain("content", filterDto.getContent()))
-                .and(SpecificationUtil.<Exercise, Subject>inChainUuid("subject", List.of(filterDto.getSubjectUuid()), JoinType.LEFT))
-                .and(SpecificationUtil.<Exercise, Tutor>inChainUuid("tutor", List.of(filterDto.getTutorUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<Exercise, Subject>inChainUuid("subject", filterDto.getSubjectUuid(), JoinType.LEFT))
+                .and(SpecificationUtil.<Exercise, Tutor>inChainUuid("tutor", filterDto.getTutorUuid(), JoinType.LEFT));
     }
 
     private Specification<Exercise> byQuery(String query) {

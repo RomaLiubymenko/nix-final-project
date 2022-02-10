@@ -32,7 +32,7 @@ public class AccountingOfPaymentSpecificationBuilder implements SpecificationBui
                 .and(SpecificationUtil.equalsChain("amount", filterDto.getAmount()))
                 .and(SpecificationUtil.equalsChain("purpose", filterDto.getPurpose()))
                 .and(SpecificationUtil.equalsChain("comment", filterDto.getComment()))
-                .and(SpecificationUtil.<AccountingOfPayment, Tutor>inChainUuid("tutor", List.of(filterDto.getTutorUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<AccountingOfPayment, Tutor>inChainUuid("tutor", filterDto.getTutorUuid(), JoinType.LEFT));
     }
 
     private Specification<AccountingOfPayment> byQuery(String query) {

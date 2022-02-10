@@ -32,8 +32,8 @@ public class AttendanceSpecificationBuilder implements SpecificationBuilder<Atte
         return Specification.where(SpecificationUtil.<Attendance>equalsChain("status", filterDto.getStatus()))
                 .and(SpecificationUtil.equalsChain("description", filterDto.getDescription()))
                 .and(SpecificationUtil.equalsChain("paymentAmount", filterDto.getPaymentAmount()))
-                .and(SpecificationUtil.<Attendance, Student>inChainUuid("student", List.of(filterDto.getStudentUuid()), JoinType.LEFT))
-                .and(SpecificationUtil.<Attendance, Lesson>inChainUuid("lesson", List.of(filterDto.getLessonUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<Attendance, Student>inChainUuid("student", filterDto.getStudentUuid(), JoinType.LEFT))
+                .and(SpecificationUtil.<Attendance, Lesson>inChainUuid("lesson", filterDto.getLessonUuid(), JoinType.LEFT));
     }
 
     private Specification<Attendance> byQuery(String query) {

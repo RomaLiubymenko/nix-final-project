@@ -30,7 +30,7 @@ public class SubjectSpecificationBuilder implements SpecificationBuilder<Subject
     public Specification<Subject> build(SubjectFilterDto filterDto) {
         return Specification.where(SpecificationUtil.<Subject>equalsChain("name", filterDto.getName()))
                 .and(SpecificationUtil.equalsChain("description", filterDto.getDescription()))
-                .and(SpecificationUtil.<Subject, Tutor>inChainUuid("tutor", List.of(filterDto.getTutorUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<Subject, Tutor>inChainUuid("tutor", filterDto.getTutorUuid(), JoinType.LEFT));
     }
 
     private Specification<Subject> byQuery(String query) {

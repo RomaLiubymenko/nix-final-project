@@ -12,7 +12,6 @@ import ua.com.alevel.util.SpecificationUtil;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import java.util.List;
 
 @Service
 public class ReportSpecificationBuilder implements SpecificationBuilder<Report, ReportFilterDto> {
@@ -32,8 +31,8 @@ public class ReportSpecificationBuilder implements SpecificationBuilder<Report, 
         return Specification.where(SpecificationUtil.<Report>equalsChain("date", filterDto.getDate()))
                 .and(SpecificationUtil.equalsChain("content", filterDto.getContent()))
                 .and(SpecificationUtil.equalsChain("comment", filterDto.getComment()))
-                .and(SpecificationUtil.<Report, Student>inChainUuid("student", List.of(filterDto.getStudentUuid()), JoinType.LEFT))
-                .and(SpecificationUtil.<Report, Tutor>inChainUuid("tutor", List.of(filterDto.getTutorUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<Report, Student>inChainUuid("student", filterDto.getStudentUuid(), JoinType.LEFT))
+                .and(SpecificationUtil.<Report, Tutor>inChainUuid("tutor", filterDto.getTutorUuid(), JoinType.LEFT));
     }
 
     private Specification<Report> byQuery(String query) {

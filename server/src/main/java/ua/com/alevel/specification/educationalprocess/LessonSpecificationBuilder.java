@@ -12,7 +12,6 @@ import ua.com.alevel.util.SpecificationUtil;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import java.util.List;
 
 @Service
 public class LessonSpecificationBuilder implements SpecificationBuilder<Lesson, LessonFilterDto> {
@@ -35,8 +34,8 @@ public class LessonSpecificationBuilder implements SpecificationBuilder<Lesson, 
                 .and(SpecificationUtil.equalsChain("length", filterDto.getLength()))
                 .and(SpecificationUtil.equalsChain("lessonType", filterDto.getLessonType()))
                 .and(SpecificationUtil.equalsChain("lessonStatus", filterDto.getLessonStatus()))
-                .and(SpecificationUtil.<Lesson, Subject>inChainUuid("subject", List.of(filterDto.getSubjectUuid()), JoinType.LEFT))
-                .and(SpecificationUtil.<Lesson, Room>inChainUuid("room", List.of(filterDto.getRoomUuid()), JoinType.LEFT));
+                .and(SpecificationUtil.<Lesson, Subject>inChainUuid("subject", filterDto.getSubjectUuid(), JoinType.LEFT))
+                .and(SpecificationUtil.<Lesson, Room>inChainUuid("room", filterDto.getRoomUuid(), JoinType.LEFT));
     }
 
     private Specification<Lesson> byQuery(String query) {
