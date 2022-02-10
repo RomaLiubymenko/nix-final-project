@@ -9,11 +9,19 @@ import org.springframework.stereotype.Repository;
 import ua.com.alevel.persistence.entity.user.Student;
 import ua.com.alevel.persistence.repository.CommonRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
 public interface StudentRepository extends CommonRepository<Student> {
+
+    @Query(
+            value = "SELECT student FROM Student student LEFT JOIN FETCH student.studentGroups",
+            countQuery = "SELECT COUNT(student) FROM Student student"
+    )
+    List<Student> findAll();
 
     @Query(
             value = "SELECT student FROM Student student LEFT JOIN FETCH student.studentGroups",
@@ -36,4 +44,10 @@ public interface StudentRepository extends CommonRepository<Student> {
             "role"
     })
     Optional<Student> findByUuid(UUID uuid);
+
+    @EntityGraph(attributePaths = {
+            "studentGroups",
+            "courses"
+    })
+    Set<Student> findByUuidIn(Set<UUID> uuids);
 }
