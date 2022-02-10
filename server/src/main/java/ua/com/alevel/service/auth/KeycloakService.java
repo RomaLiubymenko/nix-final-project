@@ -93,7 +93,7 @@ public class KeycloakService {
         return usersResource.create(kcUser);
     }
 
-    public UserResource updateUser(User user) {
+    public void updateUser(User user) {
         UserResource userResource = this.getUser(user.getUuid().toString());
         UserRepresentation kcUser = new UserRepresentation();
         kcUser.setUsername(user.getUsername());
@@ -102,8 +102,23 @@ public class KeycloakService {
         kcUser.setEmail(user.getEmail());
         kcUser.setEnabled(true);
         kcUser.setEmailVerified(false);
+        Map<String, List<String>> attributes = new HashMap<>();
+        attributes.put("gender", Collections.singletonList(user.getGender() != null ? user.getGender().name() : null));
+        attributes.put("birth_day", Collections.singletonList(user.getBirthDay() != null ? user.getBirthDay().toString() : null));
+        kcUser.setAttributes(attributes);
         userResource.update(kcUser);
-        return userResource;
+    }
+
+    public void deleteUserByUuid(UUID uuid) {
+        UserResource userResource = this.getUser(uuid.toString());
+        userResource.remove();
+    }
+
+    public void deleteUserByUuids(Set<UUID> uuids) {
+        for (UUID uuid : uuids) {
+            UserResource userResource = this.getUser(uuid.toString());
+            userResource.remove();
+        }
     }
 
     public CredentialRepresentation createPasswordCredentials(String password) {
