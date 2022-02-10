@@ -33,3 +33,7 @@ build/
 .vscode/
 
 /.jpb/
+
+### Log ###
+*.log
+*.log.gz
