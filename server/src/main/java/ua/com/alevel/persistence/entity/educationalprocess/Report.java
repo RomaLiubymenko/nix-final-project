@@ -32,15 +32,15 @@ public class Report extends AbstractEntity {
     @Column(name = "comment", length = 510)
     private String comment;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "tutor_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "tutor_id")
     private Tutor tutor;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", orphanRemoval = true)
     private Set<Exercise> exercises = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "report", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)

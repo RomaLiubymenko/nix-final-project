@@ -72,6 +72,20 @@ public class Course extends AbstractEntity {
     @ManyToMany(mappedBy = "courses")
     private Set<Tutor> tutors = new LinkedHashSet<>();
 
+    public void addStudent(Student student) {
+        if (!students.contains(student)) {
+            students.add(student);
+            student.addCourse(this);
+        }
+    }
+
+    public void removeStudent(Student student) {
+        if (students.contains(student)) {
+            students.remove(student);
+            student.removeCourse(this);
+        }
+    }
+
     public Set<Tutor> getTutors() {
         return tutors;
     }

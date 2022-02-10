@@ -39,7 +39,7 @@ public class Subject extends AbstractEntity {
     @OneToMany(mappedBy = "subject", orphanRemoval = true)
     private Set<Exercise> exercises = new LinkedHashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
     private Tutor tutor;
 

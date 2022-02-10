@@ -55,7 +55,7 @@ public class User extends AbstractEntity {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account account;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Role role;
 
     public String getPassword() {

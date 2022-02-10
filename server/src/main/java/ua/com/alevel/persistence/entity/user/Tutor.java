@@ -1,9 +1,9 @@
 package ua.com.alevel.persistence.entity.user;
 
 import org.hibernate.Hibernate;
+import ua.com.alevel.enumeration.TutorStatus;
 import ua.com.alevel.persistence.entity.educationalprocess.*;
 import ua.com.alevel.persistence.entity.finance.AccountingOfPayment;
-import ua.com.alevel.enumeration.TutorStatus;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -41,6 +41,36 @@ public class Tutor extends User {
 
     @OneToMany(mappedBy = "tutor")
     private Set<Exercise> exercises = new LinkedHashSet<>();
+
+    public void addSubject(Subject subject) {
+        subjects.add(subject);
+        subject.setTutor(this);
+    }
+
+    public void removeSubject(Subject subject) {
+        subjects.remove(subject);
+        subject.setTutor(null);
+    }
+
+    public void addExercise(Exercise exercise) {
+        exercises.add(exercise);
+        exercise.setTutor(this);
+    }
+
+    public void removeExercise(Exercise exercise) {
+        exercises.remove(exercise);
+        exercise.setTutor(null);
+    }
+
+    public void addReport(Report report) {
+        reports.add(report);
+        report.setTutor(this);
+    }
+
+    public void removeReport(Report report) {
+        reports.remove(report);
+        report.setTutor(null);
+    }
 
     public Set<Exercise> getExercises() {
         return exercises;

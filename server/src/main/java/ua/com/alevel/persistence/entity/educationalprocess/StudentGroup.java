@@ -42,7 +42,7 @@ public class StudentGroup extends AbstractEntity {
     @Column(name = "is_formed")
     private Boolean isFormed;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany
     @JoinTable(name = "student_group_students",
             joinColumns = @JoinColumn(name = "student_group_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))

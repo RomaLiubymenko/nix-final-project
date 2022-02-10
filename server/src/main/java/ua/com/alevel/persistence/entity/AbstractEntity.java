@@ -12,19 +12,13 @@ public abstract class AbstractEntity {
 
     @Type(type = "pg-uuid")
     @Column(name = "uuid", nullable = false, unique = true)
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
 
     @Column(name = "created", columnDefinition = "timestamp without time zone")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "updated", columnDefinition = "timestamp without time zone")
-    private LocalDateTime updated;
-
-    protected AbstractEntity() {
-        uuid = UUID.randomUUID();
-        created = LocalDateTime.now();
-        updated = LocalDateTime.now();
-    }
+    private LocalDateTime updated = LocalDateTime.now();
 
     public UUID getUuid() {
         return uuid;

@@ -26,7 +26,7 @@ public class Student extends User {
             inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private Set<Lesson> lessons = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "students", cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "students")
     private Set<StudentGroup> studentGroups = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "students")
@@ -38,7 +38,7 @@ public class Student extends User {
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Set<Course> courses = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", orphanRemoval = true)
     private Set<Report> reports = new LinkedHashSet<>();
 
     public void addStudentGroup(StudentGroup studentGroup) {
@@ -52,6 +52,20 @@ public class Student extends User {
         if (studentGroups.contains(studentGroup)) {
             studentGroups.remove(studentGroup);
             studentGroup.removeStudent(this);
+        }
+    }
+
+    public void addCourse(Course course) {
+        if (!courses.contains(course)) {
+            courses.add(course);
+            course.addStudent(this);
+        }
+    }
+
+    public void removeCourse(Course course) {
+        if (courses.contains(course)) {
+            courses.remove(course);
+            course.removeStudent(this);
         }
     }
 

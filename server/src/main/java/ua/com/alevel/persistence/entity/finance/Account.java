@@ -1,10 +1,10 @@
 package ua.com.alevel.persistence.entity.finance;
 
 import org.hibernate.Hibernate;
-import ua.com.alevel.persistence.entity.AbstractEntity;
-import ua.com.alevel.persistence.entity.user.User;
 import ua.com.alevel.enumeration.AccountOwnershipType;
 import ua.com.alevel.enumeration.AccountType;
+import ua.com.alevel.persistence.entity.AbstractEntity;
+import ua.com.alevel.persistence.entity.user.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
