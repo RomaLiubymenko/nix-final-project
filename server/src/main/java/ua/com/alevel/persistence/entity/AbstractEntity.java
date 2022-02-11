@@ -1,13 +1,16 @@
 package ua.com.alevel.persistence.entity;
 
 import org.hibernate.annotations.Type;
+import ua.com.alevel.persistence.listener.AuditTrailListener;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MappedSuperclass
+@EntityListeners(AuditTrailListener.class)
 public abstract class AbstractEntity {
 
     @Type(type = "pg-uuid")
