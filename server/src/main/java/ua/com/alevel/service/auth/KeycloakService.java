@@ -95,29 +95,45 @@ public class KeycloakService {
 
     public void updateUser(User user) {
         UserResource userResource = this.getUser(user.getUuid().toString());
-        UserRepresentation kcUser = new UserRepresentation();
-        kcUser.setUsername(user.getUsername());
-        kcUser.setFirstName(user.getFirstName());
-        kcUser.setLastName(user.getLastName());
-        kcUser.setEmail(user.getEmail());
-        kcUser.setEnabled(true);
-        kcUser.setEmailVerified(false);
-        Map<String, List<String>> attributes = new HashMap<>();
-        attributes.put("gender", Collections.singletonList(user.getGender() != null ? user.getGender().name() : null));
-        attributes.put("birth_day", Collections.singletonList(user.getBirthDay() != null ? user.getBirthDay().toString() : null));
-        kcUser.setAttributes(attributes);
-        userResource.update(kcUser);
+        if (existsByUuid(userResource, user.getUuid())) {
+            UserRepresentation kcUser = new UserRepresentation();
+            kcUser.setUsername(user.getUsername());
+            kcUser.setFirstName(user.getFirstName());
+            kcUser.setLastName(user.getLastName());
+            kcUser.setEmail(user.getEmail());
+            kcUser.setEnabled(true);
+            kcUser.setEmailVerified(false);
+            Map<String, List<String>> attributes = new HashMap<>();
+            attributes.put("gender", Collections.singletonList(user.getGender() != null ? user.getGender().name() : null));
+            attributes.put("birth_day", Collections.singletonList(user.getBirthDay() != null ? user.getBirthDay().toString() : null));
+            kcUser.setAttributes(attributes);
+            userResource.update(kcUser);
+        }
     }
 
     public void deleteUserByUuid(UUID uuid) {
         UserResource userResource = this.getUser(uuid.toString());
-        userResource.remove();
+        if (existsByUuid(userResource, uuid)) {
+            userResource.remove();
+        }
     }
 
     public void deleteUserByUuids(Set<UUID> uuids) {
         for (UUID uuid : uuids) {
             UserResource userResource = this.getUser(uuid.toString());
-            userResource.remove();
+            if (existsByUuid(userResource, uuid)) {
+                userResource.remove();
+            }
+        }
+    }
+
+    public boolean existsByUuid(UserResource userResource, UUID uuid) {
+        try {
+            userResource.toRepresentation();
+            return true;
+        } catch (javax.ws.rs.NotFoundException ex) {
+            log.error("Not exist keycloak user with uuid {}", uuid);
+            return false;
         }
     }
 
