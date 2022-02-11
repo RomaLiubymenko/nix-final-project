@@ -72,6 +72,20 @@ public class Tutor extends User {
         report.setTutor(null);
     }
 
+    public void addLesson(Lesson lesson) {
+        if (!lessons.contains(lesson)) {
+            lessons.add(lesson);
+            lesson.addTutor(this);
+        }
+    }
+
+    public void removeLesson(Lesson lesson) {
+        if (lessons.contains(lesson)) {
+            lessons.remove(lesson);
+            lesson.removeTutor(this);
+        }
+    }
+
     public Set<Exercise> getExercises() {
         return exercises;
     }

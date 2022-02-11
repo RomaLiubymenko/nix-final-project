@@ -11,6 +11,7 @@ import ua.com.alevel.persistence.repository.CommonRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -41,4 +42,7 @@ public interface SubjectRepository extends CommonRepository<Subject> {
             "tutor.account"
     })
     Optional<Subject> findByUuid(UUID uuid);
+
+    @EntityGraph(attributePaths = {"lessons", "topics", "courses"})
+    Set<Subject> findByUuidIn(Set<UUID> uuids);
 }

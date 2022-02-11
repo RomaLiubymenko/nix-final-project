@@ -5,27 +5,38 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.persistence.crudhelper.CrudRepositoryHelper;
-import ua.com.alevel.persistence.entity.educationalprocess.Subject;
+import ua.com.alevel.persistence.entity.educationalprocess.*;
+import ua.com.alevel.persistence.entity.user.Student;
 import ua.com.alevel.persistence.entity.user.Tutor;
+import ua.com.alevel.persistence.repository.educationalprocess.LessonRepository;
 import ua.com.alevel.persistence.repository.educationalprocess.SubjectRepository;
+import ua.com.alevel.persistence.repository.educationalprocess.TopicRepository;
 import ua.com.alevel.persistence.repository.user.TutorRepository;
 import ua.com.alevel.service.AbstractService;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class SubjectService extends AbstractService<Subject, SubjectRepository> {
 
     private final SubjectRepository subjectRepository;
+    private final LessonRepository lessonRepository;
+    private final TopicRepository topicRepository;
     private final TutorRepository tutorRepository;
     private final CrudRepositoryHelper<Subject, SubjectRepository> crudRepositoryHelper;
 
     public SubjectService(SubjectRepository subjectRepository,
+                          LessonRepository lessonRepository,
+                          TopicRepository topicRepository,
                           TutorRepository tutorRepository,
                           CrudRepositoryHelper<Subject, SubjectRepository> crudRepositoryHelper) {
         super(subjectRepository, crudRepositoryHelper);
         this.subjectRepository = subjectRepository;
+        this.lessonRepository = lessonRepository;
+        this.topicRepository = topicRepository;
         this.tutorRepository = tutorRepository;
         this.crudRepositoryHelper = crudRepositoryHelper;
     }
@@ -57,6 +68,33 @@ public class SubjectService extends AbstractService<Subject, SubjectRepository> 
             return Optional.of(subjectRepository.save(subject));
         }
         return Optional.empty();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+    public void deleteByUuids(Set<UUID> uuids) {
+        Set<Subject> subjects = subjectRepository.findByUuidIn(uuids);
+        Set<Lesson> lessons = lessonRepository.findBySubjectIn(subjects);
+        for (Subject subject : subjects) {
+            for (Course course : new HashSet<>(subject.getCourses())) {
+                subject.removeCourse(course);
+            }
+        }
+        for (Lesson lesson : lessons) {
+            for (StudentGroup studentGroup : new HashSet<>(lesson.getStudentGroups())) {
+                lesson.removeStudentGroup(studentGroup);
+            }
+            for (Student student : new HashSet<>(lesson.getStudents())) {
+                lesson.removeStudent(student);
+            }
+            for (Topic topic : new HashSet<>(lesson.getTopics())) {
+                lesson.removeTopic(topic);
+            }
+            for (Tutor tutor : new HashSet<>(lesson.getTutors())) {
+                lesson.removeTutor(tutor);
+            }
+        }
+        subjectRepository.deleteByUuidIn(uuids);
     }
 
     private Tutor prepareTutorToSave(Subject subject) {

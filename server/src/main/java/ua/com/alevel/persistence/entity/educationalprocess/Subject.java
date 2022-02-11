@@ -43,6 +43,20 @@ public class Subject extends AbstractEntity {
     @JoinColumn(name = "tutor_id")
     private Tutor tutor;
 
+    public void addCourse(Course course) {
+        if (!courses.contains(course)) {
+            courses.add(course);
+            course.addSubject(this);
+        }
+    }
+
+    public void removeCourse(Course course) {
+        if (courses.contains(course)) {
+            courses.remove(course);
+            course.removeSubject(this);
+        }
+    }
+
     public Tutor getTutor() {
         return tutor;
     }

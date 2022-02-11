@@ -46,6 +46,20 @@ public class Topic extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private Set<Lesson> lessons = new LinkedHashSet<>();
 
+    public void addLesson(Lesson lesson) {
+        if (!lessons.contains(lesson)) {
+            lessons.add(lesson);
+            lesson.addTopic(this);
+        }
+    }
+
+    public void removeLesson(Lesson lesson) {
+        if (lessons.contains(lesson)) {
+            lessons.remove(lesson);
+            lesson.removeTopic(this);
+        }
+    }
+
     public Set<Lesson> getLessons() {
         return lessons;
     }

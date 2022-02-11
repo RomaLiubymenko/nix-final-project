@@ -69,6 +69,20 @@ public class Student extends User {
         }
     }
 
+    public void addLesson(Lesson lesson) {
+        if (!lessons.contains(lesson)) {
+            lessons.add(lesson);
+            lesson.addStudent(this);
+        }
+    }
+
+    public void removeLesson(Lesson lesson) {
+        if (lessons.contains(lesson)) {
+            lessons.remove(lesson);
+            lesson.removeStudent(this);
+        }
+    }
+
     public Set<Report> getReports() {
         return reports;
     }

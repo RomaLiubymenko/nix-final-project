@@ -72,6 +72,20 @@ public class StudentGroup extends AbstractEntity {
         }
     }
 
+    public void addLesson(Lesson lesson) {
+        if (!lessons.contains(lesson)) {
+            lessons.add(lesson);
+            lesson.addStudentGroup(this);
+        }
+    }
+
+    public void removeLesson(Lesson lesson) {
+        if (lessons.contains(lesson)) {
+            lessons.remove(lesson);
+            lesson.removeStudentGroup(this);
+        }
+    }
+
     public Set<Lesson> getLessons() {
         return lessons;
     }

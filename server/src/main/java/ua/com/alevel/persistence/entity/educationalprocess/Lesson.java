@@ -1,13 +1,13 @@
 package ua.com.alevel.persistence.entity.educationalprocess;
 
 import org.hibernate.Hibernate;
+import ua.com.alevel.enumeration.LessonStatus;
+import ua.com.alevel.enumeration.LessonType;
 import ua.com.alevel.persistence.entity.AbstractEntity;
 import ua.com.alevel.persistence.entity.finance.Attendance;
 import ua.com.alevel.persistence.entity.location.Room;
 import ua.com.alevel.persistence.entity.user.Student;
 import ua.com.alevel.persistence.entity.user.Tutor;
-import ua.com.alevel.enumeration.LessonStatus;
-import ua.com.alevel.enumeration.LessonType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -47,7 +47,7 @@ public class Lesson extends AbstractEntity {
     @Column(name = "status", nullable = false)
     private LessonStatus lessonStatus = LessonStatus.NEW;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson", orphanRemoval = true)
     private Set<Attendance> attendances = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "lessons")
@@ -73,6 +73,62 @@ public class Lesson extends AbstractEntity {
 
     @ManyToMany(mappedBy = "lessons")
     private Set<StudentGroup> studentGroups = new LinkedHashSet<>();
+
+    public void addStudentGroup(StudentGroup studentGroup) {
+        if (!studentGroups.contains(studentGroup)) {
+            studentGroups.add(studentGroup);
+            studentGroup.addLesson(this);
+        }
+    }
+
+    public void removeStudentGroup(StudentGroup studentGroup) {
+        if (studentGroups.contains(studentGroup)) {
+            studentGroups.remove(studentGroup);
+            studentGroup.removeLesson(this);
+        }
+    }
+
+    public void addStudent(Student student) {
+        if (!students.contains(student)) {
+            students.add(student);
+            student.addLesson(this);
+        }
+    }
+
+    public void removeStudent(Student student) {
+        if (students.contains(student)) {
+            students.remove(student);
+            student.removeLesson(this);
+        }
+    }
+
+    public void addTopic(Topic topic) {
+        if (!topics.contains(topic)) {
+            topics.add(topic);
+            topic.addLesson(this);
+        }
+    }
+
+    public void removeTopic(Topic topic) {
+        if (topics.contains(topic)) {
+            topics.remove(topic);
+            topic.removeLesson(this);
+        }
+    }
+
+    public void addTutor(Tutor tutor) {
+        if (!tutors.contains(tutor)) {
+            tutors.add(tutor);
+            tutor.addLesson(this);
+        }
+    }
+
+    public void removeTutor(Tutor tutor) {
+        if (tutors.contains(tutor)) {
+            tutors.remove(tutor);
+            tutor.removeLesson(this);
+        }
+    }
 
     public LessonType getLessonType() {
         return lessonType;

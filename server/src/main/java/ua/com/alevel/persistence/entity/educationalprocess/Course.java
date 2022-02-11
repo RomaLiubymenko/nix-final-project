@@ -86,6 +86,20 @@ public class Course extends AbstractEntity {
         }
     }
 
+    public void addSubject(Subject subject) {
+        if (!subjects.contains(subject)) {
+            subjects.add(subject);
+            subject.addCourse(this);
+        }
+    }
+
+    public void removeSubject(Subject subject) {
+        if (subjects.contains(subject)) {
+            subjects.remove(subject);
+            subject.removeCourse(this);
+        }
+    }
+
     public Set<Tutor> getTutors() {
         return tutors;
     }
