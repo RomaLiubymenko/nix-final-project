@@ -77,18 +77,11 @@
             <version>${hibernate-types.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-afterburner</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
+        <!--*** Apache commons ***-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
@@ -99,6 +92,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>${org.apache.commons.lang3.version}</version>
         </dependency>
+        <!--*** OpenAI ***-->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
@@ -109,7 +103,7 @@
             <artifactId>springdoc-openapi-data-rest</artifactId>
             <version>${springdoc.openapi.version}</version>
         </dependency>
-        <!--keycloak-->
+        <!--*** Keycloak ***-->
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-spring-boot-starter</artifactId>
@@ -120,6 +114,7 @@
             <artifactId>keycloak-admin-client</artifactId>
             <version>${keycloak.version}</version>
         </dependency>
+        <!--*** Logs ***-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -149,12 +144,6 @@
     </dependencyManagement>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
