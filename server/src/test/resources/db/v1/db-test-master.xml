@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.7.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1644759973402-1" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="account_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-2" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="account_replenishment_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-3" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="accounting_of_payment_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-4" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="attendance_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-5" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="course_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-6" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="exercise_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-7" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="grade_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-8" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="lesson_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-9" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="lms_file_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-10" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="report_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-11" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="role_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-12" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="room_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-13" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="student_group_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-14" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="subject_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-15" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="topic_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-16" author="Roman Liubymenko">
+        <createSequence incrementBy="1" sequenceName="user_id_sequence" startValue="1"/>
+    </changeSet>
+    <changeSet id="1644759973402-17" author="Roman Liubymenko">
+        <createTable tableName="account">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_account"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changed_date" type="timestamp without time zone"/>
+            <column name="balance" type="DECIMAL(9, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_blocked" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ownership_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-18" author="Roman Liubymenko">
+        <createTable tableName="account_replenishment">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_account_replenishment"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="date" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="DECIMAL(9, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payer" type="VARCHAR(255)"/>
+            <column name="purpose" type="VARCHAR(255)"/>
+            <column name="comment" type="VARCHAR(255)"/>
+            <column name="replenishment_method" type="VARCHAR(255)"/>
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-19" author="Roman Liubymenko">
+        <createTable tableName="accounting_of_payment">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_accounting_of_payment"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="date" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="DECIMAL(9, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="purpose" type="VARCHAR(255)"/>
+            <column name="comment" type="VARCHAR(255)"/>
+            <column name="tutor_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="admin_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-20" author="Roman Liubymenko">
+        <createTable tableName="attendance">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_attendance"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(510)"/>
+            <column name="payment_amount" type="DECIMAL(9, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lesson_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="admin_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-21" author="Roman Liubymenko">
+        <createTable tableName="course">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_course"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="language_of_instruction" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="knowledge_level_of_course" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="is_completed" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-22" author="Roman Liubymenko">
+        <createTable tableName="course_subjects">
+            <column name="course_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_course_subjects"/>
+            </column>
+            <column name="subject_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_course_subjects"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-23" author="Roman Liubymenko">
+        <createTable tableName="exercise">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(255)"/>
+            <column name="report_id" type="BIGINT"/>
+            <column name="topic_id" type="BIGINT"/>
+            <column name="course_id" type="BIGINT"/>
+            <column name="subject_id" type="BIGINT"/>
+            <column name="tutor_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-24" author="Roman Liubymenko">
+        <createTable tableName="exercise_lms_files">
+            <column name="exercise_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_lms_files"/>
+            </column>
+            <column name="lms_file_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_lms_files"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-25" author="Roman Liubymenko">
+        <createTable tableName="exercise_students">
+            <column name="exercise_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_students"/>
+            </column>
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_students"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-26" author="Roman Liubymenko">
+        <createTable tableName="grade">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_grade"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="value" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="course_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-27" author="Roman Liubymenko">
+        <createTable tableName="lesson">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_lesson"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(510)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp without time zone"/>
+            <column name="length" type="DOUBLE"/>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject_id" type="BIGINT"/>
+            <column name="course_id" type="BIGINT"/>
+            <column name="room_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-28" author="Roman Liubymenko">
+        <createTable tableName="lms_file">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_lms_file"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mime_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="report_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-29" author="Roman Liubymenko">
+        <createTable tableName="report">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_report"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="date" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="VARCHAR(510)"/>
+            <column name="tutor_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="grade_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-30" author="Roman Liubymenko">
+        <createTable tableName="role">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_role"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-31" author="Roman Liubymenko">
+        <createTable tableName="room">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_room"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number" type="VARCHAR(255)"/>
+            <column name="capacity" type="BIGINT"/>
+            <column name="is_availability_to_use" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(510)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-32" author="Roman Liubymenko">
+        <createTable tableName="student_courses">
+            <column name="course_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_courses"/>
+            </column>
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_courses"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-33" author="Roman Liubymenko">
+        <createTable tableName="student_group">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_group"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(510)"/>
+            <column name="group_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="is_formed" type="BOOLEAN"/>
+            <column name="course_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-34" author="Roman Liubymenko">
+        <createTable tableName="student_group_lessons">
+            <column name="lesson_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_group_lessons"/>
+            </column>
+            <column name="student_group_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_group_lessons"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-35" author="Roman Liubymenko">
+        <createTable tableName="student_group_students">
+            <column name="student_group_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_group_students"/>
+            </column>
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_group_students"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-36" author="Roman Liubymenko">
+        <createTable tableName="student_lessons">
+            <column name="lesson_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_lessons"/>
+            </column>
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_student_lessons"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-37" author="Roman Liubymenko">
+        <createTable tableName="subject">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_subject"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(510)"/>
+            <column name="tutor_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-38" author="Roman Liubymenko">
+        <createTable tableName="topic">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_topic"/>
+            </column>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(510)"/>
+            <column name="length" type="DOUBLE"/>
+            <column name="subject_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="course_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-39" author="Roman Liubymenko">
+        <createTable tableName="topic_lessons">
+            <column name="lesson_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_topic_lessons"/>
+            </column>
+            <column name="topic_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_topic_lessons"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-40" author="Roman Liubymenko">
+        <createTable tableName="tutor_courses">
+            <column name="course_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_tutor_courses"/>
+            </column>
+            <column name="tutor_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_tutor_courses"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-41" author="Roman Liubymenko">
+        <createTable tableName="tutor_lessons">
+            <column name="lesson_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_tutor_lessons"/>
+            </column>
+            <column name="tutor_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_tutor_lessons"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-42" author="Roman Liubymenko">
+        <createTable tableName="user">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user"/>
+            </column>
+            <column name="type" type="VARCHAR(31)"/>
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="timestamp without time zone"/>
+            <column name="updated" type="timestamp without time zone"/>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(30)"/>
+            <column name="last_name" type="VARCHAR(30)"/>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="VARCHAR(25)"/>
+            <column name="birth_day" type="date"/>
+            <column name="activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1644759973402-43" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_account_replenishment_uuid"
+                             tableName="account_replenishment"/>
+    </changeSet>
+    <changeSet id="1644759973402-44" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_account_uuid" tableName="account"/>
+    </changeSet>
+    <changeSet id="1644759973402-45" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_accounting_of_payment_uuid"
+                             tableName="accounting_of_payment"/>
+    </changeSet>
+    <changeSet id="1644759973402-46" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_attendance_uuid" tableName="attendance"/>
+    </changeSet>
+    <changeSet id="1644759973402-47" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_course_uuid" tableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-48" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_exercise_uuid" tableName="exercise"/>
+    </changeSet>
+    <changeSet id="1644759973402-49" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_grade_uuid" tableName="grade"/>
+    </changeSet>
+    <changeSet id="1644759973402-50" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_lesson_uuid" tableName="lesson"/>
+    </changeSet>
+    <changeSet id="1644759973402-51" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_lms_file_uuid" tableName="lms_file"/>
+    </changeSet>
+    <changeSet id="1644759973402-52" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_report_uuid" tableName="report"/>
+    </changeSet>
+    <changeSet id="1644759973402-53" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="name" constraintName="uc_role_name" tableName="role"/>
+    </changeSet>
+    <changeSet id="1644759973402-54" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_role_uuid" tableName="role"/>
+    </changeSet>
+    <changeSet id="1644759973402-55" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_room_uuid" tableName="room"/>
+    </changeSet>
+    <changeSet id="1644759973402-56" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_student_group_uuid" tableName="student_group"/>
+    </changeSet>
+    <changeSet id="1644759973402-57" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_subject_uuid" tableName="subject"/>
+    </changeSet>
+    <changeSet id="1644759973402-58" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_topic_uuid" tableName="topic"/>
+    </changeSet>
+    <changeSet id="1644759973402-59" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="email" constraintName="uc_user_email" tableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-60" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="username" constraintName="uc_user_username" tableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-61" author="Roman Liubymenko">
+        <addUniqueConstraint columnNames="uuid" constraintName="uc_user_uuid" tableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-62" author="Roman Liubymenko">
+        <createIndex indexName="idx_account_replenishment_uuid" tableName="account_replenishment">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-63" author="Roman Liubymenko">
+        <createIndex indexName="idx_account_uuid" tableName="account">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-64" author="Roman Liubymenko">
+        <createIndex indexName="idx_accounting_of_payment_uuid" tableName="accounting_of_payment">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-65" author="Roman Liubymenko">
+        <createIndex indexName="idx_attendance_uuid" tableName="attendance">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-66" author="Roman Liubymenko">
+        <createIndex indexName="idx_course_uuid" tableName="course">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-67" author="Roman Liubymenko">
+        <createIndex indexName="idx_exercise_uuid" tableName="exercise">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-68" author="Roman Liubymenko">
+        <createIndex indexName="idx_grade_uuid" tableName="grade">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-69" author="Roman Liubymenko">
+        <createIndex indexName="idx_lesson_uuid" tableName="lesson">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-70" author="Roman Liubymenko">
+        <createIndex indexName="idx_lms_file_uuid" tableName="lms_file">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-71" author="Roman Liubymenko">
+        <createIndex indexName="idx_report_uuid" tableName="report">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-72" author="Roman Liubymenko">
+        <createIndex indexName="idx_role_uuid" tableName="role">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-73" author="Roman Liubymenko">
+        <createIndex indexName="idx_room_uuid" tableName="room">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-74" author="Roman Liubymenko">
+        <createIndex indexName="idx_student_group_uuid" tableName="student_group">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-75" author="Roman Liubymenko">
+        <createIndex indexName="idx_subject_uuid" tableName="subject">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-76" author="Roman Liubymenko">
+        <createIndex indexName="idx_topic_uuid" tableName="topic">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-77" author="Roman Liubymenko">
+        <createIndex indexName="idx_user_uuid" tableName="user">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1644759973402-78" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="admin_id" baseTableName="accounting_of_payment"
+                                 constraintName="FK_ACCOUNTING_OF_PAYMENT_ON_ADMIN" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-79" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="tutor_id" baseTableName="accounting_of_payment"
+                                 constraintName="FK_ACCOUNTING_OF_PAYMENT_ON_TUTOR" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-80" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="account_replenishment"
+                                 constraintName="FK_ACCOUNT_REPLENISHMENT_ON_STUDENT" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-81" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="admin_id" baseTableName="attendance"
+                                 constraintName="FK_ATTENDANCE_ON_ADMIN" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-82" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="lesson_id" baseTableName="attendance"
+                                 constraintName="FK_ATTENDANCE_ON_LESSON" referencedColumnNames="id"
+                                 referencedTableName="lesson"/>
+    </changeSet>
+    <changeSet id="1644759973402-83" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="attendance"
+                                 constraintName="FK_ATTENDANCE_ON_STUDENT" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-84" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="exercise"
+                                 constraintName="FK_EXERCISE_ON_COURSE" referencedColumnNames="id"
+                                 referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-85" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="report_id" baseTableName="exercise"
+                                 constraintName="FK_EXERCISE_ON_REPORT" referencedColumnNames="id"
+                                 referencedTableName="report"/>
+    </changeSet>
+    <changeSet id="1644759973402-86" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="exercise"
+                                 constraintName="FK_EXERCISE_ON_SUBJECT" referencedColumnNames="id"
+                                 referencedTableName="subject"/>
+    </changeSet>
+    <changeSet id="1644759973402-87" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="topic_id" baseTableName="exercise"
+                                 constraintName="FK_EXERCISE_ON_TOPIC" referencedColumnNames="id"
+                                 referencedTableName="topic"/>
+    </changeSet>
+    <changeSet id="1644759973402-88" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="tutor_id" baseTableName="exercise"
+                                 constraintName="FK_EXERCISE_ON_TUTOR" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-89" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="grade" constraintName="FK_GRADE_ON_COURSE"
+                                 referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-90" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="lesson" constraintName="FK_LESSON_ON_COURSE"
+                                 referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-91" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="room_id" baseTableName="lesson" constraintName="FK_LESSON_ON_ROOM"
+                                 referencedColumnNames="id" referencedTableName="room"/>
+    </changeSet>
+    <changeSet id="1644759973402-92" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="lesson"
+                                 constraintName="FK_LESSON_ON_SUBJECT" referencedColumnNames="id"
+                                 referencedTableName="subject"/>
+    </changeSet>
+    <changeSet id="1644759973402-93" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="report_id" baseTableName="lms_file"
+                                 constraintName="FK_LMS_FILE_ON_REPORT" referencedColumnNames="id"
+                                 referencedTableName="report"/>
+    </changeSet>
+    <changeSet id="1644759973402-94" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="grade_id" baseTableName="report" constraintName="FK_REPORT_ON_GRADE"
+                                 referencedColumnNames="id" referencedTableName="grade"/>
+    </changeSet>
+    <changeSet id="1644759973402-95" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="report"
+                                 constraintName="FK_REPORT_ON_STUDENT" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-96" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="tutor_id" baseTableName="report" constraintName="FK_REPORT_ON_TUTOR"
+                                 referencedColumnNames="id" referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-97" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="student_group"
+                                 constraintName="FK_STUDENT_GROUP_ON_COURSE" referencedColumnNames="id"
+                                 referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-98" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="tutor_id" baseTableName="subject" constraintName="FK_SUBJECT_ON_TUTOR"
+                                 referencedColumnNames="id" referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-99" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="topic" constraintName="FK_TOPIC_ON_COURSE"
+                                 referencedColumnNames="id" referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-100" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="topic" constraintName="FK_TOPIC_ON_SUBJECT"
+                                 referencedColumnNames="id" referencedTableName="subject"/>
+    </changeSet>
+    <changeSet id="1644759973402-101" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="user" constraintName="FK_USER_ON_ACCOUNT"
+                                 referencedColumnNames="id" referencedTableName="account"/>
+    </changeSet>
+    <changeSet id="1644759973402-102" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user" constraintName="FK_USER_ON_ROLE"
+                                 referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet id="1644759973402-103" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="course_subjects"
+                                 constraintName="fk_cousub_on_course" referencedColumnNames="id"
+                                 referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-104" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="course_subjects"
+                                 constraintName="fk_cousub_on_subject" referencedColumnNames="id"
+                                 referencedTableName="subject"/>
+    </changeSet>
+    <changeSet id="1644759973402-105" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="exercise_id" baseTableName="exercise_lms_files"
+                                 constraintName="fk_exelmsfil_on_exercise" referencedColumnNames="id"
+                                 referencedTableName="exercise"/>
+    </changeSet>
+    <changeSet id="1644759973402-106" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="lms_file_id" baseTableName="exercise_lms_files"
+                                 constraintName="fk_exelmsfil_on_lms_file" referencedColumnNames="id"
+                                 referencedTableName="lms_file"/>
+    </changeSet>
+    <changeSet id="1644759973402-107" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="exercise_id" baseTableName="exercise_students"
+                                 constraintName="fk_exestu_on_exercise" referencedColumnNames="id"
+                                 referencedTableName="exercise"/>
+    </changeSet>
+    <changeSet id="1644759973402-108" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="exercise_students"
+                                 constraintName="fk_exestu_on_student" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-109" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="student_courses"
+                                 constraintName="fk_stucou_on_course" referencedColumnNames="id"
+                                 referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-110" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="student_courses"
+                                 constraintName="fk_stucou_on_student" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-111" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="lesson_id" baseTableName="student_group_lessons"
+                                 constraintName="fk_stugroles_on_lesson" referencedColumnNames="id"
+                                 referencedTableName="lesson"/>
+    </changeSet>
+    <changeSet id="1644759973402-112" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_group_id" baseTableName="student_group_lessons"
+                                 constraintName="fk_stugroles_on_student_group" referencedColumnNames="id"
+                                 referencedTableName="student_group"/>
+    </changeSet>
+    <changeSet id="1644759973402-113" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="student_group_students"
+                                 constraintName="fk_stugrostu_on_student" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-114" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_group_id" baseTableName="student_group_students"
+                                 constraintName="fk_stugrostu_on_student_group" referencedColumnNames="id"
+                                 referencedTableName="student_group"/>
+    </changeSet>
+    <changeSet id="1644759973402-115" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="lesson_id" baseTableName="student_lessons"
+                                 constraintName="fk_stules_on_lesson" referencedColumnNames="id"
+                                 referencedTableName="lesson"/>
+    </changeSet>
+    <changeSet id="1644759973402-116" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="student_lessons"
+                                 constraintName="fk_stules_on_student" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-117" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="lesson_id" baseTableName="topic_lessons"
+                                 constraintName="fk_toples_on_lesson" referencedColumnNames="id"
+                                 referencedTableName="lesson"/>
+    </changeSet>
+    <changeSet id="1644759973402-118" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="topic_id" baseTableName="topic_lessons"
+                                 constraintName="fk_toples_on_topic" referencedColumnNames="id"
+                                 referencedTableName="topic"/>
+    </changeSet>
+    <changeSet id="1644759973402-119" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="tutor_courses"
+                                 constraintName="fk_tutcou_on_course" referencedColumnNames="id"
+                                 referencedTableName="course"/>
+    </changeSet>
+    <changeSet id="1644759973402-120" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="tutor_id" baseTableName="tutor_courses"
+                                 constraintName="fk_tutcou_on_tutor" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet id="1644759973402-121" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="lesson_id" baseTableName="tutor_lessons"
+                                 constraintName="fk_tutles_on_lesson" referencedColumnNames="id"
+                                 referencedTableName="lesson"/>
+    </changeSet>
+    <changeSet id="1644759973402-122" author="Roman Liubymenko">
+        <addForeignKeyConstraint baseColumnNames="tutor_id" baseTableName="tutor_lessons"
+                                 constraintName="fk_tutles_on_tutor" referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+
+</databaseChangeLog>
