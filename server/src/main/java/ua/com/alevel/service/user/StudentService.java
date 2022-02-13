@@ -69,7 +69,7 @@ public class StudentService extends AbstractService<Student, StudentRepository> 
         }
         UUID uuid = createKeycloakStudent(student);
         student.setUuid(uuid);
-        return crudRepositoryHelper.create(studentRepository, student);
+        return studentRepository.save(student);
     }
 
     @Override

@@ -27,7 +27,10 @@ public interface CommonController<
         PROFILE_DTO extends AbstractProfileDto> {
 
     @Operation(summary = "Create a new entry")
-    @ApiResponse(responseCode = "201", description = "Entry is created")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Entry is created"),
+            @ApiResponse(responseCode = "400", description = "Entry already have uuid")
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PROFILE_DTO> create(@Valid @RequestBody PROFILE_DTO profileDto);
 
@@ -47,11 +50,11 @@ public interface CommonController<
     @Operation(summary = "Delete a entries")
     @ApiResponse(responseCode = "204", description = "Entries was deleted")
     @DeleteMapping("/uuids")
-    ResponseEntity<Void> deleteRoomsByUuids(@RequestParam(value = "uuid") Set<UUID> uuids);
+    ResponseEntity<Void> deleteByUuids(@RequestParam(value = "uuid") Set<UUID> uuids);
 
     @Operation(summary = "Get a entry by its uuid")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the entry", content = {
+            @ApiResponse(responseCode = "200", description = "Entry is found", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             }),
             @ApiResponse(responseCode = "404", description = "Entry not found")

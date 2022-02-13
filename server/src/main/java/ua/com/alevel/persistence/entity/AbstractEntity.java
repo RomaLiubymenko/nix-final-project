@@ -1,6 +1,5 @@
 package ua.com.alevel.persistence.entity;
 
-import org.hibernate.annotations.Type;
 import ua.com.alevel.persistence.listener.AuditTrailListener;
 
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import java.util.UUID;
 @EntityListeners(AuditTrailListener.class)
 public abstract class AbstractEntity {
 
-    @Type(type = "pg-uuid")
     @Column(name = "uuid", nullable = false, unique = true)
     private UUID uuid = UUID.randomUUID();
 

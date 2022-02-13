@@ -38,8 +38,11 @@ public abstract class AbstractController<
     @Override
     public ResponseEntity<PROFILE_DTO> create(PROFILE_DTO profileDto) {
         logger.info(NEW_LOG.getLogInfo(), entityName, profileDto.toString());
-        PROFILE_DTO savedEntity = facade.create(profileDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEntity);
+        if (profileDto.getUuid() == null) {
+            PROFILE_DTO savedEntity = facade.create(profileDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedEntity);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @Override
@@ -60,7 +63,7 @@ public abstract class AbstractController<
     }
 
     @Override
-    public ResponseEntity<Void> deleteRoomsByUuids(Set<UUID> uuids) {
+    public ResponseEntity<Void> deleteByUuids(Set<UUID> uuids) {
         logger.info(DELETED_BY_UUIDS_LOG.getLogInfo(), entityName, uuids);
         facade.deleteByUuids(uuids);
         return ResponseEntity.noContent().build();
