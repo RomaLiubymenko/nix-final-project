@@ -2,11 +2,15 @@ package ua.com.alevel.facade.user;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import ua.com.alevel.dto.filter.user.TutorFilterDto;
@@ -27,6 +31,8 @@ import java.util.UUID;
 @ExtendWith(MockitoExtension.class)
 class TutorFacadeTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TutorFacadeTest.class);
+
     @Mock
     TutorService tutorService;
 
@@ -44,8 +50,18 @@ class TutorFacadeTest {
     private TutorProfileDto tutorProfileDto;
     private TutorTableDto tutorTableDto;
 
+    @BeforeAll
+    public static void setUp() {
+        LOG.info("Start test: {}", TutorFacade.class.getSimpleName());
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        LOG.info("Complete testing: {}", TutorFacade.class.getSimpleName());
+    }
+
     @BeforeEach
-    void setUp() {
+    void init() {
         uuid = UUID.fromString("3315439c-66d0-4e59-b88a-8bdef03bc07c");
         tutorProfileDto = new TutorProfileDto();
         tutorProfileDto.setUsername("Tutor");

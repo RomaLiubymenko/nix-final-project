@@ -3,6 +3,8 @@ package ua.com.alevel.persistence.repository.user;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ import java.util.UUID;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudentRepositoryTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(StudentRepositoryTest.class);
+
     @Autowired
     private StudentRepository studentRepository;
 
@@ -40,8 +44,18 @@ class StudentRepositoryTest {
     private Account account;
     private Student student;
 
+    @BeforeAll
+    public static void setUp() {
+        LOG.info("Start test: {}", StudentRepository.class.getSimpleName());
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        LOG.info("Complete testing: {}", StudentRepository.class.getSimpleName());
+    }
+
     @BeforeEach
-    void setUp() {
+    void init() {
         student = new Student();
         student.setUuid(UUID.fromString("3315439c-66d0-4e59-b88a-8bdef03bc07c"));
         student.setUsername("Student");
@@ -73,7 +87,7 @@ class StudentRepositoryTest {
         roleRepository.save(role);
         accountRepository.save(account);
         Student actual = studentRepository.save(student);
-        MatcherAssert.assertThat(actual.getId(),  Matchers.notNullValue());
+        MatcherAssert.assertThat(actual.getId(), Matchers.notNullValue());
     }
 
     @Test

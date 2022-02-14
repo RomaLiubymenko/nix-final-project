@@ -3,6 +3,8 @@ package ua.com.alevel.persistence.repository.user;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ import java.util.UUID;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TutorRepositoryTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TutorRepositoryTest.class);
+
     @Autowired
     private TutorRepository tutorRepository;
 
@@ -40,8 +44,18 @@ class TutorRepositoryTest {
     private Account account;
     private Tutor tutor;
 
+    @BeforeAll
+    public static void setUp() {
+        LOG.info("Start test: {}", StudentRepository.class.getSimpleName());
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        LOG.info("Complete testing: {}", StudentRepository.class.getSimpleName());
+    }
+
     @BeforeEach
-    void setUp() {
+    void init() {
         tutor = new Tutor();
         tutor.setUuid(UUID.fromString("5da6789c-f0c4-4e1e-a741-ff5e0464c3e7"));
         tutor.setUsername("Tutor");

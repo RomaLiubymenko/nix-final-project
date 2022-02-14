@@ -3,12 +3,16 @@ package ua.com.alevel.controller.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -38,6 +42,8 @@ import java.util.UUID;
 @AutoConfigureMockMvc(addFilters = false)
 class TutorControllerTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TutorControllerTest.class);
+
     @MockBean
     TutorFacade tutorFacade;
 
@@ -51,8 +57,18 @@ class TutorControllerTest {
     private TutorProfileDto tutorProfileDto;
     private TutorTableDto tutorTableDto;
 
+    @BeforeAll
+    public static void setUp() {
+        LOG.info("Start test: {}", TutorController.class.getSimpleName());
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        LOG.info("Complete testing: {}", TutorController.class.getSimpleName());
+    }
+
     @BeforeEach
-    void setUp() {
+    void init() {
         uuid = UUID.fromString("3315439c-66d0-4e59-b88a-8bdef03bc07c");
         tutorProfileDto = new TutorProfileDto();
         tutorProfileDto.setUsername("Tutor");

@@ -2,12 +2,16 @@ package ua.com.alevel.service.user;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import ua.com.alevel.enumeration.GenderType;
@@ -31,6 +35,8 @@ import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(StudentServiceTest.class);
 
     @Mock
     StudentRepository studentRepository;
@@ -59,8 +65,18 @@ class StudentServiceTest {
     private Account account;
     private Student student;
 
+    @BeforeAll
+    public static void setUp() {
+        LOG.info("Start test: {}", StudentService.class.getSimpleName());
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        LOG.info("Complete testing: {}", StudentService.class.getSimpleName());
+    }
+
     @BeforeEach
-    void setUp() {
+    void init() {
         studentUuid = UUID.fromString("3315439c-66d0-4e59-b88a-8bdef03bc07c");
         keycloakUuid = UUID.fromString("0700dd5e-3c8f-4551-af17-ead9595b4db0");
 
