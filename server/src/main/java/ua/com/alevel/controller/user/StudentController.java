@@ -20,6 +20,7 @@ public class StudentController extends AbstractController<StudentTableDto, Stude
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
     private final StudentFacade studentFacade;
 
+
     public StudentController(StudentFacade studentFacade) {
         super(URL, ENTITY_NAME, logger, studentFacade);
         this.studentFacade = studentFacade;
