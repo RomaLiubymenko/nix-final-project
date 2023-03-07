@@ -1,80 +1,90 @@
-### Система управления обучением для учебных заведений
+# Learning Management System
 
-###### (версия 0.0.2)
+The final project of the Java course from NIX Solutions & A-Level.
 
-#### Необходимые компоненты для запуска и их рекомендованные версии:
+## Requirements
 
-###### 1) Node.Js - v16.13.1
+| Name       | Version |
+|:-----------|:--------|
+| Java       | 17      |
+| Node.Js    | 16.13.1 |
+| PostgreSQL | 14.1    |
 
-###### 2) Java - v17
+## Launching
 
-###### 3) PostgreSQL - v14.1
+1. Create 2 databases in PostgreSQL: nix-lms and nix-keycloak with default public schemas.
+2. Set your username and password in application.properties of the server application to access the database.
+3. Register in the directory keycloak-16.1.1\standalone\configuration\standalone.xml of the keycloak server your
+   username and password to access the database.
 
-#### Запуск:
+> Example:
 
-###### 1) В PostgreSQL создать 2 базы данных: nix-lms и nix-keycloak с дефолтными public схемами
-
-###### 2) Прописать в application.properties приложения server свой username и password для доступа к бд
-
-###### 3) Прописать в keycloak-16.1.1\standalone\configuration\standalone.xml сервера keycloak в данном блоке свой username и password для доступа к бд
-
+```
     <security>
-        <user-name>undefined</user-name>
-        <password>undefined</password>
+        <user-name>username</user-name>
+        <password>password</password>
     </security>
+```
 
-###### 4) Для сборки и запуска приложения в корне проекта лежит run-all.bat
+4. To build and run the application in the root of the project, run the following file run-all.bat.
 
-###### 4.1) Для запуска сервера Keycloak используется файл run-auth.bat, в котором вызывается standalone.bat для запуска сервера. В случае с Unix-системами нужно заменить его на standalone.sh с сохранением всех параметров
+> To start the Keycloak server, use the run-auth.bat file, which calls standalone.bat to start the server. In the case
+> of Unix systems, you need to replace it with standalone.sh with all parameters saved.
 
-#### P.S:
+## Usage
 
-##### Server:
+1. Back-end
 
-###### доступен на http://localhost:8080
+```
+http://localhost:8080
+```
 
-##### Swagger:
+2. Swagger
 
-###### доступен на http://localhost:8080/swagger-ui.html
+```
+http://localhost:8080/swagger-ui.html
+```
 
-##### Keycloak:
+3. Keycloak
 
-###### доступен на http://localhost:8083/auth
+```
+http://localhost:8083/auth
+```
 
-###### учетные данные для доступа к master realm:
+Default credentials for master realm
 
-###### 1) Логин: lmsadmin
+* Login => lmsadmin
+* Password => lmsadmin
 
-###### 2) Пароль: lmsadmin
+4. Admin front-end
 
-##### Client-admin:
+```
+http://localhost:4200
+```
 
-###### доступен на http://localhost:4200
+Default credentials for master realm
 
-###### дефолтные учетные данные для входа:
+* Login => admin
+* Password => admin
 
-###### 1) Логин: admin
+4. Student front-end
 
-###### 2) Пароль: admin
+```
+http://localhost:4201
+```
 
-##### Client-student:
+Default credentials for master realm
 
-###### доступен на http://localhost:4201
+* Login => student
+* Password => student
 
-###### дефолтные учетные данные для входа:
+5. Tutor front-end
 
-###### 1) Логин: student
+```
+http://localhost:4202
+```
 
-###### 2) Пароль: student
+Default credentials for master realm
 
-##### Client-tutor:
-
-###### client-tutor доступен на http://localhost:4202
-
-###### дефолтные учетные данные для входа:
-
-###### 1) Логин: tutor
-
-###### 2) Пароль: tutor
-
-<h5>Финальный проект, NIX (java-education), Любименко Роман, 2021-2022 гг.<h5>
+* Login => tutor
+* Password => tutor
