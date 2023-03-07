@@ -62,7 +62,7 @@ Default credentials for master realm
 http://localhost:4200
 ```
 
-Default credentials for master realm
+Default credentials for admin account
 
 * Login => admin
 * Password => admin
@@ -73,7 +73,7 @@ Default credentials for master realm
 http://localhost:4201
 ```
 
-Default credentials for master realm
+Default credentials for student account
 
 * Login => student
 * Password => student
@@ -84,7 +84,7 @@ Default credentials for master realm
 http://localhost:4202
 ```
 
-Default credentials for master realm
+Default credentials for tutor account
 
 * Login => tutor
 * Password => tutor
